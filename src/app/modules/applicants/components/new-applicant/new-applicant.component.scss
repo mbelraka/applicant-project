@@ -1,0 +1,11 @@
+.full-container {
+  min-width: 20rem;
+
+  .body, .form, .inputs {
+    width: 100%;
+  }
+
+  .submit {
+    width: 100%;
+  }
+}

@@ -1,0 +1,101 @@
+<div @fadeInOutAnimation
+     class="full-container"
+     fxLayout="column"
+     fxLayoutGap="32px">
+  <div class="header -dialog"
+       fxLayout="row"
+       fxLayoutGap="16px"
+       fxLayoutAlign="space-between center">
+    <span class="title">Neuer Bewerber</span>
+    <div class="close-action-container">
+      <em class="icon close-action far fa-times"
+          onKeyup="dismissAction()"></em>
+    </div>
+  </div>
+  <div class="body"
+       fxLayout="column">
+    <div class="content"
+         fxLayout="column"
+         fxLayoutGap="5px">
+      <form class="form -no-bottom-padding -dialog"
+            [formGroup]="fgNewApplicant"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            (submit)="submitDataAction()">
+        <div class="inputs"
+             fxLayout="column"
+             fxLayoutGap="5px">
+          <div class="group"
+               fxLayout="column"
+               fxLayoutGap="8px">
+            <mat-form-field appearance="outline"
+                            class="custom-form-field">
+              <mat-label>Vorname</mat-label>
+
+              <input matInput
+                     aria-label="Name"
+                     type="text"
+                     formControlName="firstName"
+                     required />
+            </mat-form-field>
+          </div>
+          <div class="group"
+               fxLayout="column"
+               fxLayoutGap="8px">
+            <mat-form-field appearance="outline"
+                            class="custom-form-field">
+              <mat-label>Nachname</mat-label>
+
+              <input matInput
+                     aria-label="Name"
+                     id="name"
+                     type="text"
+                     formControlName="lastName"
+                     required />
+            </mat-form-field>
+          </div>
+          <div class="group"
+               fxLayout="column"
+               fxLayoutGap="8px">
+            <mat-form-field appearance="outline">
+              <mat-label>Skills</mat-label>
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let skill of skills" (removed)="removeSkill(skill)">
+                  {{skill}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input placeholder="Neues Skill"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="true"
+                       (matChipInputTokenEnd)="newSkill($event)">
+              </mat-chip-list>
+            </mat-form-field>
+
+          </div>
+          <div class="group"
+               fxLayout="column"
+               fxLayoutGap="8px">
+            <mat-form-field appearance="outline">
+              <mat-label>Verfügbar ab</mat-label>
+              <input matInput [matDatepicker]="datepicker" formControlName="availableFrom">
+              <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Abbrechen</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>Wählen</button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <button mat-raised-button class="submit" color="primary" [disabled]="!fgNewApplicant.valid"
+                (click)="submitDataAction()">
+          Absenden
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

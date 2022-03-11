@@ -1,0 +1,22 @@
+<div @fadeInOutAnimation class="applicants-container" fxFlex="1 1 auto" fxLayout="column" fxLayoutGap="24px">
+
+  <div class="actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button mat-raised-button color="primary" (click)="openForm()">Neuer Bewerber</button>
+  </div>
+
+  <ng-container [ngTemplateOutlet]="(applicantsList$ | async)?.length > 0 ? applicantsList : noApplicants"
+                [ngTemplateOutletContext]="{$implicit: (applicantsList$ | async)}"></ng-container>
+</div>
+
+<ng-template #applicantsList let-applicants>
+  <div class="applicants" fxLayout="row wrap" fxLayoutGap="16px">
+    <app-applicant *ngFor="let applicant of applicants" [applicant]="applicant" class="applicant">
+    </app-applicant>
+  </div>
+</ng-template>
+
+<ng-template #noApplicants>
+  <div fxFlex="1 1 auto" fxLayoutAlign="center center">
+    Noch keine Bewerber
+  </div>
+</ng-template>

@@ -1,0 +1,51 @@
+@import 'colors';
+
+.mat-card {
+  padding: 0 !important;
+  min-width: 12rem;
+  max-width: 20rem;
+  cursor: pointer;
+
+  .mat-card-header {
+    padding: 1rem;
+    border-bottom: 1px solid $black-4;
+    justify-content: center;
+
+    .mat-card-title {
+      margin: 0 !important;
+      font-size: 1.125rem !important;
+    }
+  }
+
+  .mat-card-content {
+    padding: 1rem;
+    border-bottom: 1px solid $black-4;
+    margin-bottom: 0 !important;
+
+    .avatar {
+      width: auto;
+      height: auto;
+      font-size: 3rem;
+      color: $primary-color;
+    }
+  }
+
+  .mat-card-actions {
+    margin: 0;
+    padding: 0 0 0 1rem;
+
+    .availability {
+      color: $black-2;
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+
+    .main-action {
+      align-self: flex-end;
+    }
+  }
+
+  &:active, &:focus, &:hover {
+    box-shadow: 0 5px 5px -3px rgb(0 0 0 / 20%), 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%) !important;
+  }
+}

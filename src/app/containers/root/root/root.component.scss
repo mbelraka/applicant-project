@@ -1,0 +1,30 @@
+@import 'variables';
+@import 'colors';
+
+.root-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.page-header {
+  width: 100%;
+  background: $primary-color;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  height: 4rem;
+  padding: 1rem 1.5rem;
+}
+
+.full-container {
+  padding: 1.5rem;
+}
+
+.footer {
+  align-self: center;
+  width: 10rem;
+  border-radius: 4px 4px 0 0;
+  padding: 1rem 1.5rem;
+  color: $primary-color;
+  font-weight: 600;
+}

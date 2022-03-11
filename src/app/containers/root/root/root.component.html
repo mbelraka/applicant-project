@@ -1,0 +1,32 @@
+<div class="root-container" fxFlex="1 1 auto" fxLayout="column">
+  <mat-toolbar @fadeInOutAnimation fxLayout="row" fxLayoutAlign="space-between center" class="mat-elevation-z2">
+    <img src="assets/material-one-logo-blue.svg" class="logo" routerLink="/">
+
+    <nav
+         mat-tab-nav-bar
+         class="main-nav"
+         [disablePagination]="true">
+      <ng-container *ngFor="let link of navLinks">
+        <a mat-tab-link
+           class="tab-link"
+           routerLinkActive
+           #mainNavbar="routerLinkActive"
+           [active]="mainNavbar.isActive"
+           [routerLink]="link.link">
+          {{link.label}}
+        </a>
+      </ng-container>
+    </nav>
+  </mat-toolbar>
+
+  <div *ngIf="(currentRoute$ | async)?.showHeader" class="page-header" fxLayoutAlign="start center">
+    {{currentPageHeader$ | async}}
+  </div>
+
+  <div class="full-container" fxFlex="1 1 auto">
+    <router-outlet></router-outlet>
+  </div>
+  <footer @fadeInOutAnimation fxLayoutAlign="center center" class="footer">
+    ©2022 Elrakaiby
+  </footer>
+</div>

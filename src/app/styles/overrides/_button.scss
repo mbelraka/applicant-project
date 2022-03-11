@@ -1,0 +1,13 @@
+.mat-button, .mat-raised-button {
+  font-weight: 600 !important;
+  height: unset !important;
+
+  .icon {
+    margin-top: 0.25rem;
+  }
+
+  &.-main {
+    font-size: 20px !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
