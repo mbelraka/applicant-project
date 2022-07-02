@@ -5,8 +5,12 @@ export const ROOT_CONFIG = {
   ],
   actions: {
     newApplicant: 'newApplicant',
-    deleteApplicant: 'deleteApplicant'
+    deleteApplicant: 'deleteApplicant',
+  },
+  dialogConfig: {
+    autoFocus: false,
+    disableClose: true,
   },
   dateFormat: 'dd.MM.yyyy',
-  locale: 'de-DE'
+  locale: 'de-DE',
 };

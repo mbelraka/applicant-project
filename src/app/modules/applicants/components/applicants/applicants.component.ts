@@ -1,7 +1,7 @@
-import {Component, Inject, LOCALE_ID} from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
 
+import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 
 import { NewApplicantComponent } from 'src/app/modules/applicants/components/new-applicant/new-applicant.component';
@@ -9,6 +9,8 @@ import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animat
 import { slideInLeftAnimation } from 'src/app/shared/animations/slide-in-left.animation';
 import { newApplicant } from 'src/app/state/state.actions';
 import { applicantsList } from 'src/app/state/state.selectors';
+
+import { ROOT_CONFIG } from '../../../../containers/root/config/root.config';
 
 @Component({
   selector: 'app-applicants',
@@ -26,9 +28,8 @@ export class ApplicantsComponent {
   ) {}
 
   public openForm(): void {
-    const dialog = this.dialogRef.open(NewApplicantComponent);
-
-    dialog
+    this.dialogRef
+      .open(NewApplicantComponent, ROOT_CONFIG.dialogConfig)
       .afterClosed()
       .pipe(filter((applicant) => Boolean(applicant)))
       .subscribe((applicant) => this.store.dispatch(newApplicant(applicant)));
