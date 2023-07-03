@@ -3,14 +3,10 @@ export const ROOT_CONFIG = {
     { label: 'Main', link: '/main' },
     { label: 'Bewerber', link: '/applicants', showHeader: true },
   ],
-  actions: {
-    newApplicant: 'newApplicant',
-    deleteApplicant: 'deleteApplicant',
-  },
   dialogConfig: {
     autoFocus: false,
     disableClose: true,
   },
-  dateFormat: 'dd.MM.yyyy',
-  locale: 'de-DE',
+  DATE_FORMAT: 'dd.MM.yyyy',
+  LOCALE: 'de-DE',
 };

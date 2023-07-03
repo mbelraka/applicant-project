@@ -16,7 +16,7 @@ export class Applicant {
     this.availableFrom = null;
     this.skills = [];
 
-    this._datePipe = new DatePipe(ROOT_CONFIG.locale);
+    this._datePipe = new DatePipe(ROOT_CONFIG.LOCALE);
   }
 
   public get name(): string {
@@ -24,6 +24,6 @@ export class Applicant {
   }
 
   public get availability(): string {
-    return this.availableFrom ? this._datePipe.transform(this.availableFrom, ROOT_CONFIG.dateFormat) : '-';
+    return this.availableFrom ? this._datePipe.transform(this.availableFrom, ROOT_CONFIG.DATE_FORMAT) : '-';
   }
 }

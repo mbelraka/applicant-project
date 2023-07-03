@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
 
 import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 
@@ -24,6 +27,15 @@ export class RootComponent implements OnInit {
   public constructor(private readonly router: Router) {}
 
   public ngOnInit(): void {
+    this._registerLocale();
+    this._setUpRoutes();
+  }
+
+  private _registerLocale(): void {
+    registerLocaleData(localeDe, ROOT_CONFIG.LOCALE, localeDeExtra);
+  }
+
+  private _setUpRoutes(): void {
     this.currentRoute$ = this.router.events.pipe(
       startWith(this._getNavItem(this.router.url)),
       map((_) => this._getNavItem(this.router.url)),
@@ -31,12 +43,12 @@ export class RootComponent implements OnInit {
     );
 
     this.currentPageHeader$ = this.currentRoute$.pipe(
-      map((navLink) => navLink?.label),
+      map((navLink: NavLink) => navLink?.label),
       distinctUntilChanged()
     );
   }
 
   private _getNavItem(url: string): NavLink {
-    return this.navLinks?.find((navLink) => navLink?.link === url);
+    return this.navLinks?.find((navLink: NavLink): boolean => navLink?.link === url);
   }
 }

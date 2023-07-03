@@ -23,8 +23,8 @@ registerLocaleData(localeDe, 'de');
   ],
   bootstrap: [AppComponent],
   providers: [
-    { provide: LOCALE_ID, useValue: ROOT_CONFIG.locale },
-    { provide: MAT_DATE_LOCALE, useValue: ROOT_CONFIG.locale },
+    { provide: LOCALE_ID, useValue: ROOT_CONFIG.LOCALE },
+    { provide: MAT_DATE_LOCALE, useValue: ROOT_CONFIG.LOCALE },
   ],
 })
 export class AppModule {}
