@@ -2,9 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -23,10 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "json-object-mapper",
-              "lodash"
-            ],
+            "allowedCommonJsDependencies": ["json-object-mapper", "lodash"],
             "outputPath": "dist/applicant-project",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -37,9 +32,7 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/app",
@@ -48,7 +41,19 @@
                 "node_modules"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "aot": true,
+            "buildOptimizer": true,
+            "optimization": {
+              "scripts": true,
+              "styles": true,
+              "fonts": true
+            },
+            "namedChunks": false,
+            "commonChunk": true,
+            "vendorChunk": false,
+            "sourceMap": false,
+            "crossOrigin": "anonymous"
           },
           "configurations": {
             "production": {
@@ -61,15 +66,34 @@
               "outputHashing": "all",
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json",
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
               "sourceMap": false,
               "extractLicenses": true,
+              "vendorChunk": false,
+              "namedChunks": false,
+              "aot": true,
               "buildOptimizer": true,
-              "vendorChunk": false
+              "crossOrigin": "anonymous",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "allScripts",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
             },
             "development": {
               "optimization": false,
-              "serviceWorker": true,
+              "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json",
               "sourceMap": true,
               "vendorChunk": true,
@@ -109,18 +133,13 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
