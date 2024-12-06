@@ -20,7 +20,7 @@ export class NewApplicantComponent {
     availableFrom: new FormControl(),
   });
 
-  public skills = [];
+  public skills: string[] = [];
 
   // Public methods
   public constructor(

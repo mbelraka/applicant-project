@@ -1,0 +1,9 @@
+{
+  "app": {
+    "title": "Système de gestion des candidats",
+    "toggleGrid": "Vue Grille",
+    "toggleList": "Vue Liste",
+    "searchPlaceholder": "Rechercher",
+    "selectLanguage": "Choisir la langue"
+  }
+}

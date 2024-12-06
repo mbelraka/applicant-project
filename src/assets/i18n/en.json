@@ -1,0 +1,9 @@
+{
+  "app": {
+    "title": "Applicant Management System",
+    "toggleGrid": "Grid View",
+    "toggleList": "List View",
+    "searchPlaceholder": "Search",
+    "selectLanguage": "Select Language"
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
@@ -7,10 +7,19 @@ import { filter } from 'rxjs';
 import { NewApplicantComponent } from 'src/app/modules/applicants/components/new-applicant/new-applicant.component';
 import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
 import { slideInLeftAnimation } from 'src/app/shared/animations/slide-in-left.animation';
-import { newApplicant } from 'src/app/state/state.actions';
-import { applicantsList } from 'src/app/state/state.selectors';
-
-import { ROOT_CONFIG } from '../../../../containers/root/config/root.config';
+import { Applicant } from '../../models/applicant.model';
+import {
+  addApplicant,
+  loadApplicants,
+  setViewType,
+} from '../../state/applicants.actions';
+import {
+  selectLoading,
+  selectSortedApplicants,
+  selectViewType,
+} from '../../state/applicants.selectors';
+import { APP_CONFIG } from '../../../../config/app.config';
+import { ViewTypes } from '../../enums/view-types.enum';
 
 @Component({
   selector: 'app-applicants',
@@ -18,20 +27,39 @@ import { ROOT_CONFIG } from '../../../../containers/root/config/root.config';
   styleUrls: ['./applicants.component.scss'],
   animations: [fadeInOutAnimation, slideInLeftAnimation],
 })
-export class ApplicantsComponent {
-  public readonly applicantsList$ = this.store.select(applicantsList);
+export class ApplicantsComponent implements OnInit {
+  public readonly viewTypes = ViewTypes;
+  public readonly viewType$ = this._store.select(selectViewType);
+  public readonly applicants$ = this._store.select(selectSortedApplicants);
+  public readonly loading$ = this._store.select(selectLoading);
 
   public constructor(
-    private readonly dialogRef: MatDialog,
-    private readonly store: Store,
-    @Inject(LOCALE_ID) public locale: string
+    private readonly _dialogRef: MatDialog,
+    private readonly _store: Store
   ) {}
 
+  public ngOnInit(): void {
+    // Preload applicants on component initialization
+    this._store.dispatch(loadApplicants());
+  }
+
+  public toggleView(viewType: string): void {
+    if (Object.values(ViewTypes).includes(viewType as ViewTypes)) {
+      this._store.dispatch(
+        setViewType({ viewType: ViewTypes[viewType as keyof typeof ViewTypes] })
+      );
+    } else {
+      console.error(`Invalid viewType: ${viewType}`);
+    }
+  }
+
   public openForm(): void {
-    this.dialogRef
-      .open(NewApplicantComponent, ROOT_CONFIG.dialogConfig)
+    this._dialogRef
+      .open(NewApplicantComponent, APP_CONFIG.DIALOG_CONFIG)
       .afterClosed()
-      .pipe(filter((applicant) => Boolean(applicant)))
-      .subscribe((applicant) => this.store.dispatch(newApplicant(applicant)));
+      .pipe(filter((applicant: Applicant): boolean => Boolean(applicant)))
+      .subscribe((applicant: Applicant): void =>
+        this._store.dispatch(addApplicant({ applicant }))
+      );
   }
 }

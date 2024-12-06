@@ -1,11 +1,12 @@
 @import 'colors';
 
 .mat-toolbar {
-  background: white !important;
+  background: $base-color !important;
   color: $primary-color !important;
   padding: 0 1.5rem !important;
   height: 4rem !important;
   position: relative;
+  box-shadow: none;
 
   .logo {
     cursor: pointer;

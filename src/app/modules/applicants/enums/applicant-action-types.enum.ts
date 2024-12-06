@@ -1,0 +1,15 @@
+export enum ApplicantActionTypes {
+  LoadApplicants = '[Applicants] Load Applicants',
+  LoadApplicantsSuccess = '[Applicants] Load Applicants Success',
+  LoadApplicantsFailure = '[Applicants] Load Applicants Failure',
+  AddApplicant = '[Applicants] Add Applicant',
+  AddApplicantSuccess = '[Applicants] Add Applicant Success',
+  AddApplicantFailure = '[Applicants] Add Applicant Failure',
+  DeleteApplicant = '[Applicants] Delete Applicant',
+  DeleteApplicantSuccess = '[Applicants] Delete Applicant Success',
+  DeleteApplicantFailure = '[Applicants] Delete Applicant Failure',
+  SetGlobalFilter = '[Applicants] Set Global Filter',
+  SetSortBy = '[Applicants] Set Sort By',
+  SetViewType = '[Applicants] Set View Type',
+  SetFilterBySkill = '[Applicants] Set Filter By Skill',
+}

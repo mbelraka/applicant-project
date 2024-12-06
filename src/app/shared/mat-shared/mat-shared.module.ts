@@ -66,11 +66,11 @@ const SHARED_MAT_MODULES = [
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
 ];
 
 @NgModule({
   exports: SHARED_MAT_MODULES,
-  imports: SHARED_MAT_MODULES
+  imports: SHARED_MAT_MODULES,
 })
 export class MatSharedModule {}

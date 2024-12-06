@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Applicant } from 'src/app/modules/applicants/models/applicant.model';
-import { deleteApplicant } from 'src/app/state/state.actions';
+import { deleteApplicant } from '../../state/applicants.actions';
 
 @Component({
   selector: 'app-applicant',
@@ -20,9 +20,9 @@ export class ApplicantComponent {
     this._applicant = _applicant;
   }
 
-  public constructor(private readonly store: Store) {}
+  public constructor(private readonly _store: Store) {}
 
   public delete(): void {
-    this.store.dispatch(deleteApplicant(this.applicant));
+    this._store.dispatch(deleteApplicant(this.applicant));
   }
 }

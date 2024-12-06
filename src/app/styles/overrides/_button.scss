@@ -1,13 +1,7 @@
-.mat-button, .mat-raised-button {
-  font-weight: 600 !important;
-  height: unset !important;
+@import "colors";
 
-  .icon {
-    margin-top: 0.25rem;
-  }
-
-  &.-main {
-    font-size: 20px !important;
-    padding: 0.5rem 1rem !important;
+.mdc-button {
+  &.mat-primary {
+    background-color: $primary-color !important;
   }
 }

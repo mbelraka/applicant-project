@@ -62,7 +62,7 @@
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline">
               <mat-label>Skills</mat-label>
-              <mat-chip-list #chipList>
+              <mat-chip-grid #chipList>
                 <mat-chip
                   *ngFor="let skill of skills"
                   (removed)="removeSkill(skill)"
@@ -79,7 +79,7 @@
                   [matChipInputAddOnBlur]="true"
                   (matChipInputTokenEnd)="newSkill($event)"
                 />
-              </mat-chip-list>
+              </mat-chip-grid>
             </mat-form-field>
           </div>
           <div class="group" fxLayout="column" fxLayoutGap="8px">

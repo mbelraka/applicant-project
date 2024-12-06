@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./containers/root/root.module').then(m => m.RootModule),
+    path: 'root',
+    loadChildren: () =>
+      import('./containers/root/root.module').then((m) => m.RootModule),
   },
-  {
-    path: '**',
-    redirectTo: '',
-  },
+  { path: '', redirectTo: 'root', pathMatch: 'full' },
+  { path: '**', redirectTo: 'root' },
 ];
 
 @NgModule({

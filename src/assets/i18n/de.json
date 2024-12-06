@@ -1,0 +1,9 @@
+{
+  "app": {
+    "title": "Bewerberverwaltungssystem",
+    "toggleGrid": "Rasteransicht",
+    "toggleList": "Listenansicht",
+    "searchPlaceholder": "Suche",
+    "selectLanguage": "Sprache auswählen"
+  }
+}

@@ -1,22 +1,54 @@
-// General
+@use 'sass:map';
 @use '@angular/material' as mat;
 
-// Imports
-@import "mat-palettes";
+@import "./mat-palettes";
+@import "variables";
 
-// Theme
-@include mat.core();
-$primary-palette: mat.define-palette($mat-primary-palette, 500);
-$accent-palette: mat.define-palette($mat-accent-palette, 500);
+// Note: Color palettes are generated from primary: #ff66c4
 
-$theme: mat.define-light-theme(
-  $primary-palette,
-  $accent-palette,
+$_rest: (
+  secondary: map.get($_palettes, secondary),
+  neutral: map.get($_palettes, neutral),
+  neutral-variant: map.get($_palettes,  neutral-variant),
+  error: map.get($_palettes, error),
 );
-@include mat.all-component-themes($theme);
+$_primary: map.merge(map.get($_palettes, primary), $_rest);
+$_tertiary: map.merge(map.get($_palettes, tertiary), $_rest);
 
-// Fonts
-$typography: mat.define-typography-config(
-  $font-family: Assistant
+$_rest: (
+  secondary: map.get($_palettes, secondary),
+  neutral: map.get($_palettes, neutral),
+  neutral-variant: map.get($_palettes,  neutral-variant),
+  error: map.get($_palettes, error),
 );
-@include mat.core($typography);
+$_primary: map.merge(map.get($_palettes, primary), $_rest);
+$_tertiary: map.merge(map.get($_palettes, tertiary), $_rest);
+
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $_primary,
+    tertiary: $_tertiary,
+  ),
+  typography: (
+    brand-family: $font-family,
+    plain-family: $font-family,
+  ),
+));
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: $_primary,
+    tertiary: $_tertiary,
+  ),
+  typography: (
+    brand-family: $font-family,
+    plain-family: $font-family,
+  ),
+));
+
+html {
+  @include mat.core-theme($light-theme);
+  @include mat.button-theme($light-theme);
+  @include mat.all-component-themes($light-theme);
+}
