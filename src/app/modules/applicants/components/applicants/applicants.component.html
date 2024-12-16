@@ -1,18 +1,42 @@
 <div class="applicants-container" fxFlex="1 1 auto" fxLayout="column">
-  <mat-button-toggle-group
-    [value]="viewType$ | async"
-    (change)="toggleView($event.value)"
-    aria-label="View toggle"
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    class="header"
+    fxLayoutGap="24px"
   >
-    <mat-button-toggle [value]="viewTypes.GRID">Grid View</mat-button-toggle>
-    <mat-button-toggle [value]="viewTypes.LIST">List View</mat-button-toggle>
-  </mat-button-toggle-group>
-
-  <div *ngIf="(viewType$ | async) === viewTypes.GRID">
-    <app-applicant-grid></app-applicant-grid>
+    <mat-form-field appearance="outline" fxFlex=" 1 1 auto">
+      <mat-label>Search Applicants</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        [value]="globalFilter$ | async"
+        placeholder="Search Applicants"
+      />
+    </mat-form-field>
+    <button mat-flat-button class="-no-wrap" (click)="openForm()">New Applicant</button>
   </div>
+  <div class="content" fxLayout="column" fxLayoutGap="24px">
+    <div class="options" fxLayoutAlign="center">
+      <mat-button-toggle-group
+        [value]="viewType$ | async"
+        (change)="toggleView($event.value)"
+        aria-label="View toggle"
+      >
+        <mat-button-toggle [value]="viewTypes.GRID"
+          >Grid View</mat-button-toggle
+        >
+        <mat-button-toggle [value]="viewTypes.LIST"
+          >List View</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </div>
+    <div *ngIf="(viewType$ | async) === viewTypes.GRID">
+      <app-applicant-grid></app-applicant-grid>
+    </div>
 
-  <div *ngIf="(viewType$ | async) === viewTypes.LIST">
-    <app-applicant-list></app-applicant-list>
+    <div *ngIf="(viewType$ | async) === viewTypes.LIST">
+      <app-applicant-list></app-applicant-list>
+    </div>
   </div>
 </div>

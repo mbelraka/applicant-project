@@ -21,6 +21,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'export',
+        loadChildren: () =>
+          import('../../modules/export/export.module').then(
+            (m) => m.ExportModule
+          ),
+      },
+      {
         path: '',
         redirectTo: 'main',
         pathMatch: 'full',

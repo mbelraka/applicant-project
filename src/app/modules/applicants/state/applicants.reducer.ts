@@ -1,5 +1,8 @@
-import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { createReducer, on } from '@ngrx/store';
+import { ApplicantState } from '../models/applicant-state.model';
+import { Applicant } from '../models/applicant.model';
+import { ViewTypes } from '../enums/view-types.enum';
 import {
   addApplicant,
   addApplicantFailure,
@@ -15,14 +18,11 @@ import {
   setSortBy,
   setViewType,
 } from './applicants.actions';
-import { ApplicantState } from '../models/applicant-state.model';
-import { Applicant } from '../models/applicant.model';
-import { ViewTypes } from '../enums/view-types.enum';
 
-// Define Entity Adapter
+// Create an Entity Adapter
 export const adapter: EntityAdapter<Applicant> = createEntityAdapter<Applicant>(
   {
-    selectId: (applicant: Applicant) => applicant.id,
+    selectId: (applicant: Applicant) => applicant.id, // Selector for entity ID
   }
 );
 
@@ -40,10 +40,18 @@ export const initialApplicantState: ApplicantState = adapter.getInitialState({
 export const applicantsReducer = createReducer(
   initialApplicantState,
 
-  // Load Applicants
-  on(loadApplicants, (state) => ({ ...state, loading: true, error: null })),
+  // **Load Applicants**
+  on(loadApplicants, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
   on(loadApplicantsSuccess, (state, { applicants }) =>
-    adapter.setAll(applicants, { ...state, loading: false })
+    adapter.setAll(applicants, {
+      ...state,
+      loading: false,
+      error: null,
+    })
   ),
   on(loadApplicantsFailure, (state, { error }) => ({
     ...state,
@@ -51,10 +59,17 @@ export const applicantsReducer = createReducer(
     error,
   })),
 
-  // Add Applicant
-  on(addApplicant, (state) => ({ ...state, loading: true })),
+  // **Add Applicant**
+  on(addApplicant, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(addApplicantSuccess, (state, { applicants }) =>
-    adapter.setAll(applicants, { ...state, loading: false })
+    adapter.setAll(applicants, {
+      ...state,
+      loading: false,
+      error: null,
+    })
   ),
   on(addApplicantFailure, (state, { error }) => ({
     ...state,
@@ -62,10 +77,17 @@ export const applicantsReducer = createReducer(
     error,
   })),
 
-  // Delete Applicant
-  on(deleteApplicant, (state) => ({ ...state, loading: true })),
+  // **Delete Applicant**
+  on(deleteApplicant, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(deleteApplicantSuccess, (state, { applicants }) =>
-    adapter.setAll(applicants, { ...state, loading: false })
+    adapter.setAll(applicants, {
+      ...state,
+      loading: false,
+      error: null,
+    })
   ),
   on(deleteApplicantFailure, (state, { error }) => ({
     ...state,
@@ -73,16 +95,25 @@ export const applicantsReducer = createReducer(
     error,
   })),
 
-  // Set Global Filter
-  on(setGlobalFilter, (state, { filter }) => ({ ...state, filter })),
+  // **Set Global Filter**
+  on(setGlobalFilter, (state, { filter }) => ({
+    ...state,
+    filter,
+  })),
 
-  // Set Sort By
-  on(setSortBy, (state, { sortBy }) => ({ ...state, sortBy })),
+  // **Set Sort By**
+  on(setSortBy, (state, { sortBy }) => ({
+    ...state,
+    sortBy,
+  })),
 
-  // Set View Type
-  on(setViewType, (state, { viewType }) => ({ ...state, viewType })),
+  // **Set View Type**
+  on(setViewType, (state, { viewType }) => ({
+    ...state,
+    viewType,
+  })),
 
-  // Set Filter By Skill
+  // **Set Filter By Skill**
   on(setFilterBySkill, (state, { skill }) => ({
     ...state,
     filterBySkill: skill,

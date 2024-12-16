@@ -1,8 +1,3 @@
-<mat-form-field appearance="outline">
-  <mat-label>Search Applicants</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Search by name" />
-</mat-form-field>
-
 <table mat-table [dataSource]="applicants$ | async" class="mat-elevation-z8">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Name</th>

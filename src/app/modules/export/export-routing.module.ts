@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ApplicantsComponent } from 'src/app/modules/applicants/components/applicants/applicants.component';
+import { ExportComponent } from './components/export/export.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ApplicantsComponent,
+    component: ExportComponent,
   },
   {
     path: '**',
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ApplicantsRoutingModule {}
+export class ExportRoutingModule {}

@@ -1,7 +1,10 @@
 .full-container {
+  padding: 24px;
   min-width: 20rem;
 
-  .body, .form, .inputs {
+  .body,
+  .form,
+  .inputs {
     width: 100%;
   }
 

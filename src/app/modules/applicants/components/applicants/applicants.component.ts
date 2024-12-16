@@ -11,11 +11,12 @@ import { Applicant } from '../../models/applicant.model';
 import {
   addApplicant,
   loadApplicants,
+  setGlobalFilter,
   setViewType,
 } from '../../state/applicants.actions';
 import {
+  selectGlobalFilter,
   selectLoading,
-  selectSortedApplicants,
   selectViewType,
 } from '../../state/applicants.selectors';
 import { APP_CONFIG } from '../../../../config/app.config';
@@ -30,8 +31,8 @@ import { ViewTypes } from '../../enums/view-types.enum';
 export class ApplicantsComponent implements OnInit {
   public readonly viewTypes = ViewTypes;
   public readonly viewType$ = this._store.select(selectViewType);
-  public readonly applicants$ = this._store.select(selectSortedApplicants);
   public readonly loading$ = this._store.select(selectLoading);
+  public readonly globalFilter$ = this._store.select(selectGlobalFilter);
 
   public constructor(
     private readonly _dialogRef: MatDialog,
@@ -39,15 +40,17 @@ export class ApplicantsComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    // Preload applicants on component initialization
     this._store.dispatch(loadApplicants());
+  }
+
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this._store.dispatch(setGlobalFilter({ filter: filterValue }));
   }
 
   public toggleView(viewType: string): void {
     if (Object.values(ViewTypes).includes(viewType as ViewTypes)) {
-      this._store.dispatch(
-        setViewType({ viewType: ViewTypes[viewType as keyof typeof ViewTypes] })
-      );
+      this._store.dispatch(setViewType({ viewType: viewType as ViewTypes }));
     } else {
       console.error(`Invalid viewType: ${viewType}`);
     }
