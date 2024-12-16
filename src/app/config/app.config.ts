@@ -3,14 +3,14 @@ import { Languages } from '../enums/language.enum';
 export const APP_CONFIG = {
   // Navigation links for the app
   NAV_LINKS: [
-    { label: 'navigation.main', link: '/root/main', showHeader: false },
+    { label: 'Main', link: '/root/main', showHeader: false },
     {
-      label: 'navigation.applicants',
+      label: 'Applicants',
       link: '/root/applicants',
       showHeader: true,
     },
     {
-      label: 'navigation.applicants',
+      label: 'Export',
       link: '/root/export',
       showHeader: true,
     },
