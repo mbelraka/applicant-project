@@ -44,7 +44,6 @@ const SHARED_MAT_MODULES = [
   MatDatepickerModule,
   MatDialogModule,
   MatExpansionModule,
-  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,

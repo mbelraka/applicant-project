@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { LocalStorageService } from './local-storage.service';
@@ -10,9 +10,10 @@ import { APP_CONFIG } from '../config/app.config';
 import { setLanguage } from '../state/app.actions';
 
 @Injectable({ providedIn: 'root' })
-export class LocalizationService {
+export class LocalizationService implements OnDestroy {
   private readonly languageSubject: BehaviorSubject<Languages>;
   private readonly dateFormatSubject: BehaviorSubject<string>;
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly store: Store<{ language: Languages }>,
@@ -39,7 +40,10 @@ export class LocalizationService {
     // Subscribe to store updates to keep local storage in sync
     this.store
       .select('language')
-      .pipe(filter((language): boolean => !!language))
+      .pipe(
+        filter((language): boolean => !!language),
+        takeUntil(this.destroy$)
+      )
       .subscribe((language: Languages): void => {
         this.setStoredLanguage(language);
         this.setStoredDateFormat(APP_CONFIG.getDateFormat(language));
@@ -69,5 +73,10 @@ export class LocalizationService {
   public get currentLocale(): string {
     const language = this.languageSubject.getValue();
     return APP_CONFIG.getLocale(language);
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

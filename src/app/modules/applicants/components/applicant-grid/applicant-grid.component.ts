@@ -7,9 +7,17 @@ import { Applicant } from '../../models/applicant.model';
   styleUrls: ['./applicant-grid.component.scss'],
 })
 export class ApplicantGridComponent {
-  @Input() applicants: Applicant[] | null = [];
+  /** List of applicants to display in the grid. */
+  @Input() applicants: Applicant[] = [];
+
+  /** Emits the skill clicked by the user. */
   @Output() skillClicked = new EventEmitter<string>();
 
+  /**
+   * Emits the clicked skill to the parent component.
+   *
+   * @param skill - The skill name clicked by the user.
+   */
   public onSkillClick(skill: string): void {
     this.skillClicked.emit(skill);
   }

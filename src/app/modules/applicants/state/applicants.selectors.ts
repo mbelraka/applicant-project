@@ -38,7 +38,7 @@ export const selectError = createSelector(
   (state): string | null => state.error
 );
 
-// Select Error State
+// Select View Type
 export const selectViewType = createSelector(
   selectApplicantState,
   (state): ViewTypes => state.viewType
@@ -62,30 +62,42 @@ export const selectSortBy = createSelector(
   (state): keyof Applicant | null => state.sortBy
 );
 
+// Helper Functions
+const applyFilters = (
+  applicants: Applicant[],
+  globalFilter: string,
+  skillFilter: string | null
+): Applicant[] => {
+  let filtered = applicants;
+  if (skillFilter) {
+    filtered = filtered.filter((applicant: Applicant): boolean =>
+      applicant.skills?.includes(skillFilter)
+    );
+  }
+  if (globalFilter) {
+    filtered = filtered.filter((applicant: Applicant): boolean =>
+      applicant.name.toLowerCase().includes(globalFilter.toLowerCase())
+    );
+  }
+  return filtered;
+};
+
+const applySorting = (
+  applicants: Applicant[],
+  sortBy: keyof Applicant | null
+): Applicant[] => {
+  return sortBy
+    ? [...applicants].sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1))
+    : applicants;
+};
+
 // Filtered Applicants
 export const selectFilteredApplicants = createSelector(
   selectAllApplicants,
   selectGlobalFilter,
   selectFilterBySkill,
-  (applicants, globalFilter, skillFilter): Applicant[] => {
-    let filteredApplicants = applicants;
-
-    // Filter by Skill
-    if (skillFilter) {
-      filteredApplicants = filteredApplicants.filter((applicant) =>
-        applicant.skills?.includes(skillFilter)
-      );
-    }
-
-    // Apply Global Filter
-    if (globalFilter) {
-      filteredApplicants = filteredApplicants.filter((applicant) =>
-        applicant.name.toLowerCase().includes(globalFilter.toLowerCase())
-      );
-    }
-
-    return filteredApplicants;
-  }
+  (applicants, globalFilter, skillFilter): Applicant[] =>
+    applyFilters(applicants, globalFilter, skillFilter)
 );
 
 // Sorted Applicants
@@ -93,7 +105,5 @@ export const selectSortedApplicants = createSelector(
   selectFilteredApplicants,
   selectSortBy,
   (filteredApplicants, sortBy): Applicant[] =>
-    sortBy
-      ? [...filteredApplicants].sort((a, b) => (a[sortBy] > b[sortBy] ? 1 : -1))
-      : filteredApplicants
+    applySorting(filteredApplicants, sortBy)
 );

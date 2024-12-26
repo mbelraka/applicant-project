@@ -1,9 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
+import { ApplicantForm } from '../../models/applicanion-form.model';
 
 @Component({
   selector: 'app-new-applicant',
@@ -12,29 +14,48 @@ import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animat
   animations: [fadeInOutAnimation],
 })
 export class NewApplicantComponent {
-  // Constants
+  /** Constants for key codes */
   public readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
+  /** Reactive form for applicant data */
   public readonly fgNewApplicant: FormGroup = new FormGroup({
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    availableFrom: new FormControl(),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    availableFrom: new FormControl(null),
   });
 
+  /** List of skills added by the user */
   public skills: string[] = [];
 
-  // Public methods
   public constructor(
-    private readonly dialogRef: MatDialogRef<NewApplicantComponent>
+    private readonly _dialogRef: MatDialogRef<NewApplicantComponent>
   ) {}
 
+  /**
+   * Submits the form data along with skills and closes the dialog.
+   */
   public submitDataAction(): void {
-    this.dialogRef.close({ ...this.fgNewApplicant.value, skills: this.skills });
+    if (this.fgNewApplicant.valid) {
+      const formData: ApplicantForm = {
+        ...this.fgNewApplicant.value,
+        skills: this.skills,
+      };
+      this._dialogRef.close(formData);
+    }
   }
 
+  /**
+   * Closes the dialog without submitting data.
+   */
   public dismissAction(): void {
-    this.dialogRef.close();
+    this._dialogRef.close();
   }
 
+  /**
+   * Adds a new skill to the skills array.
+   *
+   * @param event - The chip input event containing the skill value.
+   */
   public newSkill(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
@@ -45,6 +66,11 @@ export class NewApplicantComponent {
     event.chipInput!.clear();
   }
 
+  /**
+   * Removes a skill from the skills array.
+   *
+   * @param skill - The skill to remove.
+   */
   public removeSkill(skill: string): void {
     const index = this.skills.indexOf(skill);
 

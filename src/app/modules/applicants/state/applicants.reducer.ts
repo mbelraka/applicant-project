@@ -1,5 +1,6 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
+
 import { ApplicantState } from '../models/applicant-state.model';
 import { Applicant } from '../models/applicant.model';
 import { ViewTypes } from '../enums/view-types.enum';
@@ -53,11 +54,14 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(loadApplicantsFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(loadApplicantsFailure, (state, { error }) => {
+    console.error('Failed to load applicants:', error);
+    return {
+      ...state,
+      loading: false,
+      error,
+    };
+  }),
 
   // **Add Applicant**
   on(addApplicant, (state) => ({
@@ -71,11 +75,14 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(addApplicantFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(addApplicantFailure, (state, { error }) => {
+    console.error('Failed to add applicant:', error);
+    return {
+      ...state,
+      loading: false,
+      error,
+    };
+  }),
 
   // **Delete Applicant**
   on(deleteApplicant, (state) => ({
@@ -89,11 +96,14 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(deleteApplicantFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(deleteApplicantFailure, (state, { error }) => {
+    console.error('Failed to delete applicant:', error);
+    return {
+      ...state,
+      loading: false,
+      error,
+    };
+  }),
 
   // **Set Global Filter**
   on(setGlobalFilter, (state, { filter }) => ({

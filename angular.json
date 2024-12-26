@@ -73,6 +73,7 @@
               },
               "sourceMap": false,
               "extractLicenses": true,
+              "extractCss": true,
               "vendorChunk": false,
               "namedChunks": false,
               "aot": true,
@@ -100,7 +101,7 @@
               "optimization": false,
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json",
-              "sourceMap": true,
+              "sourceMap": { "scripts": true, "styles": true, "hidden": false },
               "vendorChunk": true,
               "extractLicenses": false,
               "namedChunks": true

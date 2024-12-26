@@ -1,1 +1,17 @@
-<p>export works!</p>
+<div class="export-container">
+  <h1>Export Applicants</h1>
+  <button mat-raised-button color="primary" (click)="export(ExportFormats.CSV)">
+    <mat-icon>file_download</mat-icon> CSV
+  </button>
+  <button mat-raised-button color="accent" (click)="export(ExportFormats.JSON)">
+    <mat-icon>code</mat-icon> JSON
+  </button>
+  <button mat-raised-button color="warn" (click)="export(ExportFormats.EXCEL)">
+    <mat-icon>table_view</mat-icon> Excel
+  </button>
+  <button mat-raised-button color="basic" (click)="export(ExportFormats.PDF)">
+    <mat-icon>picture_as_pdf</mat-icon> PDF
+  </button>
+  <mat-progress-bar *ngIf="(loading$ | async)" mode="indeterminate"></mat-progress-bar>
+</div>
+

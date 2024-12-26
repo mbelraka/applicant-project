@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 
 import { NewApplicantComponent } from 'src/app/modules/applicants/components/new-applicant/new-applicant.component';
 import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
@@ -21,6 +21,7 @@ import {
 } from '../../state/applicants.selectors';
 import { APP_CONFIG } from '../../../../config/app.config';
 import { ViewTypes } from '../../enums/view-types.enum';
+import { ApplicantState } from '../../models/applicant-state.model';
 
 @Component({
   selector: 'app-applicants',
@@ -28,24 +29,35 @@ import { ViewTypes } from '../../enums/view-types.enum';
   styleUrls: ['./applicants.component.scss'],
   animations: [fadeInOutAnimation, slideInLeftAnimation],
 })
-export class ApplicantsComponent implements OnInit {
+export class ApplicantsComponent implements OnInit, OnDestroy {
   public readonly viewTypes = ViewTypes;
   public readonly viewType$ = this._store.select(selectViewType);
   public readonly loading$ = this._store.select(selectLoading);
   public readonly globalFilter$ = this._store.select(selectGlobalFilter);
 
+  private readonly _destroy$ = new Subject<void>();
+
   public constructor(
     private readonly _dialogRef: MatDialog,
-    private readonly _store: Store
+    private readonly _store: Store<ApplicantState>
   ) {}
 
   public ngOnInit(): void {
     this._store.dispatch(loadApplicants());
   }
 
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
   public applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this._store.dispatch(setGlobalFilter({ filter: filterValue }));
+    const input = event.target as HTMLInputElement;
+    if (input?.value) {
+      this._store.dispatch(setGlobalFilter({ filter: input.value }));
+    } else {
+      console.warn('Invalid filter input event');
+    }
   }
 
   public toggleView(viewType: string): void {
@@ -60,9 +72,12 @@ export class ApplicantsComponent implements OnInit {
     this._dialogRef
       .open(NewApplicantComponent, APP_CONFIG.DIALOG_CONFIG)
       .afterClosed()
-      .pipe(filter((applicant: Applicant): boolean => Boolean(applicant)))
-      .subscribe((applicant: Applicant): void =>
-        this._store.dispatch(addApplicant({ applicant }))
-      );
+      .pipe(
+        takeUntil(this._destroy$),
+        filter((applicant: Applicant): boolean => Boolean(applicant))
+      )
+      .subscribe((applicant: Applicant): void => {
+        this._store.dispatch(addApplicant({ applicant }));
+      });
   }
 }

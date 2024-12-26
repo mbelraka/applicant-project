@@ -32,9 +32,7 @@ export class ApplicantsEffects {
       ofType(loadApplicants),
       switchMap(() => {
         try {
-          const applicants =
-            this.localStorageService.getItem<Applicant[]>(this.storageKey) ||
-            [];
+          const applicants = this._readApplicants();
           return of(loadApplicantsSuccess({ applicants }));
         } catch (error) {
           return of(loadApplicantsFailure({ error: (error as Error).message }));
@@ -49,11 +47,9 @@ export class ApplicantsEffects {
       ofType(addApplicant),
       switchMap(({ applicant }) => {
         try {
-          const applicants =
-            this.localStorageService.getItem<Applicant[]>(this.storageKey) ||
-            [];
+          const applicants = this._readApplicants();
           applicants.push(applicant);
-          this.localStorageService.setItem(this.storageKey, applicants);
+          this._writeApplicants(applicants);
           return of(addApplicantSuccess({ applicants }));
         } catch (error) {
           return of(addApplicantFailure({ error: (error as Error).message }));
@@ -68,13 +64,11 @@ export class ApplicantsEffects {
       ofType(deleteApplicant),
       switchMap(({ id }) => {
         try {
-          const applicants =
-            this.localStorageService.getItem<Applicant[]>(this.storageKey) ||
-            [];
+          const applicants = this._readApplicants();
           const updatedApplicants = applicants.filter(
             (applicant: Applicant): boolean => applicant.id !== id
           );
-          this.localStorageService.setItem(this.storageKey, updatedApplicants);
+          this._writeApplicants(updatedApplicants);
           return of(deleteApplicantSuccess({ applicants: updatedApplicants }));
         } catch (error) {
           return of(
@@ -84,4 +78,13 @@ export class ApplicantsEffects {
       })
     )
   );
+
+  // Shared helper methods for local storage operations
+  private _readApplicants(): Applicant[] {
+    return this.localStorageService.getItem<Applicant[]>(this.storageKey) || [];
+  }
+
+  private _writeApplicants(applicants: Applicant[]): void {
+    this.localStorageService.setItem(this.storageKey, applicants);
+  }
 }

@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { ObjectMapper } from 'json-object-mapper';
+import { catchError } from 'rxjs/operators';
 import { Applicant } from '../models/applicant.model';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicantsService {
   private readonly storageKey: string = 'applicants';
 
+  constructor(private readonly localStorageService: LocalStorageService) {}
+
   /**
-   * Fetches all applicants from local storage, deserializes them into Applicant objects.
+   * Fetches all applicants from local storage.
    *
    * @returns {Observable<Applicant[]>} - Observable of the applicants array.
    */
   public getApplicants(): Observable<Applicant[]> {
-    return of(this.readFromStorage()).pipe(
-      map((data): Applicant[] =>
-        data.map(
-          (json: unknown): Applicant =>
-            ObjectMapper.deserialize(Applicant, json as Record<string, unknown>)
-        )
-      ),
-      catchError(() =>
-        throwError(
-          (): Error => new Error('Failed to load applicants from storage.')
-        )
-      )
+    return of(
+      this.localStorageService.getItem<Applicant[]>(this.storageKey) || []
+    ).pipe(
+      catchError((error) => {
+        console.error('Error fetching applicants:', error);
+        return throwError(
+          () => new Error('Failed to load applicants from storage.')
+        );
+      })
     );
   }
 
@@ -36,10 +35,15 @@ export class ApplicantsService {
    * @returns {Observable<void>} - Observable that completes when saving is done.
    */
   public setApplicants(applicants: Applicant[]): Observable<void> {
-    return of(this.writeToStorage(applicants)).pipe(
-      catchError(() =>
-        throwError(() => new Error('Failed to save applicants to storage.'))
-      )
+    return of(
+      this.localStorageService.setItem(this.storageKey, applicants)
+    ).pipe(
+      catchError((error) => {
+        console.error('Error saving applicants:', error);
+        return throwError(
+          () => new Error('Failed to save applicants to storage.')
+        );
+      })
     );
   }
 
@@ -50,9 +54,10 @@ export class ApplicantsService {
    * @returns {Observable<Applicant[]>} - Observable of the updated applicants array.
    */
   public addApplicant(applicant: Applicant): Observable<Applicant[]> {
-    const applicants = this.readFromStorage();
-    applicants.push(ObjectMapper.serialize(applicant));
-    this.writeToStorage(applicants);
+    const applicants =
+      this.localStorageService.getItem<Applicant[]>(this.storageKey) || [];
+    applicants.push(applicant);
+    this.localStorageService.setItem(this.storageKey, applicants);
     return this.getApplicants();
   }
 
@@ -63,42 +68,10 @@ export class ApplicantsService {
    * @returns {Observable<Applicant[]>} - Observable of the updated applicants array.
    */
   public deleteApplicant(id: string): Observable<Applicant[]> {
-    const applicants = this.readFromStorage().filter(
-      (applicant: unknown): boolean =>
-        typeof applicant === 'object' &&
-        applicant !== null &&
-        (applicant as Record<string, unknown>)['id'] !== id
-    );
-    this.writeToStorage(applicants);
+    const applicants = (
+      this.localStorageService.getItem<Applicant[]>(this.storageKey) || []
+    ).filter((applicant: Applicant): boolean => applicant.id !== id);
+    this.localStorageService.setItem(this.storageKey, applicants);
     return this.getApplicants();
-  }
-
-  /**
-   * Reads data from local storage and parses it into a usable format.
-   *
-   * @returns {unknown[]} - Parsed data from local storage or an empty array if none exist.
-   * @private
-   */
-  private readFromStorage(): unknown[] {
-    try {
-      const storedData = localStorage.getItem(this.storageKey);
-      return storedData ? JSON.parse(storedData) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  /**
-   * Serializes and writes data to local storage.
-   *
-   * @param {unknown[]} data - Data to serialize and store.
-   * @private
-   */
-  private writeToStorage(data: unknown[]): void {
-    try {
-      localStorage.setItem(this.storageKey, JSON.stringify(data));
-    } catch {
-      // Fail silently; errors are already handled in catchError.
-    }
   }
 }

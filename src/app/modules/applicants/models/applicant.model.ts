@@ -1,36 +1,34 @@
 import { DatePipe } from '@angular/common';
-import { JsonProperty } from 'json-object-mapper';
-import { LocalizationService } from '../../../services/localization.service';
-import { APP_CONFIG } from '../../../config/app.config';
 import { inject } from '@angular/core';
 
-//import { LocalizationService } from 'src/app/core/services/localization.service';
+import { LocalizationService } from '../../../services/localization.service';
+import { APP_CONFIG } from '../../../config/app.config';
 
 export class Applicant {
-  @JsonProperty() public readonly id: string;
-  @JsonProperty() public readonly firstName?: string;
-  @JsonProperty() public readonly lastName?: string;
-  @JsonProperty() public readonly availableFrom?: Date;
-  @JsonProperty() public readonly skills?: string[];
+  public readonly id!: string; // Required
+  public readonly firstName?: string; // Optional
+  public readonly lastName?: string; // Optional
+  public readonly availableFrom?: Date; // Optional
+  public readonly skills?: string[]; // Optional
 
-  private _datePipe: DatePipe;
+  private _datePipe!: DatePipe;
+  private _name: string | null = null;
+  private _availability: string | null = null;
 
   /**
-   * Constructor initializes the properties and creates a DatePipe
-   * based on the application's selected locale.
+   * Constructor initializes properties and creates a DatePipe
+   * based on the application locale.
    *
-   * @param localizationService - Service to fetch the application's locale.
+   * @param init - Initial values for the applicant.
+   * @param localizationService
    */
   public constructor(
+    init?: Partial<Applicant>,
     private localizationService: LocalizationService = inject(
       LocalizationService
     )
   ) {
-    this.id = '';
-    this.firstName = '';
-    this.lastName = '';
-    this.availableFrom = null;
-    this.skills = [];
+    Object.assign(this, init);
 
     this.localizationService.getStoredLanguage().subscribe((lang) => {
       const locale = APP_CONFIG.getLocale(lang);
@@ -44,7 +42,10 @@ export class Applicant {
    * @returns {string} - Full name in "First Last" format.
    */
   public get name(): string {
-    return `${this.firstName ?? ''} ${this.lastName ?? ''}`.trim();
+    if (!this._name) {
+      this._name = `${this.firstName ?? ''} ${this.lastName ?? ''}`.trim();
+    }
+    return this._name;
   }
 
   /**
@@ -54,12 +55,15 @@ export class Applicant {
    * @returns {string} - Formatted date or placeholder ('-').
    */
   public get availability(): string {
-    const dateFormat = this.localizationService
-      .getStoredDateFormat()
-      .getValue();
-    return this.availableFrom
-      ? (this._datePipe.transform(this.availableFrom, dateFormat) ?? '-')
-      : '-';
+    if (!this._availability) {
+      const dateFormat = this.localizationService
+        .getStoredDateFormat()
+        .getValue();
+      this._availability = this.availableFrom
+        ? (this._datePipe.transform(this.availableFrom, dateFormat) ?? '-')
+        : '-';
+    }
+    return this._availability;
   }
 
   /**
