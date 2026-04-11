@@ -19,10 +19,10 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "ES2023",
+    "target": "ES2022",
     "useDefineForClassFields": false,
     "module": "ES2022",
-    "lib": ["ES2023", "DOM"]
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
