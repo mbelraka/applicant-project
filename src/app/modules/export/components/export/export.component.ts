@@ -11,6 +11,7 @@ import { exportApplicants } from '../../state/export.actions';
   selector: 'app-export',
   templateUrl: './export.component.html',
   styleUrl: './export.component.scss',
+  standalone: false,
 })
 export class ExportComponent {
   public readonly loading$ = this._store.select(selectExportLoading);

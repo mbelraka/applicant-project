@@ -18,6 +18,7 @@ import { isLanguage } from '../../../utilities/language.utils';
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
   animations: [fadeInOutAnimation],
+  standalone: false,
 })
 export class RootComponent implements OnInit {
   public readonly navLinks: readonly NavLink[] = APP_CONFIG.NAV_LINKS;

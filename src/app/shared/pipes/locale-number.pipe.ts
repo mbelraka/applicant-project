@@ -8,7 +8,11 @@ import { Languages } from '../../enums/language.enum';
 import { FullState } from '../../models/full-state.model';
 import { selectAppLanguage } from '../../state/app.selectors';
 
-@Pipe({ name: 'localeNumber', pure: false })
+@Pipe({
+  name: 'localeNumber',
+  pure: false,
+  standalone: false,
+})
 export class LocaleNumberPipe implements PipeTransform {
   private readonly store = inject(Store<FullState>);
   private readonly destroyRef = inject(DestroyRef);

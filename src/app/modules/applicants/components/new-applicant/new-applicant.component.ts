@@ -12,6 +12,7 @@ import { ApplicantForm } from '../../models/applicanion-form.model';
   templateUrl: './new-applicant.component.html',
   styleUrls: ['./new-applicant.component.scss'],
   animations: [fadeInOutAnimation],
+  standalone: false,
 })
 export class NewApplicantComponent {
   /** Constants for key codes */

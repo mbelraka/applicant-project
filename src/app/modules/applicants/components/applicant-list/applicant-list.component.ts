@@ -9,6 +9,7 @@ import { setFilterBySkill } from '../../state/applicants.actions';
   selector: 'app-applicant-list',
   templateUrl: './applicant-list.component.html',
   styleUrls: ['./applicant-list.component.scss'],
+  standalone: false,
 })
 export class ApplicantListComponent {
   /** Columns to display in the list view. */

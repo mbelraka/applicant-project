@@ -28,6 +28,7 @@ import { ViewTypes } from '../../enums/view-types.enum';
   templateUrl: './applicants.component.html',
   styleUrls: ['./applicants.component.scss'],
   animations: [fadeInOutAnimation, slideInLeftAnimation],
+  standalone: false,
 })
 export class ApplicantsComponent implements OnInit, OnDestroy {
   public readonly viewTypes = ViewTypes;

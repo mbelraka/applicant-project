@@ -5,6 +5,7 @@ import { Applicant } from '../../models/applicant.model';
   selector: 'app-applicant-grid',
   templateUrl: './applicant-grid.component.html',
   styleUrls: ['./applicant-grid.component.scss'],
+  standalone: false,
 })
 export class ApplicantGridComponent {
   /** List of applicants to display in the grid. */

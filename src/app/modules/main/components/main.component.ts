@@ -7,5 +7,6 @@ import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animat
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
   animations: [fadeInOutAnimation],
+  standalone: false,
 })
 export class MainComponent {}

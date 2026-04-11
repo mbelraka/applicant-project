@@ -9,6 +9,7 @@ import { deleteApplicant } from '../../state/applicants.actions';
   selector: 'app-applicant',
   templateUrl: './applicant.component.html',
   styleUrls: ['./applicant.component.scss'],
+  standalone: false,
 })
 export class ApplicantComponent {
   private _applicant!: Applicant;

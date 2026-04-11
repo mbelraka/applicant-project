@@ -5,6 +5,7 @@ import { LocalizationService } from './services/localization.service';
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
+  standalone: false,
 })
 export class AppComponent {
   public constructor(private readonly _localization: LocalizationService) {}

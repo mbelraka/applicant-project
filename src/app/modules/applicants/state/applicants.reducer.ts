@@ -45,7 +45,7 @@ export const applicantsReducer = createReducer(
   on(loadApplicants, (state) => ({
     ...state,
     loading: true,
-    error: null,
+    error: null as ApplicantState['error'],
   })),
   on(loadApplicantsSuccess, (state, { applicants }) =>
     adapter.setAll(applicants, {
