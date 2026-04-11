@@ -1,4 +1,5 @@
 <div class="applicants-container" fxFlex="1 1 auto" fxLayout="column">
+  @let viewType = viewType$ | async;
   <div
     fxLayout="row"
     fxLayoutAlign="space-between center"
@@ -21,7 +22,7 @@
   <div class="content" fxLayout="column" fxLayoutGap="24px">
     <div class="options" fxLayoutAlign="center">
       <mat-button-toggle-group
-        [value]="viewType$ | async"
+        [value]="viewType"
         (change)="toggleView($event.value)"
         [attr.aria-label]="'applicants.viewToggle' | translate"
       >
@@ -33,11 +34,11 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <div *ngIf="(viewType$ | async) === viewTypes.GRID">
+    <div *ngIf="viewType === viewTypes.GRID">
       <app-applicant-grid></app-applicant-grid>
     </div>
 
-    <div *ngIf="(viewType$ | async) === viewTypes.LIST">
+    <div *ngIf="viewType === viewTypes.LIST">
       <app-applicant-list></app-applicant-list>
     </div>
   </div>

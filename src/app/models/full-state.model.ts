@@ -4,8 +4,7 @@ import { StateFeatures } from '../containers/root/enums/state-features.enum';
 import { AppState } from './app-state.model';
 
 export interface FullState {
-  app: AppState; 
+  app: AppState;
   [StateFeatures.Applicants]?: ApplicantState;
-  [StateFeatures.Main]?: Record<string, never>;
   [StateFeatures.Export]?: ExportFeatureState;
 }

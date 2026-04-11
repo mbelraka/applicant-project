@@ -11,8 +11,3 @@ export const selectExportLoading = createSelector(
   selectExportState,
   (state): boolean => state.loading
 );
-
-export const selectExportError = createSelector(
-  selectExportState,
-  (state): string | null => state.error
-);

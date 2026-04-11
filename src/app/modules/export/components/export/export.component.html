@@ -12,5 +12,8 @@
   <button mat-raised-button color="basic" (click)="export(ExportFormats.PDF)">
     <mat-icon>picture_as_pdf</mat-icon> {{ 'export.pdf' | translate }}
   </button>
-  <mat-progress-bar *ngIf="(loading$ | async)" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar
+    *ngIf="loading$ | async"
+    mode="indeterminate"
+  ></mat-progress-bar>
 </div>

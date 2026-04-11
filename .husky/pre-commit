@@ -1,0 +1,3 @@
+# Auto-fix and format staged files, then enforce full-repo quality (same as CI).
+npx lint-staged
+npm run validate

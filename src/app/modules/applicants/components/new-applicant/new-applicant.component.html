@@ -81,7 +81,9 @@
           </div>
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline">
-              <mat-label>{{ 'newApplicant.availableFrom' | translate }}</mat-label>
+              <mat-label>{{
+                'newApplicant.availableFrom' | translate
+              }}</mat-label>
               <input
                 matInput
                 [matDatepicker]="datepicker"
@@ -96,7 +98,12 @@
                   <button mat-button matDatepickerCancel type="button">
                     {{ 'newApplicant.cancel' | translate }}
                   </button>
-                  <button mat-raised-button color="primary" matDatepickerApply type="button">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    matDatepickerApply
+                    type="button"
+                  >
                     {{ 'newApplicant.apply' | translate }}
                   </button>
                 </mat-datepicker-actions>

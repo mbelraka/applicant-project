@@ -48,7 +48,7 @@
           >
             @for (lang of supportedLanguages; track lang) {
               <mat-option [value]="lang">
-                {{ ('language.names.' + lang) | translate }}
+                {{ 'language.names.' + lang | translate }}
               </mat-option>
             }
           </mat-select>

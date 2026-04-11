@@ -1,5 +1,11 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXsrfConfiguration,
+} from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +27,7 @@ import { metaReducerLocalStorage } from './state/meta-reducers';
 import { AppEffects } from './state/app.effects';
 import { localeIdFactory } from './utilities/factories/locale-id.factory';
 import { matDateLocaleFactory } from './utilities/factories/mat-date-locale.factory';
+import { AuthInterceptor } from './core/http/auth.interceptor';
 import { LocalStorageService } from './services/local-storage.service';
 import { environment } from '../environments/environment';
 
@@ -66,7 +73,18 @@ export function translateHttpLoaderFactory(
     }),
   ],
   providers: [
-    provideHttpClient(),
+    provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      }),
+      withInterceptorsFromDi()
+    ),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     {
       provide: LOCALE_ID,
       useFactory: localeIdFactory,
