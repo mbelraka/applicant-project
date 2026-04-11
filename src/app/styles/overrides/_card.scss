@@ -1,4 +1,4 @@
-@import 'colors';
+@use '../shared/colors' as *;
 
 .mat-card {
   padding: 0 !important;

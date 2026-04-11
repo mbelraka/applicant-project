@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'variables';
+@use 'colors' as *;
+@use 'variables' as *;
 
 .main-container {
   padding: 1.5rem;

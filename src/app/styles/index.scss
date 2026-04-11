@@ -1,4 +1,3 @@
-@import 'imports';
-@import 'overrides';
-@import 'shared';
-@import 'theme';
+@forward './shared';
+@use './overrides';
+@use './theme';

@@ -1,4 +1,4 @@
-@import 'colors';
+@use '../shared/colors' as *;
 
 .mat-toolbar {
   background: $base-color !important;

@@ -1,4 +1,4 @@
-@import 'colors';
-@import 'containers';
-@import 'labels';
-@import 'variables';
+@forward './colors';
+@forward './variables';
+@forward './containers';
+@forward './labels';

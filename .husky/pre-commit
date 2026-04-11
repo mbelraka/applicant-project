@@ -1,3 +1,5 @@
 # Auto-fix and format staged files, then enforce full-repo quality (same as CI).
+# npm 11+ warns on IDE-injected NPM_CONFIG_DEVDIR (e.g. Cursor "devdir"); drop before npm/npx.
+unset NPM_CONFIG_DEVDIR npm_config_devdir 2>/dev/null || true
 npx lint-staged
 npm run validate
