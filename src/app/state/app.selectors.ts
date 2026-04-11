@@ -1,22 +1,12 @@
-import { createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { loadLanguageSuccess, setLanguage } from './app.actions';
-import { APP_CONFIG } from '../config/app.config';
 import { AppState } from '../models/app-state.model';
+import { Languages } from '../enums/language.enum';
 
-// Initial state for AppState
-export const initialAppState: AppState = {
-  language: APP_CONFIG.LOCALIZATION.DEFAULT_LANGUAGE,
-};
+// Selectors for the `app` feature slice registered in StoreModule.forRoot
+export const selectAppState = createFeatureSelector<AppState>('app');
 
-export const appReducer = createReducer(
-  initialAppState,
-  on(setLanguage, (state, { language }) => ({
-    ...state,
-    language,
-  })),
-  on(loadLanguageSuccess, (state, { language }) => ({
-    ...state,
-    language,
-  }))
+export const selectAppLanguage = createSelector(
+  selectAppState,
+  (state): Languages => state.language
 );

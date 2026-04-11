@@ -1,5 +1,5 @@
 export interface NavLink {
-  label: string;
+  translationKey: string;
   link: string;
   showHeader?: boolean;
 }

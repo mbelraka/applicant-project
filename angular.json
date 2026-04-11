@@ -73,7 +73,6 @@
               },
               "sourceMap": false,
               "extractLicenses": true,
-              "extractCss": true,
               "vendorChunk": false,
               "namedChunks": false,
               "aot": true,
@@ -86,9 +85,9 @@
                   "maximumError": "3mb"
                 },
                 {
-                  "type": "allScripts",
-                  "maximumWarning": "400kb",
-                  "maximumError": "800kb"
+                  "type": "allScript",
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",

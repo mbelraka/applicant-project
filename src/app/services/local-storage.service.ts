@@ -2,13 +2,21 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
-  public setItem(key: string, value: any): void {
+  public setItem<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
   public getItem<T>(key: string): T | null {
-    const data = localStorage.getItem(key);
-    return data ? (JSON.parse(data) as T) : null;
+    const raw = localStorage.getItem(key);
+    if (raw === null) {
+      return null;
+    }
+    try {
+      return JSON.parse(raw) as T;
+    } catch {
+      console.error(`LocalStorageService: invalid JSON for key "${key}"`);
+      return null;
+    }
   }
 
   public removeItem(key: string): void {

@@ -15,6 +15,7 @@ import {
   loadApplicantsSuccess,
 } from './applicants.actions';
 import { LocalStorageService } from '../../../services/local-storage.service';
+import { getErrorMessage } from '../../../utilities/error.utils';
 import { Applicant } from '../models/applicant.model';
 
 @Injectable()
@@ -34,8 +35,8 @@ export class ApplicantsEffects {
         try {
           const applicants = this._readApplicants();
           return of(loadApplicantsSuccess({ applicants }));
-        } catch (error) {
-          return of(loadApplicantsFailure({ error: (error as Error).message }));
+        } catch (error: unknown) {
+          return of(loadApplicantsFailure({ error: getErrorMessage(error) }));
         }
       })
     )
@@ -51,8 +52,8 @@ export class ApplicantsEffects {
           applicants.push(applicant);
           this._writeApplicants(applicants);
           return of(addApplicantSuccess({ applicants }));
-        } catch (error) {
-          return of(addApplicantFailure({ error: (error as Error).message }));
+        } catch (error: unknown) {
+          return of(addApplicantFailure({ error: getErrorMessage(error) }));
         }
       })
     )
@@ -70,10 +71,8 @@ export class ApplicantsEffects {
           );
           this._writeApplicants(updatedApplicants);
           return of(deleteApplicantSuccess({ applicants: updatedApplicants }));
-        } catch (error) {
-          return of(
-            deleteApplicantFailure({ error: (error as Error).message })
-          );
+        } catch (error: unknown) {
+          return of(deleteApplicantFailure({ error: getErrorMessage(error) }));
         }
       })
     )

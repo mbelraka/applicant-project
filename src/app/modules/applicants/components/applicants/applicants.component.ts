@@ -20,8 +20,8 @@ import {
   selectViewType,
 } from '../../state/applicants.selectors';
 import { APP_CONFIG } from '../../../../config/app.config';
+import { FullState } from '../../../../models/full-state.model';
 import { ViewTypes } from '../../enums/view-types.enum';
-import { ApplicantState } from '../../models/applicant-state.model';
 
 @Component({
   selector: 'app-applicants',
@@ -39,7 +39,7 @@ export class ApplicantsComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly _dialogRef: MatDialog,
-    private readonly _store: Store<ApplicantState>
+    private readonly _store: Store<FullState>
   ) {}
 
   public ngOnInit(): void {

@@ -1,14 +1,18 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ExportState } from '../models/export-state.model';
+import { StateFeatures } from '../../../containers/root/enums/state-features.enum';
+import { ExportFeatureState } from '../models/export-state.model';
 
-export const selectExportState = createFeatureSelector<ExportState>('export');
+export const selectExportState = createFeatureSelector<ExportFeatureState>(
+  StateFeatures.Export
+);
 
 export const selectExportLoading = createSelector(
   selectExportState,
-  (state) => state.export.loading
+  (state): boolean => state.loading
 );
+
 export const selectExportError = createSelector(
   selectExportState,
-  (state) => state.export.error
+  (state): string | null => state.error
 );

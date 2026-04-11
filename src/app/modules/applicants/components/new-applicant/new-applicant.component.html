@@ -10,13 +10,10 @@
     fxLayoutGap="16px"
     fxLayoutAlign="space-between center"
   >
-    <span class="title">Neuer Bewerber</span>
+    <span class="title">{{ 'newApplicant.title' | translate }}</span>
     <div class="close-action-container">
-      <button mat-icon-button>
-        <mat-icon
-          class="icon close-action"
-          onKeyup="dismissAction()"
-          (click)="dismissAction()"
+      <button mat-icon-button type="button">
+        <mat-icon class="icon close-action" (click)="dismissAction()"
           >close</mat-icon
         >
       </button>
@@ -34,11 +31,11 @@
         <div class="inputs" fxLayout="column" fxLayoutGap="5px">
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline" class="custom-form-field">
-              <mat-label>Vorname</mat-label>
+              <mat-label>{{ 'newApplicant.firstName' | translate }}</mat-label>
 
               <input
                 matInput
-                aria-label="Name"
+                [attr.aria-label]="'newApplicant.firstName' | translate"
                 type="text"
                 formControlName="firstName"
                 required
@@ -47,11 +44,11 @@
           </div>
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline" class="custom-form-field">
-              <mat-label>Nachname</mat-label>
+              <mat-label>{{ 'newApplicant.lastName' | translate }}</mat-label>
 
               <input
                 matInput
-                aria-label="Name"
+                [attr.aria-label]="'newApplicant.lastName' | translate"
                 id="name"
                 type="text"
                 formControlName="lastName"
@@ -61,19 +58,19 @@
           </div>
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline">
-              <mat-label>Skills</mat-label>
+              <mat-label>{{ 'newApplicant.skills' | translate }}</mat-label>
               <mat-chip-grid #chipList>
                 <mat-chip
                   *ngFor="let skill of skills"
                   (removed)="removeSkill(skill)"
                 >
                   {{ skill }}
-                  <button matChipRemove>
+                  <button matChipRemove type="button">
                     <mat-icon>cancel</mat-icon>
                   </button>
                 </mat-chip>
                 <input
-                  placeholder="Neues Skill"
+                  [placeholder]="'newApplicant.skillPlaceholder' | translate"
                   [matChipInputFor]="chipList"
                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                   [matChipInputAddOnBlur]="true"
@@ -84,7 +81,7 @@
           </div>
           <div class="group" fxLayout="column" fxLayoutGap="8px">
             <mat-form-field appearance="outline">
-              <mat-label>Verfügbar ab</mat-label>
+              <mat-label>{{ 'newApplicant.availableFrom' | translate }}</mat-label>
               <input
                 matInput
                 [matDatepicker]="datepicker"
@@ -96,9 +93,11 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
-                  <button mat-button matDatepickerCancel>Abbrechen</button>
-                  <button mat-raised-button color="primary" matDatepickerApply>
-                    Wählen
+                  <button mat-button matDatepickerCancel type="button">
+                    {{ 'newApplicant.cancel' | translate }}
+                  </button>
+                  <button mat-raised-button color="primary" matDatepickerApply type="button">
+                    {{ 'newApplicant.apply' | translate }}
                   </button>
                 </mat-datepicker-actions>
               </mat-datepicker>
@@ -109,10 +108,11 @@
           mat-raised-button
           class="submit"
           color="primary"
+          type="submit"
           [disabled]="!fgNewApplicant.valid"
           (click)="submitDataAction()"
         >
-          Einreichen
+          {{ 'newApplicant.submit' | translate }}
         </button>
       </form>
     </div>

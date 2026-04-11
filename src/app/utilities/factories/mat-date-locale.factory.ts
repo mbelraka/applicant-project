@@ -1,7 +1,6 @@
-import { LocalizationService } from '../../services/localization.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { initialAngularLocaleFactory } from './initial-angular-locale.factory';
 
-export function matDateLocaleFactory(
-  localizationService: LocalizationService
-): string {
-  return localizationService.currentLocale; // Reuse for MAT_DATE_LOCALE
+export function matDateLocaleFactory(storage: LocalStorageService): string {
+  return initialAngularLocaleFactory(storage); // Reuse for MAT_DATE_LOCALE
 }

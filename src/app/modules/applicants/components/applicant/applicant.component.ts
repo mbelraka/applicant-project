@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Applicant } from 'src/app/modules/applicants/models/applicant.model';
+import { FullState } from 'src/app/models/full-state.model';
 import { deleteApplicant } from '../../state/applicants.actions';
 
 @Component({
@@ -10,19 +11,19 @@ import { deleteApplicant } from '../../state/applicants.actions';
   styleUrls: ['./applicant.component.scss'],
 })
 export class ApplicantComponent {
-  private _applicant: Applicant;
+  private _applicant!: Applicant;
 
   public get applicant(): Applicant {
     return this._applicant;
   }
 
-  @Input() public set applicant(_applicant: Applicant) {
-    this._applicant = _applicant;
+  @Input() public set applicant(value: Applicant) {
+    this._applicant = value;
   }
 
-  public constructor(private readonly _store: Store) {}
+  public constructor(private readonly store: Store<FullState>) {}
 
   public delete(): void {
-    this._store.dispatch(deleteApplicant(this.applicant));
+    this.store.dispatch(deleteApplicant({ id: this.applicant.id }));
   }
 }

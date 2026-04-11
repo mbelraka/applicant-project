@@ -1,32 +1,50 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { Languages } from './enums/language.enum';
 import { appReducer } from './state/app.reducer';
 import { metaReducerLocalStorage } from './state/meta-reducers';
 import { AppEffects } from './state/app.effects';
-import { LocalizationService } from './services/localization.service';
 import { localeIdFactory } from './utilities/factories/locale-id.factory';
 import { matDateLocaleFactory } from './utilities/factories/mat-date-locale.factory';
+import { LocalStorageService } from './services/local-storage.service';
 import { environment } from '../environments/environment';
+
+export function translateHttpLoaderFactory(
+  http: HttpClient
+): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    TranslateModule.forRoot({
+      defaultLanguage: Languages.English,
+      loader: {
+        provide: TranslateLoader,
+        useFactory: translateHttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
     SharedModule,
+    AppRoutingModule,
     // Configure the NgRx Store
     StoreModule.forRoot(
       { app: appReducer },
@@ -48,15 +66,16 @@ import { environment } from '../environments/environment';
     }),
   ],
   providers: [
+    provideHttpClient(),
     {
       provide: LOCALE_ID,
       useFactory: localeIdFactory,
-      deps: [LocalizationService],
+      deps: [LocalStorageService],
     },
     {
       provide: MAT_DATE_LOCALE,
       useFactory: matDateLocaleFactory,
-      deps: [LocalizationService],
+      deps: [LocalStorageService],
     },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],

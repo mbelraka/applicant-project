@@ -10,6 +10,7 @@ import {
   exportSuccess,
 } from './export.actions';
 import { ExportFormats } from '../enums/export-formats.enum';
+import { getErrorMessage } from '../../../utilities/error.utils';
 
 @Injectable()
 export class ExportEffects {
@@ -20,7 +21,9 @@ export class ExportEffects {
         from(this.triggerExport(format)).pipe(
           // Convert Promise to Observable
           map(() => exportSuccess()),
-          catchError((error) => of(exportFailure({ error: error.message })))
+          catchError((error: unknown) =>
+            of(exportFailure({ error: getErrorMessage(error) }))
+          )
         )
       )
     )

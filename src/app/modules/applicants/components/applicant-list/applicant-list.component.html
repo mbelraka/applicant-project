@@ -1,18 +1,24 @@
-<table mat-table [dataSource]="applicants$ | async" class="mat-elevation-z8">
+<table
+  mat-table
+  [dataSource]="(applicants$ | async) ?? []"
+  class="mat-elevation-z8"
+>
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <th mat-header-cell *matHeaderCellDef>{{ 'applicantList.name' | translate }}</th>
     <td mat-cell *matCellDef="let applicant">{{ applicant.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="availability">
-    <th mat-header-cell *matHeaderCellDef>Availability</th>
+    <th mat-header-cell *matHeaderCellDef>
+      {{ 'applicantList.availability' | translate }}
+    </th>
     <td mat-cell *matCellDef="let applicant">
-      {{ applicant.availableFrom | date }}
+      {{ applicant.availableFrom | localeDate }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="skills">
-    <th mat-header-cell *matHeaderCellDef>Skills</th>
+    <th mat-header-cell *matHeaderCellDef>{{ 'applicantList.skills' | translate }}</th>
     <td mat-cell *matCellDef="let applicant">
       <button
         mat-button

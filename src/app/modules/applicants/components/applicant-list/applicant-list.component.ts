@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { FullState } from '../../../../models/full-state.model';
 import { selectSortedApplicants } from '../../state/applicants.selectors';
 import { setFilterBySkill } from '../../state/applicants.actions';
-import { ApplicantState } from '../../models/applicant-state.model';
 
 @Component({
   selector: 'app-applicant-list',
@@ -21,7 +21,7 @@ export class ApplicantListComponent {
   /** Observable for the sorted list of applicants. */
   public readonly applicants$ = this._store.select(selectSortedApplicants);
 
-  public constructor(private readonly _store: Store<ApplicantState>) {}
+  public constructor(private readonly _store: Store<FullState>) {}
 
   /**
    * Dispatches an action to filter applicants by the given skill.

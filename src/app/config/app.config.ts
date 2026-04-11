@@ -1,20 +1,21 @@
 import { Languages } from '../enums/language.enum';
+import { NavLink } from '../modules/main/models/nav-link.model';
 
 export const APP_CONFIG = {
   // Navigation links for the app
   NAV_LINKS: [
-    { label: 'Main', link: '/root/main', showHeader: false },
+    { translationKey: 'nav.main', link: '/root/main', showHeader: false },
     {
-      label: 'Applicants',
+      translationKey: 'nav.applicants',
       link: '/root/applicants',
       showHeader: true,
     },
     {
-      label: 'Export',
+      translationKey: 'nav.export',
       link: '/root/export',
       showHeader: true,
     },
-  ],
+  ] as const satisfies readonly NavLink[],
 
   // Dialog configuration for modals
   DIALOG_CONFIG: {
@@ -22,7 +23,7 @@ export const APP_CONFIG = {
     disableClose: true,
     width: '600px',
     maxHeight: '80vh',
-  },
+  } as const,
 
   // Localization and language settings
   LOCALIZATION: {
@@ -31,7 +32,7 @@ export const APP_CONFIG = {
       Languages.English,
       Languages.German,
       Languages.French,
-    ],
+    ] as const,
     DATE_FORMATS: {
       [Languages.English]: 'MM/dd/yyyy',
       [Languages.German]: 'dd.MM.yyyy',

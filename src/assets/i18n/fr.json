@@ -1,9 +1,59 @@
 {
-  "app": {
-    "title": "Système de gestion des candidats",
-    "toggleGrid": "Vue Grille",
-    "toggleList": "Vue Liste",
-    "searchPlaceholder": "Rechercher",
-    "selectLanguage": "Choisir la langue"
+  "nav": {
+    "main": "Accueil",
+    "applicants": "Candidats",
+    "export": "Export"
+  },
+  "language": {
+    "label": "Langue",
+    "names": {
+      "en": "Anglais",
+      "de": "Allemand",
+      "fr": "Français"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Recrutement mondial sans effort",
+    "subHeadline": "Libérer les talents, sans frontières",
+    "start": "C'est parti !"
+  },
+  "applicants": {
+    "searchLabel": "Rechercher des candidats",
+    "searchPlaceholder": "Rechercher des candidats",
+    "newApplicant": "Nouveau candidat",
+    "gridView": "Grille",
+    "listView": "Liste",
+    "viewToggle": "Mode d'affichage",
+    "availableFrom": "Disponible à partir du",
+    "skills": "Compétences"
+  },
+  "applicantList": {
+    "name": "Nom",
+    "availability": "Disponibilité",
+    "skills": "Compétences"
+  },
+  "applicantCard": {
+    "availablePrefix": "Disponible :"
+  },
+  "export": {
+    "title": "Exporter les candidats",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "Nouveau candidat",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "skills": "Compétences",
+    "skillPlaceholder": "Ajouter une compétence",
+    "availableFrom": "Disponible à partir du",
+    "cancel": "Annuler",
+    "apply": "Valider",
+    "submit": "Envoyer"
   }
 }

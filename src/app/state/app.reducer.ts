@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadLanguageSuccess, setLanguage } from './app.actions';
+
 import { APP_CONFIG } from '../config/app.config';
 import { AppState } from '../models/app-state.model';
+import { setLanguage } from './app.actions';
 
 // Initial application state
 export const initialAppState: AppState = {
@@ -11,12 +12,11 @@ export const initialAppState: AppState = {
 // Define the reducer properly
 export const appReducer = createReducer(
   initialAppState,
-  on(setLanguage, (state, { language }) => ({
-    ...state,
-    language,
-  })),
-  on(loadLanguageSuccess, (state, { language }) => ({
-    ...state,
-    language,
-  }))
+  on(
+    setLanguage,
+    (state, { language }): AppState => ({
+      ...state,
+      language,
+    })
+  )
 );

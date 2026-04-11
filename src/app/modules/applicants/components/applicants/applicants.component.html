@@ -6,29 +6,31 @@
     fxLayoutGap="24px"
   >
     <mat-form-field appearance="outline" fxFlex=" 1 1 auto">
-      <mat-label>Search Applicants</mat-label>
+      <mat-label>{{ 'applicants.searchLabel' | translate }}</mat-label>
       <input
         matInput
         (keyup)="applyFilter($event)"
         [value]="globalFilter$ | async"
-        placeholder="Search Applicants"
+        [placeholder]="'applicants.searchPlaceholder' | translate"
       />
     </mat-form-field>
-    <button mat-flat-button class="-no-wrap" (click)="openForm()">New Applicant</button>
+    <button mat-flat-button class="-no-wrap" (click)="openForm()">
+      {{ 'applicants.newApplicant' | translate }}
+    </button>
   </div>
   <div class="content" fxLayout="column" fxLayoutGap="24px">
     <div class="options" fxLayoutAlign="center">
       <mat-button-toggle-group
         [value]="viewType$ | async"
         (change)="toggleView($event.value)"
-        aria-label="View toggle"
+        [attr.aria-label]="'applicants.viewToggle' | translate"
       >
-        <mat-button-toggle [value]="viewTypes.GRID"
-          >Grid View</mat-button-toggle
-        >
-        <mat-button-toggle [value]="viewTypes.LIST"
-          >List View</mat-button-toggle
-        >
+        <mat-button-toggle [value]="viewTypes.GRID">
+          {{ 'applicants.gridView' | translate }}
+        </mat-button-toggle>
+        <mat-button-toggle [value]="viewTypes.LIST">
+          {{ 'applicants.listView' | translate }}
+        </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
     <div *ngIf="(viewType$ | async) === viewTypes.GRID">

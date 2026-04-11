@@ -1,7 +1,6 @@
-import { LocalizationService } from '../../services/localization.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { initialAngularLocaleFactory } from './initial-angular-locale.factory';
 
-export function localeIdFactory(
-  localizationService: LocalizationService
-): string {
-  return localizationService.currentLocale;
+export function localeIdFactory(storage: LocalStorageService): string {
+  return initialAngularLocaleFactory(storage);
 }

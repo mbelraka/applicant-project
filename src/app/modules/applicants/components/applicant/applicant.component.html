@@ -23,7 +23,10 @@
     fxLayout="row"
     fxLayoutAlign="space-between center"
   >
-    <div class="availability">Ab: {{ applicant.availability }}</div>
+    <div class="availability">
+      {{ 'applicantCard.availablePrefix' | translate }}
+      {{ applicant.availableFrom | localeDate }}
+    </div>
     <button
       mat-icon-button
       color="primary"

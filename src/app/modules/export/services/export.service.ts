@@ -6,12 +6,13 @@ import * as ExcelJS from 'exceljs';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { firstValueFrom } from 'rxjs';
 
+import { FullState } from '../../../models/full-state.model';
 import { selectAllApplicants } from '../../applicants/state/applicants.selectors';
 import { Applicant } from '../../applicants/models/applicant.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExportService {
-  public constructor(private readonly store: Store) {}
+  public constructor(private readonly store: Store<FullState>) {}
 
   /**
    * Fetches the list of applicants from the store.

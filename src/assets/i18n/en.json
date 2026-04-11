@@ -1,9 +1,59 @@
 {
-  "app": {
-    "title": "Applicant Management System",
-    "toggleGrid": "Grid View",
-    "toggleList": "List View",
-    "searchPlaceholder": "Search",
-    "selectLanguage": "Select Language"
+  "nav": {
+    "main": "Main",
+    "applicants": "Applicants",
+    "export": "Export"
+  },
+  "language": {
+    "label": "Language",
+    "names": {
+      "en": "English",
+      "de": "German",
+      "fr": "French"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Effortless global recruitment",
+    "subHeadline": "Unlocking talent, without boundaries",
+    "start": "Let's start!"
+  },
+  "applicants": {
+    "searchLabel": "Search applicants",
+    "searchPlaceholder": "Search applicants",
+    "newApplicant": "New applicant",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "viewToggle": "View mode",
+    "availableFrom": "Available from",
+    "skills": "Skills"
+  },
+  "applicantList": {
+    "name": "Name",
+    "availability": "Availability",
+    "skills": "Skills"
+  },
+  "applicantCard": {
+    "availablePrefix": "Available:"
+  },
+  "export": {
+    "title": "Export applicants",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "New applicant",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "skills": "Skills",
+    "skillPlaceholder": "Add skill",
+    "availableFrom": "Available from",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "submit": "Submit"
   }
 }

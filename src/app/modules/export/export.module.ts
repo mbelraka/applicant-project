@@ -9,13 +9,14 @@ import { ExportComponent } from './components/export/export.component';
 import { SharedModule } from '../../shared/shared.module';
 import { StateFeatures } from '../../containers/root/enums/state-features.enum';
 import { ExportEffects } from './state/export.effects';
+import { exportReducer } from './state/export.reducer';
 
 @NgModule({
   declarations: [ExportComponent],
   imports: [
     CommonModule,
     SharedModule,
-    StoreModule.forFeature(StateFeatures.Export, {}),
+    StoreModule.forFeature(StateFeatures.Export, exportReducer),
     EffectsModule.forFeature([ExportEffects]),
     ExportRoutingModule,
   ],

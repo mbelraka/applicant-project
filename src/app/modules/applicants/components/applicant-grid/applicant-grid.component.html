@@ -7,9 +7,12 @@
       <mat-card-title>{{ applicant.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>Available From: {{ applicant.availableFrom | date }}</p>
+      <p>
+        {{ 'applicants.availableFrom' | translate }}:
+        {{ applicant.availableFrom | localeDate }}
+      </p>
       <div>
-        <span>Skills:</span>
+        <span>{{ 'applicants.skills' | translate }}:</span>
         <button
           mat-button
           *ngFor="let skill of applicant.skills"

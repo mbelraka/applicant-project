@@ -1,8 +1,5 @@
-import { RootState } from '../../../containers/root/models/root-state.model';
-
-export interface ExportState extends RootState {
-  export: {
-    loading: boolean;
-    error: string | null;
-  };
+/** NgRx feature slice registered under `StateFeatures.Export`. */
+export interface ExportFeatureState {
+  loading: boolean;
+  error: string | null;
 }

@@ -1,82 +1,56 @@
-import { Injectable, OnDestroy } from '@angular/core';
-
+import { DateAdapter } from '@angular/material/core';
+import { Injectable, OnDestroy, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 
-import { LocalStorageService } from './local-storage.service';
-import { Languages } from '../enums/language.enum';
 import { APP_CONFIG } from '../config/app.config';
+import { Languages } from '../enums/language.enum';
+import { FullState } from '../models/full-state.model';
 import { setLanguage } from '../state/app.actions';
+import { selectAppLanguage } from '../state/app.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService implements OnDestroy {
-  private readonly languageSubject: BehaviorSubject<Languages>;
-  private readonly dateFormatSubject: BehaviorSubject<string>;
   private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private readonly store: Store<{ language: Languages }>,
-    private readonly localStorageService: LocalStorageService
+    private readonly store: Store<FullState>,
+    private readonly translate: TranslateService,
+    private readonly injector: Injector
   ) {
-    const languageKey = APP_CONFIG.LOCALIZATION.LANGUAGE_KEY;
-    const dateFormatKey = APP_CONFIG.LOCALIZATION.DATE_FORMAT_KEY;
+    // Register supported languages with ngx-translate
+    this.translate.addLangs([...APP_CONFIG.LOCALIZATION.SUPPORTED_LANGUAGES]);
+    this.translate.setDefaultLang(APP_CONFIG.LOCALIZATION.DEFAULT_LANGUAGE);
 
-    // Initialize language and date format
-    const storedLanguage =
-      this.localStorageService.getItem<Languages>(languageKey) ||
-      APP_CONFIG.LOCALIZATION.DEFAULT_LANGUAGE;
-
-    const storedDateFormat =
-      APP_CONFIG.getDateFormat(storedLanguage) ||
-      APP_CONFIG.getDateFormat(APP_CONFIG.LOCALIZATION.DEFAULT_LANGUAGE);
-
-    this.languageSubject = new BehaviorSubject<Languages>(storedLanguage);
-    this.dateFormatSubject = new BehaviorSubject<string>(storedDateFormat);
-
-    // Dispatch initial language to NgRx Store
-    this.store.dispatch(setLanguage({ language: storedLanguage }));
-
-    // Subscribe to store updates to keep local storage in sync
+    // Subscribe to store updates to keep translations and date locale in sync
     this.store
-      .select('language')
-      .pipe(
-        filter((language): boolean => !!language),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((language: Languages): void => {
-        this.setStoredLanguage(language);
-        this.setStoredDateFormat(APP_CONFIG.getDateFormat(language));
+      .select(selectAppLanguage)
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((language) => {
+        this.translate.use(language);
+        this.applyMaterialDateLocale(language);
       });
   }
 
-  public getStoredLanguage(): BehaviorSubject<Languages> {
-    return this.languageSubject;
-  }
-
-  public setStoredLanguage(language: Languages): void {
-    const languageKey = APP_CONFIG.LOCALIZATION.LANGUAGE_KEY;
-    this.localStorageService.setItem(languageKey, language);
-    this.languageSubject.next(language);
-  }
-
-  public getStoredDateFormat(): BehaviorSubject<string> {
-    return this.dateFormatSubject;
-  }
-
-  public setStoredDateFormat(dateFormat: string): void {
-    const dateFormatKey = APP_CONFIG.LOCALIZATION.DATE_FORMAT_KEY;
-    this.localStorageService.setItem(dateFormatKey, dateFormat);
-    this.dateFormatSubject.next(dateFormat);
-  }
-
-  public get currentLocale(): string {
-    const language = this.languageSubject.getValue();
-    return APP_CONFIG.getLocale(language);
+  public setLanguage(language: Languages): void {
+    this.store.dispatch(setLanguage({ language }));
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private applyMaterialDateLocale(language: Languages): void {
+    const localeId = APP_CONFIG.getLocale(language);
+    queueMicrotask(() => {
+      const adapter = this.injector.get<DateAdapter<unknown>>(
+        DateAdapter,
+        null,
+        { optional: true }
+      );
+      adapter?.setLocale(localeId);
+    });
   }
 }

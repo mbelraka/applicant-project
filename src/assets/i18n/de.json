@@ -1,9 +1,59 @@
 {
-  "app": {
-    "title": "Bewerberverwaltungssystem",
-    "toggleGrid": "Rasteransicht",
-    "toggleList": "Listenansicht",
-    "searchPlaceholder": "Suche",
-    "selectLanguage": "Sprache auswählen"
+  "nav": {
+    "main": "Start",
+    "applicants": "Bewerber*innen",
+    "export": "Export"
+  },
+  "language": {
+    "label": "Sprache",
+    "names": {
+      "en": "Englisch",
+      "de": "Deutsch",
+      "fr": "Französisch"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Globale Rekrutierung leicht gemacht",
+    "subHeadline": "Talente erschließen – ohne Grenzen",
+    "start": "Los geht's!"
+  },
+  "applicants": {
+    "searchLabel": "Bewerber suchen",
+    "searchPlaceholder": "Bewerber suchen",
+    "newApplicant": "Neuer Bewerber",
+    "gridView": "Rasteransicht",
+    "listView": "Listenansicht",
+    "viewToggle": "Ansichtsmodus",
+    "availableFrom": "Verfügbar ab",
+    "skills": "Skills"
+  },
+  "applicantList": {
+    "name": "Name",
+    "availability": "Verfügbarkeit",
+    "skills": "Skills"
+  },
+  "applicantCard": {
+    "availablePrefix": "Verfügbar:"
+  },
+  "export": {
+    "title": "Bewerber exportieren",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "Neuer Bewerber",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "skills": "Skills",
+    "skillPlaceholder": "Neues Skill",
+    "availableFrom": "Verfügbar ab",
+    "cancel": "Abbrechen",
+    "apply": "Wählen",
+    "submit": "Einreichen"
   }
 }
