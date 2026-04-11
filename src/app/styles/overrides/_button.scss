@@ -1,8 +1,76 @@
 @use '../shared/colors' as *;
 
+// Primary / warn (filled): white label + icons
+@mixin _filled-button-white-label {
+  color: #ffffff !important;
+
+  .mdc-button__label {
+    color: inherit !important;
+  }
+
+  mat-icon,
+  .mat-icon {
+    color: inherit !important;
+  }
+}
+
+// Tertiary role uses color="accent" in Angular Material M3 — dark text on gold fill
+@mixin _filled-button-black-label {
+  color: #000000 !important;
+
+  .mdc-button__label {
+    color: inherit !important;
+  }
+
+  mat-icon,
+  .mat-icon {
+    color: inherit !important;
+  }
+}
+
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-filled-button {
+  &.mat-primary {
+    @include _filled-button-white-label;
+  }
+
+  &.mat-accent {
+    @include _filled-button-black-label;
+  }
+
+  &.mat-warn {
+    background-color: $warn-color !important;
+    @include _filled-button-white-label;
+  }
+}
+
+// MDC class hooks (same filled variants)
 .mdc-button {
   &.mat-primary {
-    background-color: $primary-color !important;
+    &.mdc-button--filled,
+    &.mdc-button--raised,
+    &.mdc-button--unelevated {
+      background-color: $primary-color !important;
+      @include _filled-button-white-label;
+    }
+  }
+
+  &.mat-accent {
+    &.mdc-button--filled,
+    &.mdc-button--raised,
+    &.mdc-button--unelevated {
+      @include _filled-button-black-label;
+    }
+  }
+
+  &.mat-warn {
+    &.mdc-button--filled,
+    &.mdc-button--raised,
+    &.mdc-button--unelevated {
+      background-color: $warn-color !important;
+      @include _filled-button-white-label;
+    }
   }
 
   &.-no-wrap {

@@ -3,7 +3,7 @@
 @use './mat-palettes' as *;
 @use '../shared/variables' as *;
 
-// Note: Color palettes are generated from primary: #ff66c4
+// Theme seeds: primary #004D4D, secondary #2F3E46, tertiary #D4AF37, neutral #2F3E46
 
 $_rest: (
   secondary: map.get($palettes, secondary),

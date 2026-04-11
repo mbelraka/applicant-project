@@ -1,1 +1,17 @@
-@use '../shared' as *;
+@use '../shared/colors' as *;
+
+.mat-mdc-form-field {
+  --mat-form-field-outlined-label-text-color: #{$text-label};
+  --mat-form-field-filled-label-text-color: #{$text-label};
+  --mat-mdc-form-field-label-text-color: #{$text-label};
+}
+
+.mat-mdc-form-field .mat-mdc-floating-label,
+.mat-mdc-form-field .mdc-floating-label {
+  color: $text-label !important;
+}
+
+.mat-mdc-form-field input.mat-mdc-input-element,
+.mat-mdc-form-field textarea.mat-mdc-input-element {
+  color: $text-body;
+}

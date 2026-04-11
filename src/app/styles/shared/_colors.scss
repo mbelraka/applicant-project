@@ -1,11 +1,17 @@
-$black-1: #222;
-$black-2: rgb(135, 140, 146);
-$black-3: #adadad;
-$black-4: #f2f2f2;
-$green-1: #007748;
-$green-2: #3ec988;
-$green-3: #e3f6ed;
-$base-color: #f2f2f0;
-$primary-color: #ff66c4;
-$secondary-color: #000;
-$accent-color: #0088ce;
+// Brand-aligned semantic tokens (match Material seeds + neutrals for custom SCSS).
+$text-headline: #0e1d25;
+$text-body: #3f4848;
+$text-label: #3f4848;
+
+$black-1: #0e1d25;
+$black-2: #516169;
+$black-3: #83939c;
+$black-4: #e3f3fd;
+$green-1: #004d4d;
+$green-2: #5f9b9a;
+$green-3: #e2fffe;
+$base-color: #f4faff;
+$primary-color: #004d4d;
+$secondary-color: #2f3e46;
+$accent-color: #d4af37;
+$warn-color: #ba1a1a;
