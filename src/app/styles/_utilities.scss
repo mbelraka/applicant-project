@@ -1,0 +1,13 @@
+// Tailwind-style utilities: use in templates as `hover:bg-surface-container-low` and `transition-all`.
+.transition-all {
+  transition-property: all;
+  transition-timing-function: var(
+    --tw-ease,
+    var(--default-transition-timing-function)
+  );
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+
+.hover\:bg-surface-container-low:hover {
+  background-color: var(--color-surface-container-low);
+}

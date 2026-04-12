@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { StateFeatures } from '../../../containers/root/enums/state-features.enum';
 import { ExportFeatureState } from '../models/export-state.model';
 
-export const selectExportState = createFeatureSelector<ExportFeatureState>(
+const selectExportState = createFeatureSelector<ExportFeatureState>(
   StateFeatures.Export
 );
 

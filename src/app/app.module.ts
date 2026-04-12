@@ -31,9 +31,7 @@ import { AuthInterceptor } from './core/http/auth.interceptor';
 import { LocalStorageService } from './services/local-storage.service';
 import { environment } from '../environments/environment';
 
-export function translateHttpLoaderFactory(
-  http: HttpClient
-): TranslateHttpLoader {
+function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 

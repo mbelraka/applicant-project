@@ -5,11 +5,11 @@
     "export": "Export"
   },
   "language": {
-    "label": "Language",
+    "label": "Lang",
     "names": {
-      "en": "English",
-      "de": "German",
-      "fr": "French"
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR"
     }
   },
   "footer": {
@@ -18,7 +18,10 @@
   "main": {
     "headline": "Effortless global recruitment",
     "subHeadline": "Unlocking talent, without boundaries",
-    "start": "Let's start!"
+    "start": "Let's start!",
+    "explore": "Explore",
+    "overlayTitle": "AI-Powered talent Matching",
+    "overlaySubtitle": "Use the power of AI to find the best match"
   },
   "applicants": {
     "searchLabel": "Search applicants",

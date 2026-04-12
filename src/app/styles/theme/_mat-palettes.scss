@@ -1,5 +1,6 @@
 // M3 tonal palettes from seed colors (Material Color Utilities–style ramps).
-// Primary #004D4D, secondary/neutral base #2F3E46, tertiary gold #D4AF37.
+// Keys: primary = teal #004D4D, secondary = slate #2F3E46, tertiary = gold #D4AF37.
+// Theme role assignment is rotated in theme/_definitions.scss (gold → primary, slate → tertiary).
 $palettes: (
   primary: (
     0: #000000,

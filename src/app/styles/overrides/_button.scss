@@ -1,22 +1,16 @@
+@use '@angular/material' as mat;
 @use '../shared/colors' as *;
+@use '../shared/variables' as *;
+@use '../theme/definitions' as theme-def;
 
-// Primary / warn (filled): white label + icons
-@mixin _filled-button-white-label {
-  color: #ffffff !important;
+// ---------------------------------------------------------------------------
+// Filled buttons: mat-raised-button | mat-flat-button | mat-filled appearance
+// Host carries both .mat-mdc-* and .mdc-button--*; list both for specificity.
+// Primary CTA tokens: ../shared/_colors.scss (gold ramp = mat-palettes `tertiary`).
+// ---------------------------------------------------------------------------
 
-  .mdc-button__label {
-    color: inherit !important;
-  }
-
-  mat-icon,
-  .mat-icon {
-    color: inherit !important;
-  }
-}
-
-// Tertiary role uses color="accent" in Angular Material M3 — dark text on gold fill
-@mixin _filled-button-black-label {
-  color: #000000 !important;
+@mixin _white-label {
+  color: $button-primary-label !important;
 
   .mdc-button__label {
     color: inherit !important;
@@ -28,52 +22,137 @@
   }
 }
 
-.mat-mdc-raised-button,
-.mat-mdc-unelevated-button,
-.mat-mdc-filled-button {
-  &.mat-primary {
-    @include _filled-button-white-label;
+@mixin _primary-filled {
+  --mat-button-filled-container-height: #{$control-height-md};
+  --mat-button-filled-horizontal-padding: 24px;
+  --mat-button-filled-container-shape: 0;
+  min-width: 160px;
+  line-height: 1;
+  border-radius: 0 !important;
+  justify-content: center;
+  text-align: center;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  background-color: $button-primary-fill !important;
+  color: $button-primary-label !important;
+  --mat-button-filled-label-text-color: #{$button-primary-label};
+  --mat-button-filled-state-layer-color: #{$button-primary-label};
+  --mat-button-filled-ripple-color: #{color-mix(
+      in srgb,
+      $button-primary-label 28%,
+      transparent
+    )};
+  --mat-button-filled-disabled-container-color: #{color-mix(
+      in srgb,
+      $button-primary-fill 38%,
+      #fff
+    )};
+  --mat-button-filled-disabled-label-text-color: #{color-mix(
+      in srgb,
+      $button-primary-label 38%,
+      transparent
+    )};
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled),
+  &:active:not(:disabled),
+  &.cdk-keyboard-focused:not(:disabled) {
+    background-color: $button-primary-hover-fill !important;
+    color: $button-primary-hover-label !important;
+    --mat-button-filled-label-text-color: #{$button-primary-hover-label};
+    --mat-button-filled-state-layer-color: #{$button-primary-hover-label};
+    --mat-button-filled-ripple-color: #{color-mix(
+        in srgb,
+        $button-primary-hover-label 28%,
+        transparent
+      )};
   }
 
-  &.mat-accent {
-    @include _filled-button-black-label;
-  }
-
-  &.mat-warn {
-    background-color: $warn-color !important;
-    @include _filled-button-white-label;
+  .mdc-button__label {
+    font-weight: 700;
+    color: inherit !important;
+    line-height: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
   }
 }
 
-// MDC class hooks (same filled variants)
-.mdc-button {
-  &.mat-primary {
-    &.mdc-button--filled,
-    &.mdc-button--raised,
-    &.mdc-button--unelevated {
-      background-color: $primary-color !important;
-      @include _filled-button-white-label;
-    }
+// color="primary"
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-filled-button.mat-primary,
+.mdc-button.mat-primary.mdc-button--filled,
+.mdc-button.mat-primary.mdc-button--raised,
+.mdc-button.mat-primary.mdc-button--unelevated {
+  @include _primary-filled;
+}
+
+// color="accent" (M3 tertiary slot in this app)
+.mat-mdc-raised-button.mat-accent,
+.mat-mdc-unelevated-button.mat-accent,
+.mat-mdc-filled-button.mat-accent,
+.mdc-button.mat-accent.mdc-button--filled,
+.mdc-button.mat-accent.mdc-button--raised,
+.mdc-button.mat-accent.mdc-button--unelevated {
+  background-color: $accent-color !important;
+  @include _white-label;
+}
+
+// color="warn"
+.mat-mdc-raised-button.mat-warn,
+.mat-mdc-unelevated-button.mat-warn,
+.mat-mdc-filled-button.mat-warn,
+.mdc-button.mat-warn.mdc-button--filled,
+.mdc-button.mat-warn.mdc-button--raised,
+.mdc-button.mat-warn.mdc-button--unelevated {
+  background-color: $warn-color !important;
+  @include _white-label;
+}
+
+.mdc-button.-no-wrap {
+  white-space: nowrap;
+}
+
+// M3: `color` on mat-button is ignored; backwards-compat only maps primary / accent / warn.
+// Theme secondary role = teal ($secondary-color). Use class `button--palette-secondary` on stroked/text buttons.
+.mat-mdc-outlined-button.button--palette-secondary {
+  @include mat.button-color(theme-def.$light-theme, $color-variant: secondary);
+  --mat-button-outlined-outline-color: color-mix(
+    in oklab,
+    var(--color-secondary) 20%,
+    transparent
+  );
+  --mat-button-outlined-disabled-outline-color: color-mix(
+    in oklab,
+    var(--color-secondary) 12%,
+    transparent
+  );
+  // Match primary filled CTA geometry (_primary-filled): square, same min width / height / padding.
+  --mat-button-outlined-container-height: #{$control-height-md};
+  --mat-button-outlined-horizontal-padding: 24px;
+  --mat-button-outlined-container-shape: 0;
+  min-width: 160px;
+  line-height: 1;
+  border-radius: 0 !important;
+  justify-content: center;
+  text-align: center;
+
+  .mdc-button {
+    border-radius: 0 !important;
   }
 
-  &.mat-accent {
-    &.mdc-button--filled,
-    &.mdc-button--raised,
-    &.mdc-button--unelevated {
-      @include _filled-button-black-label;
-    }
+  .mdc-button__label {
+    font-weight: 700;
+    line-height: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
   }
+}
 
-  &.mat-warn {
-    &.mdc-button--filled,
-    &.mdc-button--raised,
-    &.mdc-button--unelevated {
-      background-color: $warn-color !important;
-      @include _filled-button-white-label;
-    }
-  }
-
-  &.-no-wrap {
-    white-space: nowrap;
-  }
+.mat-mdc-button.button--palette-secondary {
+  @include mat.button-color(theme-def.$light-theme, $color-variant: secondary);
 }

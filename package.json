@@ -18,11 +18,16 @@
     "doctor:lint": "angular-doctor --yes --fast --exit-code .",
     "security:audit": "ngx-security-audit scan -t high --no-color .",
     "letify": "letify analyze \"src/**/*.html\" -r list --open false",
-    "precommit:checks": "npm run doctor && npm run security:audit && npm run letify",
+    "precommit:checks": "npm run doctor && npm run security:audit && npm run letify && npm run test:ci",
     "validate": "npm run quality && npm run precommit:checks",
-    "validate:ci": "npm run quality && npm run doctor:full && npm run security:audit && npm run letify",
+    "validate:ci": "npm run quality && npm run test:ci && npm run doctor:full && npm run security:audit && npm run letify",
     "test": "ng test",
+    "test:ci": "ng test --no-watch --browsers=ChromeHeadless",
     "test:coverage": "ng test --code-coverage",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:headed": "playwright test --headed",
+    "e2e:install": "playwright install chromium",
     "clean": "rimraf dist/",
     "prepare": "husky"
   },
@@ -54,7 +59,6 @@
     "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@jsverse/letify": "^1.0.0",
     "@angular-devkit/build-angular": "^20.3.18",
     "@angular-eslint/builder": "^20.7.0",
     "@angular-eslint/eslint-plugin": "^20.7.0",
@@ -66,6 +70,8 @@
     "@angular/localize": "^20.3.18",
     "@eslint/config-array": "^0.19.1",
     "@eslint/object-schema": "^2.1.5",
+    "@jsverse/letify": "^1.0.0",
+    "@playwright/test": "^1.59.1",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "^4.6.0",
     "@types/node": "^20.17.10",
@@ -100,8 +106,14 @@
     "npm": ">=10.0.0"
   },
   "lint-staged": {
-    "*.{ts,html}": [
+    "src/**/*.{ts,html}": [
       "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "e2e/**/*.{ts,html}": [
+      "prettier --write"
+    ],
+    "playwright.config.ts": [
       "prettier --write"
     ],
     "*.{scss,css,json,md,yml,yaml}": [

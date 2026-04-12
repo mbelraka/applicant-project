@@ -1,17 +1,65 @@
+@use '@angular/material' as mat;
 @use '../shared/colors' as *;
+@use '../shared/variables' as *;
+@use '../theme/definitions' as app-theme;
 
 .mat-mdc-form-field {
+  --mat-form-field-outlined-container-shape: 0;
+  --mat-form-field-filled-container-shape: 0;
+}
+
+.mat-mdc-text-field-wrapper {
+  height: $control-height-md !important;
+}
+
+.mat-mdc-form-field-infix {
+  padding: 8px 0 !important;
+  min-height: $control-height-md !important;
+}
+
+// Default label tint; fields using another palette add .form-field--palette-secondary (etc.) in templates.
+.mat-mdc-form-field:not(.form-field--palette-secondary) {
   --mat-form-field-outlined-label-text-color: #{$text-label};
   --mat-form-field-filled-label-text-color: #{$text-label};
   --mat-mdc-form-field-label-text-color: #{$text-label};
-}
 
-.mat-mdc-form-field .mat-mdc-floating-label,
-.mat-mdc-form-field .mdc-floating-label {
-  color: $text-label !important;
+  .mat-mdc-floating-label,
+  .mdc-floating-label {
+    color: $text-label !important;
+  }
 }
 
 .mat-mdc-form-field input.mat-mdc-input-element,
 .mat-mdc-form-field textarea.mat-mdc-input-element {
   color: $text-body;
+}
+
+// Modifier: add to mat-form-field in template when using Material secondary palette + compact select chrome.
+.form-field--palette-secondary.mat-mdc-form-field {
+  @include mat.form-field-color(app-theme.$light-theme, secondary);
+  box-sizing: border-box;
+  min-width: 64px;
+  width: fit-content;
+  max-width: 100%;
+
+  .mat-mdc-text-field-wrapper,
+  .mat-mdc-form-field-flex {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .mat-mdc-form-field-flex {
+    display: inline-flex;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-width: auto !important;
+    width: auto;
+  }
+
+  .mat-mdc-select,
+  .mat-mdc-select-trigger {
+    min-width: 0;
+    max-width: 100%;
+  }
 }

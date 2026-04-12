@@ -28,7 +28,7 @@ export const adapter: EntityAdapter<Applicant> = createEntityAdapter<Applicant>(
 );
 
 // Initial State
-export const initialApplicantState: ApplicantState = adapter.getInitialState({
+const initialApplicantState: ApplicantState = adapter.getInitialState({
   loading: false,
   error: null,
   filter: '',

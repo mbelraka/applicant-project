@@ -7,12 +7,12 @@ import { StateFeatures } from '../../../containers/root/enums/state-features.enu
 import { ViewTypes } from '../enums/view-types.enum';
 
 // Feature Selector
-export const selectApplicantState = createFeatureSelector<ApplicantState>(
+const selectApplicantState = createFeatureSelector<ApplicantState>(
   StateFeatures.Applicants
 );
 
 // Entity Adapter Selectors
-const { selectAll, selectEntities } = adapter.getSelectors();
+const { selectAll } = adapter.getSelectors();
 
 // Select All Applicants
 export const selectAllApplicants = createSelector(
@@ -20,22 +20,10 @@ export const selectAllApplicants = createSelector(
   selectAll
 );
 
-// Select Applicant Entities
-export const selectApplicantEntities = createSelector(
-  selectApplicantState,
-  selectEntities
-);
-
 // Select Loading State
 export const selectLoading = createSelector(
   selectApplicantState,
   (state): boolean => state.loading
-);
-
-// Select Error State
-export const selectError = createSelector(
-  selectApplicantState,
-  (state): string | null => state.error
 );
 
 // Select View Type
@@ -50,14 +38,12 @@ export const selectGlobalFilter = createSelector(
   (state): string => state.filter
 );
 
-// Select Filter by Skill
-export const selectFilterBySkill = createSelector(
+const selectFilterBySkill = createSelector(
   selectApplicantState,
   (state): string | null => state.filterBySkill
 );
 
-// Select Sort By Field
-export const selectSortBy = createSelector(
+const selectSortBy = createSelector(
   selectApplicantState,
   (state): keyof Applicant | null => state.sortBy
 );
@@ -91,8 +77,7 @@ const applySorting = (
     : applicants;
 };
 
-// Filtered Applicants
-export const selectFilteredApplicants = createSelector(
+const selectFilteredApplicants = createSelector(
   selectAllApplicants,
   selectGlobalFilter,
   selectFilterBySkill,

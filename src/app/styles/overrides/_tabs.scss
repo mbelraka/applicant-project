@@ -1,0 +1,10 @@
+// Tab nav bar: Material uses a solid border-bottom on this container for the divider.
+.mat-mdc-tab-link-container {
+  border-bottom-style: none !important;
+  border-bottom-width: 0 !important;
+  border-bottom-color: transparent !important;
+}
+
+.mdc-tab {
+  min-width: 80px !important;
+}

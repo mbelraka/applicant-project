@@ -1,0 +1,15 @@
+import { test, expect } from '@playwright/test';
+
+test.describe('Applicant app', () => {
+  test('redirects to main route and shows landing shell', async ({ page }) => {
+    await page.goto('/');
+    await expect(page).toHaveURL(/\/root\/main(\/|$)/);
+    await expect(page.locator('.main-container')).toBeVisible();
+  });
+
+  test('primary CTA navigates to applicants', async ({ page }) => {
+    await page.goto('/root/main');
+    await page.locator('button.main-cta').first().click();
+    await expect(page).toHaveURL(/\/root\/applicants/);
+  });
+});

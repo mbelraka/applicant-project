@@ -1,5 +1,4 @@
 <div
-  @fadeInOutAnimation
   class="main-container"
   fxFlex="1 1 auto"
   fxLayout="row"
@@ -13,7 +12,7 @@
     fxLayoutGap="36px"
   >
     <div
-      class="heading"
+      class="heading main-anim-heading"
       fxLayout="column"
       fxLayoutGap="16px"
       fxLayoutAlign="center start"
@@ -24,21 +23,38 @@
         class="actions"
         fxLayout="row"
         fxLayoutAlign="start center"
-        fxLayoutGap="24px"
+        fxLayoutGap="16px"
       >
         <button
-          mat-raised-button
-          class="start"
+          mat-flat-button
           color="primary"
+          class="main-cta"
           routerLink="/root/applicants"
         >
           {{ 'main.start' | translate }}
         </button>
+        <button
+          mat-stroked-button
+          class="main-cta-outline button--palette-secondary transition-all hover:bg-surface-container-low"
+        >
+          {{ 'main.explore' | translate }}
+        </button>
       </div>
     </div>
 
-    <div class="main-image-container">
-      <img src="assets/main-image.svg" alt="" class="main-image" />
+    <div class="main-image-container main-anim-visual">
+      <img src="assets/main-image.png" alt="" class="main-image" />
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center start"
+        fxLayoutGap="8px"
+        class="overlay"
+      >
+        <span class="overlay-title">{{ 'main.overlayTitle' | translate }}</span>
+        <span class="overlay-subtitle">{{
+          'main.overlaySubtitle' | translate
+        }}</span>
+      </div>
     </div>
   </div>
 </div>

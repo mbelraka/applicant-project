@@ -1,6 +1,34 @@
 @use 'variables' as *;
 @use 'colors' as *;
 
+.fade-shell-enter {
+  animation: fade-shell-in 300ms ease-in forwards;
+}
+
+.fade-shell-leave {
+  animation: fade-shell-out 300ms ease-out forwards;
+}
+
+@keyframes fade-shell-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-shell-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 .root-container {
   width: 100vw;
   height: 100vh;
@@ -12,15 +40,38 @@
     .header {
       padding: 1rem 1.5rem;
 
+      .header-leading {
+        align-items: center;
+        min-width: 0;
+      }
+
+      .nav-container {
+        border: none;
+        box-shadow: none;
+        outline: none;
+        padding-top: 16px;
+      }
+
+      .logo-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:focus-visible {
+          outline: 2px solid $primary-color;
+          outline-offset: 2px;
+        }
+      }
+
       .logo {
         background: url('/assets/logo.svg') no-repeat center center;
         background-size: contain;
         border: none;
-        width: 208px;
-        height: 100px;
-        margin-left: -64px;
-        margin-bottom: -8px;
-        margin-right: -64px;
+        width: 64px;
+        height: 80px;
+        margin-top: -8px;
       }
     }
 
@@ -36,8 +87,9 @@
 
     .footer {
       padding: 1rem 1.5rem;
-      color: $primary-color;
-      font-weight: 600;
+      color: $text-label;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
   }
 }

@@ -1,66 +1,78 @@
 <div class="root-container" fxFlex="1 1 auto" fxLayoutAlign="center">
   <div class="root-content" fxFlex="1 1 auto" fxLayout="column">
     <div
-      @fadeInOutAnimation
+      animate.enter="fade-shell-enter"
+      animate.leave="fade-shell-leave"
       fxLayout="row"
       fxLayoutAlign="space-between center"
       class="header"
     >
-      <div class="logo"></div>
-
       <div
-        class="nav-container"
+        class="header-leading"
         fxLayout="row"
-        fxLayoutAlign="end center"
-        fxLayoutGap="16px"
+        fxLayoutAlign="start center"
+        fxLayoutGap="32px"
       >
-        <nav
-          mat-tab-nav-bar
-          class="main-nav"
-          [tabPanel]="tabPanel"
-          disablePagination
-          color="accent"
+        <a
+          [routerLink]="landingRoute"
+          class="logo-link"
+          [attr.aria-label]="'nav.main' | translate"
         >
-          @for (link of navLinks; track link.link) {
-            <a
-              mat-tab-link
-              class="tab-link"
-              routerLinkActive
-              #mainNavbar="routerLinkActive"
-              [active]="mainNavbar.isActive"
-              [routerLink]="link.link"
-            >
-              {{ link.translationKey | translate }}
-            </a>
-          }
-        </nav>
-        <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+          <span class="logo"></span>
+        </a>
 
-        <mat-form-field
-          appearance="outline"
-          class="language-select"
-          subscriptSizing="dynamic"
-        >
-          <mat-label>{{ 'language.label' | translate }}</mat-label>
-          <mat-select
-            [value]="language$ | async"
-            (selectionChange)="onLanguageChange($event.value)"
+        <div class="nav-container">
+          <nav
+            mat-tab-nav-bar
+            class="main-nav"
+            [tabPanel]="tabPanel"
+            disablePagination
+            color="accent"
           >
-            @for (lang of supportedLanguages; track lang) {
-              <mat-option [value]="lang">
-                {{ 'language.names.' + lang | translate }}
-              </mat-option>
+            @for (link of navLinks; track link.link) {
+              <a
+                mat-tab-link
+                class="tab-link"
+                routerLinkActive
+                #mainNavbar="routerLinkActive"
+                [active]="mainNavbar.isActive"
+                [routerLink]="link.link"
+              >
+                {{ link.translationKey | translate }}
+              </a>
             }
-          </mat-select>
-        </mat-form-field>
+          </nav>
+          <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+        </div>
       </div>
+
+      <mat-form-field
+        appearance="outline"
+        class="form-field--palette-secondary"
+        subscriptSizing="dynamic"
+      >
+        <mat-icon matPrefix aria-hidden="true">language</mat-icon>
+        <mat-select
+          panelClass="select-panel--palette-secondary"
+          [attr.aria-label]="'language.label' | translate"
+          [value]="language$ | async"
+          (selectionChange)="onLanguageChange($event.value)"
+        >
+          @for (lang of supportedLanguages; track lang) {
+            <mat-option [value]="lang">
+              {{ 'language.names.' + lang | translate }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="full-container" fxFlex="1 1 auto">
       <router-outlet></router-outlet>
     </div>
     <footer
-      @fadeInOutAnimation
+      animate.enter="fade-shell-enter"
+      animate.leave="fade-shell-leave"
       fxLayout="row nowrap"
       fxLayoutAlign="center center"
       class="footer"

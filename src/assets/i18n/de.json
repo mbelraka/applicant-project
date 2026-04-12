@@ -1,15 +1,15 @@
 {
   "nav": {
     "main": "Start",
-    "applicants": "Bewerber*innen",
+    "applicants": "Bewerber",
     "export": "Export"
   },
   "language": {
-    "label": "Sprache",
+    "label": "Spr.",
     "names": {
-      "en": "Englisch",
-      "de": "Deutsch",
-      "fr": "Französisch"
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR"
     }
   },
   "footer": {
@@ -18,7 +18,10 @@
   "main": {
     "headline": "Globale Rekrutierung leicht gemacht",
     "subHeadline": "Talente erschließen – ohne Grenzen",
-    "start": "Los geht's!"
+    "start": "Los geht's!",
+    "explore": "Jetzt Entdecken",
+    "overlayTitle": "KI-gestütztes Talent-Matching",
+    "overlaySubtitle": "Nutzen Sie die Kraft der KI, um die beste Passung zu finden."
   },
   "applicants": {
     "searchLabel": "Bewerber suchen",

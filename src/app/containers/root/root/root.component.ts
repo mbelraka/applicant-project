@@ -5,10 +5,8 @@ import { Store } from '@ngrx/store';
 import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 
 import { APP_CONFIG } from '../../../config/app.config';
-import { Languages } from '../../../enums/language.enum';
 import { FullState } from '../../../models/full-state.model';
 import { NavLink } from 'src/app/modules/main/models/nav-link.model';
-import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
 import { LocalizationService } from '../../../services/localization.service';
 import { selectAppLanguage } from '../../../state/app.selectors';
 import { isLanguage } from '../../../utilities/language.utils';
@@ -17,10 +15,12 @@ import { isLanguage } from '../../../utilities/language.utils';
   selector: 'app-root-shell',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
-  animations: [fadeInOutAnimation],
   standalone: false,
 })
 export class RootComponent implements OnInit {
+  /** Landing / home route (main module). */
+  public readonly landingRoute = APP_CONFIG.NAV_LINKS[0].link;
+
   public readonly navLinks: readonly NavLink[] = APP_CONFIG.NAV_LINKS;
 
   public readonly supportedLanguages =

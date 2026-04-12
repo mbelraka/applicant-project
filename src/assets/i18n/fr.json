@@ -5,11 +5,11 @@
     "export": "Export"
   },
   "language": {
-    "label": "Langue",
+    "label": "Lang.",
     "names": {
-      "en": "Anglais",
-      "de": "Allemand",
-      "fr": "Français"
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR"
     }
   },
   "footer": {
@@ -18,7 +18,10 @@
   "main": {
     "headline": "Recrutement mondial sans effort",
     "subHeadline": "Libérer les talents, sans frontières",
-    "start": "C'est parti !"
+    "start": "C'est parti !",
+    "explore": "Explorer",
+    "overlayTitle": "Jumelage de talents par IA",
+    "overlaySubtitle": "Exploitez la puissance de l'IA pour trouver la meilleure correspondance."
   },
   "applicants": {
     "searchLabel": "Rechercher des candidats",

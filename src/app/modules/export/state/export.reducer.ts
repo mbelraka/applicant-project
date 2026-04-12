@@ -7,7 +7,7 @@ import {
   exportSuccess,
 } from './export.actions';
 
-export const initialExportState: ExportFeatureState = {
+const initialExportState: ExportFeatureState = {
   loading: false,
   error: null,
 };

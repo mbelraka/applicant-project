@@ -1,17 +1,30 @@
-// Brand-aligned semantic tokens (match Material seeds + neutrals for custom SCSS).
-$text-headline: #0e1d25;
-$text-body: #3f4848;
-$text-label: #3f4848;
+@use 'sass:map';
+@use '../theme/mat-palettes' as pal;
+
+// Brand-aligned semantic tokens (match rotated Material roles: primary = gold, secondary = teal, accent/tertiary slot = slate).
+$_gold-ramp: map.get(pal.$palettes, tertiary);
+
+/// Primary filled button surfaces (gold tonal ramp — `tertiary` key in mat-palettes).
+$button-primary-fill: map.get($_gold-ramp, 40);
+$button-primary-label: map.get($_gold-ramp, 100);
+$button-primary-hover-fill: map.get($_gold-ramp, 70);
+$button-primary-hover-label: map.get($_gold-ramp, 25);
 
 $black-1: #0e1d25;
 $black-2: #516169;
 $black-3: #83939c;
 $black-4: #e3f3fd;
+
+$text-headline: $black-1;
+$text-body: #3f4848;
+$text-label: $text-body;
+
 $green-1: #004d4d;
 $green-2: #5f9b9a;
 $green-3: #e2fffe;
+
 $base-color: #f4faff;
-$primary-color: #004d4d;
-$secondary-color: #2f3e46;
-$accent-color: #d4af37;
+$primary-color: #d4af37;
+$secondary-color: $green-1;
+$accent-color: #2f3e46;
 $warn-color: #ba1a1a;

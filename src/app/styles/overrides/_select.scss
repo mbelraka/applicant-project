@@ -1,0 +1,83 @@
+@use '@angular/material' as mat;
+@use '../theme/definitions' as app-theme;
+
+@mixin select-overlay-palette($theme, $variant) {
+  @include mat.select-color($theme, $variant);
+  @include mat.option-color($theme, $variant);
+}
+
+// Align mat-select trigger text, arrow, and prefix icons with the form field outline for this field’s
+// color variant (primary / secondary / etc.), including while focused or with the panel open.
+.mat-mdc-form-field-type-mat-select.mat-mdc-form-field {
+  --mat-select-focused-arrow-color: var(
+    --mat-form-field-outlined-focus-outline-color
+  );
+  --mat-select-enabled-arrow-color: var(
+    --mat-form-field-outlined-outline-color
+  );
+
+  &:not(.mat-focused) {
+    --app-select-outline-sync: var(--mat-form-field-outlined-outline-color);
+  }
+
+  &.mat-focused {
+    --app-select-outline-sync: var(
+      --mat-form-field-outlined-focus-outline-color
+    );
+  }
+
+  --mat-form-field-leading-icon-color: var(
+    --app-select-outline-sync,
+    var(--mat-form-field-outlined-outline-color)
+  );
+  --mat-select-placeholder-text-color: var(
+    --app-select-outline-sync,
+    var(--mat-form-field-outlined-outline-color)
+  );
+
+  .mat-mdc-select {
+    color: var(
+      --app-select-outline-sync,
+      var(--mat-form-field-outlined-outline-color)
+    );
+  }
+}
+
+.mat-mdc-select-value {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mat-mdc-form-field:not(.form-field--palette-secondary) .mat-mdc-select-value {
+  padding-left: 16px;
+}
+
+.mat-mdc-select-arrow-wrapper {
+  padding-left: 8px;
+  padding-right: 16px;
+}
+
+.mat-mdc-select-panel {
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+// Modifier: pass as mat-select panelClass with a form-field--palette-secondary field (overlay is portaled).
+// Panel width: MatSelect default panelWidth 'auto' matches the trigger / form field.
+.select-panel--palette-secondary.mat-mdc-select-panel {
+  @include select-overlay-palette(app-theme.$light-theme, secondary);
+
+  .mat-mdc-option {
+    font-size: 0.875rem;
+    line-height: 16px;
+  }
+}
+
+// Same typography on the closed trigger as the palette-secondary panel (e.g. header locale select).
+.form-field--palette-secondary.mat-mdc-form-field-type-mat-select
+  .mat-mdc-select {
+  font-size: 0.875rem;
+  line-height: 16px;
+}

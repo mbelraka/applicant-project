@@ -147,6 +147,14 @@
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app",
+                "src/app/styles",
+                "src/app/styles/shared",
+                "node_modules"
+              ]
+            },
             "scripts": []
           }
         },
