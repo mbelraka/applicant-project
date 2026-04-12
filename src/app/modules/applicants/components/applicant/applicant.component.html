@@ -3,10 +3,7 @@
     <mat-card-title>{{ applicant.name }}</mat-card-title>
   </mat-card-header>
   <mat-card-content
-    class="applicants"
-    fxLayout="column"
-    fxLayoutAlign="center center"
-    fxLayoutGap="16px"
+    class="applicants flex flex-col items-center justify-center gap-4"
   >
     <mat-icon class="avatar"> person </mat-icon>
 
@@ -18,11 +15,7 @@
       </ng-container>
     </mat-chip-grid>
   </mat-card-content>
-  <mat-card-actions
-    class="actions"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-  >
+  <mat-card-actions class="actions flex flex-row items-center justify-between">
     <div class="availability">
       {{ 'applicantCard.availablePrefix' | translate }}
       {{ applicant.availableFrom | localeDate }}

@@ -1,17 +1,31 @@
-<div class="export-container">
-  <h1>{{ 'export.title' | translate }}</h1>
-  <button mat-raised-button color="primary" (click)="export(ExportFormats.CSV)">
-    <mat-icon>file_download</mat-icon> {{ 'export.csv' | translate }}
-  </button>
-  <button mat-raised-button color="accent" (click)="export(ExportFormats.JSON)">
-    <mat-icon>code</mat-icon> {{ 'export.json' | translate }}
-  </button>
-  <button mat-raised-button color="warn" (click)="export(ExportFormats.EXCEL)">
-    <mat-icon>table_view</mat-icon> {{ 'export.excel' | translate }}
-  </button>
-  <button mat-raised-button color="basic" (click)="export(ExportFormats.PDF)">
-    <mat-icon>picture_as_pdf</mat-icon> {{ 'export.pdf' | translate }}
-  </button>
+<div class="export-container flex flex-col gap-4">
+  <h1 class="text-xl font-semibold">{{ 'export.title' | translate }}</h1>
+  <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="export(ExportFormats.CSV)"
+    >
+      <mat-icon>file_download</mat-icon> {{ 'export.csv' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="export(ExportFormats.JSON)"
+    >
+      <mat-icon>code</mat-icon> {{ 'export.json' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="export(ExportFormats.EXCEL)"
+    >
+      <mat-icon>table_view</mat-icon> {{ 'export.excel' | translate }}
+    </button>
+    <button mat-raised-button color="basic" (click)="export(ExportFormats.PDF)">
+      <mat-icon>picture_as_pdf</mat-icon> {{ 'export.pdf' | translate }}
+    </button>
+  </div>
   <mat-progress-bar
     *ngIf="loading$ | async"
     mode="indeterminate"

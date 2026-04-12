@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +11,6 @@ import { LocaleNumberPipe } from './pipes/locale-number.pipe';
 
 const SHARED_MODULES = [
   CommonModule,
-  FlexLayoutModule,
   FormsModule,
   MatSharedModule,
   RouterModule,

@@ -7,7 +7,6 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   TranslateFakeLoader,
   TranslateLoader,
@@ -48,7 +47,6 @@ describe('RootComponent', () => {
           { path: 'root/applicants', component: RouteStubComponent },
           { path: 'root/export', component: RouteStubComponent },
         ]),
-        FlexLayoutModule,
         MatFormFieldModule,
         MatIconModule,
         MatSelectModule,

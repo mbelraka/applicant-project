@@ -1,18 +1,11 @@
-<div class="root-container" fxFlex="1 1 auto" fxLayoutAlign="center">
-  <div class="root-content" fxFlex="1 1 auto" fxLayout="column">
+<div class="root-container flex min-h-0 flex-1 justify-center">
+  <div class="root-content flex min-h-0 flex-1 flex-col">
     <div
       animate.enter="fade-shell-enter"
       animate.leave="fade-shell-leave"
-      fxLayout="row"
-      fxLayoutAlign="space-between center"
-      class="header"
+      class="header flex flex-row items-center justify-between"
     >
-      <div
-        class="header-leading"
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="32px"
-      >
+      <div class="header-leading flex flex-row items-center gap-8">
         <a
           [routerLink]="landingRoute"
           class="logo-link"
@@ -67,15 +60,13 @@
       </mat-form-field>
     </div>
 
-    <div class="full-container" fxFlex="1 1 auto">
+    <div class="full-container min-h-0 flex-1">
       <router-outlet></router-outlet>
     </div>
     <footer
       animate.enter="fade-shell-enter"
       animate.leave="fade-shell-leave"
-      fxLayout="row nowrap"
-      fxLayoutAlign="center center"
-      class="footer"
+      class="footer flex flex-row flex-nowrap items-center justify-center"
     >
       {{ 'footer.copyright' | translate }}
     </footer>

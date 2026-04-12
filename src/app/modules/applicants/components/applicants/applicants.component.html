@@ -1,12 +1,7 @@
-<div class="applicants-container" fxFlex="1 1 auto" fxLayout="column">
+<div class="applicants-container flex min-h-0 flex-1 flex-col">
   @let viewType = viewType$ | async;
-  <div
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    class="header"
-    fxLayoutGap="24px"
-  >
-    <mat-form-field appearance="outline" fxFlex=" 1 1 auto">
+  <div class="header flex flex-row items-center justify-between gap-6">
+    <mat-form-field appearance="outline" class="min-w-0 flex-1">
       <mat-label>{{ 'applicants.searchLabel' | translate }}</mat-label>
       <input
         matInput
@@ -15,12 +10,16 @@
         [placeholder]="'applicants.searchPlaceholder' | translate"
       />
     </mat-form-field>
-    <button mat-flat-button class="-no-wrap" (click)="openForm()">
+    <button
+      mat-flat-button
+      class="shrink-0 whitespace-nowrap"
+      (click)="openForm()"
+    >
       {{ 'applicants.newApplicant' | translate }}
     </button>
   </div>
-  <div class="content" fxLayout="column" fxLayoutGap="24px">
-    <div class="options" fxLayoutAlign="center">
+  <div class="content flex flex-col gap-6">
+    <div class="options flex justify-center">
       <mat-button-toggle-group
         [value]="viewType"
         (change)="toggleView($event.value)"

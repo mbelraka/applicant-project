@@ -1,30 +1,13 @@
-<div
-  class="main-container"
-  fxFlex="1 1 auto"
-  fxLayout="row"
-  fxLayoutAlign="center"
->
+<div class="main-container flex min-h-0 flex-1 flex-row justify-center">
   <div
-    class="main-content"
-    fxFlex="1 1 auto"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    fxLayoutGap="36px"
+    class="main-content flex min-h-0 flex-1 flex-row items-center justify-between gap-9"
   >
     <div
-      class="heading main-anim-heading"
-      fxLayout="column"
-      fxLayoutGap="16px"
-      fxLayoutAlign="center start"
+      class="heading main-anim-heading flex flex-col items-start justify-center gap-4"
     >
       <span class="headline">{{ 'main.headline' | translate }}</span>
       <span class="sub-headline">{{ 'main.subHeadline' | translate }}</span>
-      <div
-        class="actions"
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayoutGap="16px"
-      >
+      <div class="actions flex flex-row items-center gap-4">
         <button
           mat-flat-button
           color="primary"
@@ -44,12 +27,7 @@
 
     <div class="main-image-container main-anim-visual">
       <img src="assets/main-image.png" alt="" class="main-image" />
-      <div
-        fxLayout="column"
-        fxLayoutAlign="center start"
-        fxLayoutGap="8px"
-        class="overlay"
-      >
+      <div class="overlay flex flex-col items-start justify-center gap-2">
         <span class="overlay-title">{{ 'main.overlayTitle' | translate }}</span>
         <span class="overlay-subtitle">{{
           'main.overlaySubtitle' | translate

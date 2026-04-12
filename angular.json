@@ -33,6 +33,7 @@
             ],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "src/tailwind.css",
               "src/styles.scss"
             ],
             "allowedCommonJsDependencies": ["exceljs", "file-saver", "pako"],
@@ -145,6 +146,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "src/tailwind.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   TranslateFakeLoader,
   TranslateLoader,
@@ -20,7 +19,6 @@ describe('MainComponent', () => {
       declarations: [MainComponent],
       imports: [
         RouterModule.forRoot([]),
-        FlexLayoutModule,
         MatButtonModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
