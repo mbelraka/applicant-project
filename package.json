@@ -7,8 +7,8 @@
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "format": "prettier --write \"**/*.{ts,html,scss,css,json,md,yml,yaml}\" --ignore-path .prettierignore",
-    "format:check": "prettier --check \"**/*.{ts,html,scss,css,json,md,yml,yaml}\" --ignore-path .prettierignore",
+    "format": "prettier --write \"**/*.{ts,html,scss,css,json,yml,yaml}\" --ignore-path .prettierignore",
+    "format:check": "prettier --check \"**/*.{ts,html,scss,css,json,yml,yaml}\" --ignore-path .prettierignore",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix --max-warnings=0",
     "quality": "npm run format:check && npm run lint",
@@ -119,7 +119,7 @@
     "playwright.config.ts": [
       "prettier --write"
     ],
-    "*.{scss,css,json,md,yml,yaml}": [
+    "*.{scss,css,json,yml,yaml}": [
       "prettier --write"
     ]
   }

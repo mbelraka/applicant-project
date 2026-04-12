@@ -1,5 +1,8 @@
 node_modules/
 dist/
+
+# Markdown excluded from format / format:check (see package.json scripts)
+**/*.md
 coverage/
 package-lock.json
 .angular/
