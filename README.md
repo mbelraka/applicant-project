@@ -11,7 +11,6 @@ Auch Dinge wie NgRx und Rxjs wurden zum Statemanagement.
 The application was built using architectural standards such as:
 
 - SOLID:
-
   - Single Responsibility: Every file should be doing only one function, markup for markups, styles for styles and ts for coding. No inline styling. No logic in template...etc.
   - Open for extension / closed for modification: The application should be fully configurable. The parameters are in docs that could be later connected to a content management system later also. Also, the app was done using different modules that could be taken into other applications and also be lazy loaded
   - Liskov Substitution: All the application following a hierarchy that works for it.

@@ -5,3 +5,8 @@ package-lock.json
 .angular/
 .husky/_/
 _config.yml
+
+# Playwright (local artifacts; not always gitignored for tooling)
+playwright-report/
+test-results/
+blob-report/
