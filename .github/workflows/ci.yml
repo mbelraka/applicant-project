@@ -17,6 +17,14 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
 
+      # Match package.json "packageManager": otherwise a newer npm rewrites the
+      # lockfile (optional peers, etc.) and the verify step fails with a false diff.
+      - name: Use npm from packageManager (npm@10.9.2)
+        run: |
+          corepack enable
+          corepack prepare npm@10.9.2 --activate
+          npm --version
+
       - name: Verify package-lock.json matches package.json
         run: |
           npm install --package-lock-only --ignore-scripts
