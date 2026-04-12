@@ -29,6 +29,7 @@
     "e2e:headed": "playwright test --headed",
     "e2e:install": "playwright install chromium",
     "clean": "rimraf dist/",
+    "lockfile:check": "npm install --package-lock-only --ignore-scripts && git diff --exit-code package-lock.json",
     "prepare": "husky"
   },
   "private": true,
