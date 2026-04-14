@@ -34,6 +34,11 @@
   },
   "private": true,
   "packageManager": "npm@10.9.2",
+  "overrides": {
+    "@babel/helper-compilation-targets": {
+      "lru-cache": "5.1.1"
+    }
+  },
   "dependencies": {
     "@angular/animations": "^20.3.18",
     "@angular/cdk": "^20.2.14",
