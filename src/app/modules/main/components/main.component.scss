@@ -1,6 +1,3 @@
-@use 'colors' as *;
-@use 'variables' as *;
-
 @keyframes main-page-heading-enter {
   from {
     opacity: 0;
@@ -9,6 +6,27 @@
 
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// KEYFRAME_NAME — keep in sync with APP_CONFIG.MAIN_COPY_LANG_REFRESH.KEYFRAME_NAME
+@keyframes main-copy-lang-refresh {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  40% {
+    opacity: 0.2;
+    filter: blur(6px);
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
     transform: translateY(0);
   }
 }
@@ -35,11 +53,18 @@
   padding: 1.5rem;
   border-radius: 4px;
   box-shadow: none;
+  transition: all 0.3s ease-in-out;
 
   .main-anim-heading {
     opacity: 0;
     animation: main-page-heading-enter 840ms cubic-bezier(0.22, 1, 0.36, 1)
       forwards;
+
+    .main-heading__translated.main-copy--lang-refresh {
+      will-change: opacity, transform, filter;
+      animation: main-copy-lang-refresh 520ms cubic-bezier(0.22, 1, 0.36, 1)
+        both;
+    }
   }
 
   .main-anim-visual {
@@ -55,19 +80,19 @@
         font-size: 3rem;
         line-height: 3rem;
         font-weight: bold;
-        color: $secondary-color;
+        color: var(--app-color-secondary);
       }
 
       .sub-headline {
         font-size: 1.25rem;
-        color: $black-2;
+        color: var(--app-color-text-muted);
       }
 
       .actions {
         margin-top: 16px;
 
         .main-cta {
-          box-shadow: 0 12px 24px -8px rgba($button-primary-fill, 0.3);
+          box-shadow: var(--app-shadow-cta-primary);
         }
 
         .main-cta-outline.button--palette-secondary {
@@ -96,12 +121,18 @@
         min-width: 240px;
         max-width: 320px;
         padding: 16px;
-        background-color: #d7e4ea;
+        background-color: var(--app-overlay-elevated);
+
+        .main-overlay__translated.main-copy--lang-refresh {
+          will-change: opacity, transform, filter;
+          animation: main-copy-lang-refresh 520ms cubic-bezier(0.22, 1, 0.36, 1)
+            both;
+        }
       }
 
       .overlay-title {
         font-weight: 700;
-        color: $secondary-color;
+        color: var(--app-color-secondary);
         white-space: nowrap;
         text-transform: uppercase;
       }
@@ -109,7 +140,7 @@
       .overlay-subtitle {
         font-size: 0.75rem;
         line-height: 1.3;
-        color: $black-2;
+        color: var(--app-color-text-muted);
       }
     }
   }

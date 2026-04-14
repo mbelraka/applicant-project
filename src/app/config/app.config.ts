@@ -17,6 +17,10 @@ export const APP_CONFIG = {
     },
   ] as const satisfies readonly NavLink[],
 
+  MAIN_COPY_LANG_REFRESH: {
+    KEYFRAME_NAME: 'main-copy-lang-refresh',
+  } as const,
+
   // Dialog configuration for modals
   DIALOG_CONFIG: {
     autoFocus: false,

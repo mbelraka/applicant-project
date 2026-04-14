@@ -5,33 +5,47 @@
     <div
       class="heading main-anim-heading flex flex-col items-start justify-center gap-4"
     >
-      <span class="headline">{{ 'main.headline' | translate }}</span>
-      <span class="sub-headline">{{ 'main.subHeadline' | translate }}</span>
-      <div class="actions flex flex-row items-center gap-4">
-        <button
-          mat-flat-button
-          color="primary"
-          class="main-cta"
-          routerLink="/root/applicants"
-        >
-          {{ 'main.start' | translate }}
-        </button>
-        <button
-          mat-stroked-button
-          class="main-cta-outline button--palette-secondary transition-all hover:bg-surface-container-low"
-        >
-          {{ 'main.explore' | translate }}
-        </button>
+      <div
+        class="main-heading__translated flex w-full flex-col items-start justify-center gap-4"
+        [appMainLangRefreshHost]="langRefreshZone.HEADING"
+      >
+        <span class="headline">{{ 'main.headline' | translate }}</span>
+        <span class="sub-headline">{{ 'main.subHeadline' | translate }}</span>
+        <div class="actions flex flex-row items-center gap-4">
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            class="main-cta"
+            routerLink="/root/applicants"
+          >
+            {{ 'main.start' | translate }}
+          </button>
+          <button
+            mat-stroked-button
+            type="button"
+            class="main-cta-outline button--palette-secondary transition-all hover:bg-surface-container-low"
+          >
+            {{ 'main.explore' | translate }}
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="main-image-container main-anim-visual">
       <img src="assets/main-image.png" alt="" class="main-image" />
       <div class="overlay flex flex-col items-start justify-center gap-2">
-        <span class="overlay-title">{{ 'main.overlayTitle' | translate }}</span>
-        <span class="overlay-subtitle">{{
-          'main.overlaySubtitle' | translate
-        }}</span>
+        <div
+          class="main-overlay__translated flex flex-col items-start justify-center gap-2"
+          [appMainLangRefreshHost]="langRefreshZone.OVERLAY"
+        >
+          <span class="overlay-title">{{
+            'main.overlayTitle' | translate
+          }}</span>
+          <span class="overlay-subtitle">{{
+            'main.overlaySubtitle' | translate
+          }}</span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterLink, RouterModule } from '@angular/router';
+import { provideMockStore } from '@ngrx/store/testing';
 import {
   TranslateFakeLoader,
   TranslateLoader,
   TranslateModule,
 } from '@ngx-translate/core';
 
+import { Languages } from 'src/app/enums/language.enum';
 import { MainComponent } from 'src/app/modules/main/components/main.component';
+import { MainLangRefreshHostDirective } from 'src/app/modules/main/directives/main-lang-refresh-host.directive';
 import { MatButtonModule } from '@angular/material/button';
 
 describe('MainComponent', () => {
@@ -16,12 +19,19 @@ describe('MainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainComponent],
+      declarations: [MainComponent, MainLangRefreshHostDirective],
       imports: [
         RouterModule.forRoot([]),
         MatButtonModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+        }),
+      ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            app: { language: Languages.English },
+          },
         }),
       ],
     }).compileComponents();
