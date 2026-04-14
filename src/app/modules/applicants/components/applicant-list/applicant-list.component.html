@@ -1,8 +1,6 @@
-<table
-  mat-table
-  [dataSource]="(applicants$ | async) ?? []"
-  class="mat-elevation-z8"
->
+@let applicants = applicants$ | async;
+
+<table mat-table [dataSource]="applicants ?? []">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>
       {{ 'applicantList.name' | translate }}
@@ -24,13 +22,11 @@
       {{ 'applicantList.skills' | translate }}
     </th>
     <td mat-cell *matCellDef="let applicant">
-      <button
-        mat-button
-        *ngFor="let skill of applicant.skills"
-        (click)="filterBySkill(skill)"
-      >
-        {{ skill }}
-      </button>
+      @for (skill of applicant.skills ?? []; track $index) {
+        <button mat-button type="button" (click)="filterBySkill(skill)">
+          {{ skill }}
+        </button>
+      }
     </td>
   </ng-container>
 

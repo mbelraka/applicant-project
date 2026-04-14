@@ -1,4 +1,8 @@
-<div @fadeInOutAnimation class="full-container flex flex-col gap-8">
+<div
+  [class]="dialogRootClass"
+  [animate.enter]="fadeEnterClass"
+  [animate.leave]="fadeLeaveClass"
+>
   <div class="header -dialog flex flex-row items-center justify-between gap-4">
     <span class="title">{{ 'newApplicant.title' | translate }}</span>
     <div class="close-action-container">

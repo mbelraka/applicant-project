@@ -1,29 +1,34 @@
 <div class="applicants-container flex min-h-0 flex-1 flex-col">
   @let viewType = viewType$ | async;
-  <div class="header flex flex-row items-center justify-between gap-6">
+  @let globalFilter = globalFilter$ | async;
+
+  <header class="header flex flex-row items-center justify-between gap-6">
     <mat-form-field appearance="outline" class="min-w-0 flex-1">
       <mat-label>{{ 'applicants.searchLabel' | translate }}</mat-label>
       <input
         matInput
         (keyup)="applyFilter($event)"
-        [value]="globalFilter$ | async"
+        [value]="globalFilter"
         [placeholder]="'applicants.searchPlaceholder' | translate"
       />
     </mat-form-field>
     <button
       mat-flat-button
+      type="button"
       class="shrink-0 whitespace-nowrap"
       (click)="openForm()"
     >
       {{ 'applicants.newApplicant' | translate }}
     </button>
-  </div>
+  </header>
+
   <div class="content flex flex-col gap-6">
     <div class="options flex justify-center">
       <mat-button-toggle-group
-        [value]="viewType"
+        [value]="viewType ?? viewTypes.GRID"
         (change)="toggleView($event.value)"
         [attr.aria-label]="'applicants.viewToggle' | translate"
+        [hideSingleSelectionIndicator]="true"
       >
         <mat-button-toggle [value]="viewTypes.GRID">
           {{ 'applicants.gridView' | translate }}
@@ -33,12 +38,26 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <div *ngIf="viewType === viewTypes.GRID">
-      <app-applicant-grid></app-applicant-grid>
-    </div>
 
-    <div *ngIf="viewType === viewTypes.LIST">
-      <app-applicant-list></app-applicant-list>
-    </div>
+    @switch (viewType) {
+      @case (viewTypes.LIST) {
+        <div
+          [class]="fade.base"
+          [animate.enter]="fade.enter"
+          [animate.leave]="fade.leave"
+        >
+          <app-applicant-list />
+        </div>
+      }
+      @default {
+        <div
+          [class]="fade.base"
+          [animate.enter]="fade.enter"
+          [animate.leave]="fade.leave"
+        >
+          <app-applicant-grid />
+        </div>
+      }
+    }
   </div>
 </div>

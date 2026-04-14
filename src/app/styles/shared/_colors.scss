@@ -1,10 +1,10 @@
 @use 'sass:map';
 @use '../theme/mat-palettes' as pal;
 
-// Brand-aligned semantic tokens (match rotated Material roles: primary = gold, secondary = teal, accent/tertiary slot = slate).
-$_gold-ramp: map.get(pal.$palettes, tertiary);
+// Brand-aligned semantic tokens (see mat-palettes: gold / teal / slate).
+$_gold-ramp: map.get(pal.$palettes, gold);
 
-/// Primary filled button surfaces (gold tonal ramp — `tertiary` key in mat-palettes).
+/// Primary filled button surfaces (gold tonal ramp).
 $button-primary-fill: map.get($_gold-ramp, 40);
 $button-primary-label: map.get($_gold-ramp, 100);
 $button-primary-hover-fill: map.get($_gold-ramp, 70);

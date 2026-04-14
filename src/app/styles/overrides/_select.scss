@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use '../theme/definitions' as app-theme;
+@use '../theme/theme' as app-theme;
 
 @mixin select-overlay-palette($theme, $variant) {
   @include mat.select-color($theme, $variant);

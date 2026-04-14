@@ -1,0 +1,29 @@
+// Enter/leave helpers for `animate.enter` / `animate.leave` (see fade-in-out.animation.ts).
+// `.fade-shell-*` shares the same motion as applicants view toggles (single keyframe set).
+
+.ng-fade-in-out {
+  opacity: 1;
+}
+
+.ng-fade-in-out-enter,
+.fade-shell-enter {
+  animation: app-fade-opacity-in var(--app-motion-duration-fade)
+    var(--app-motion-ease-fade-in) forwards;
+}
+
+@keyframes app-fade-opacity-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.ng-fade-in-out-leave,
+.fade-shell-leave {
+  opacity: 0;
+  transition: opacity var(--app-motion-duration-fade)
+    var(--app-motion-ease-fade-out);
+}

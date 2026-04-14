@@ -1,12 +1,10 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-@use '../shared/colors' as *;
-@use './definitions' as *;
+@use './theme' as *;
 
 $_mat-system: map.get($light-theme, _mat-system);
 
 html {
-  --color-secondary: #{$secondary-color};
   --color-surface-container-low: #{map.get($_mat-system, surface-container-low)};
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   --default-transition-duration: 150ms;

@@ -1,0 +1,46 @@
+@use 'sass:color';
+@use './colors' as *;
+@use './variables' as *;
+
+// Canonical CSS custom properties (single source for theme-aligned values).
+:root {
+  --app-font-family: #{$font-family};
+
+  --app-color-text-headline: #{$text-headline};
+  --app-color-text-body: #{$text-body};
+  --app-color-text-label: #{$text-label};
+  --app-color-text-muted: #{$black-2};
+  --app-color-border-subtle: #{$black-4};
+
+  --app-color-surface-base: #{$base-color};
+  --app-color-primary: #{$primary-color};
+  --app-color-secondary: #{$secondary-color};
+  --app-color-on-primary: #ffffff;
+  --app-overlay-elevated: #d7e4ea;
+
+  --app-space-xs: #{$l-gutter};
+  --app-space-sm: #{$gutter};
+  --app-space-md: 1.5rem;
+  --app-space-inline-sm: 16px;
+  --app-space-inline-md: 32px;
+
+  --app-size-logo-width: 64px;
+  --app-size-logo-height: 80px;
+  --app-size-logo-offset-top: -8px;
+  --app-size-page-header-height: 4rem;
+
+  --app-radius-sm: 4px;
+  --app-radius-focus: 4px;
+  --app-focus-ring-width: 2px;
+  --app-focus-ring-offset: 2px;
+
+  --app-motion-duration-fade: 300ms;
+  --app-motion-ease-fade-in: ease-in;
+  --app-motion-ease-fade-out: ease-out;
+
+  --app-shadow-cta-primary: 0 12px 24px -8px
+    #{color.change($button-primary-fill, $alpha: 0.3)};
+
+  /* Existing consumers (utilities, button overrides) */
+  --color-secondary: var(--app-color-secondary);
+}

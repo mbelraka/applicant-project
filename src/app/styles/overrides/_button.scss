@@ -1,12 +1,13 @@
 @use '@angular/material' as mat;
 @use '../shared/colors' as *;
 @use '../shared/variables' as *;
-@use '../theme/definitions' as theme-def;
+
+@use '../theme/theme' as theme-def;
 
 // ---------------------------------------------------------------------------
 // Filled buttons: mat-raised-button | mat-flat-button | mat-filled appearance
 // Host carries both .mat-mdc-* and .mdc-button--*; list both for specificity.
-// Primary CTA tokens: ../shared/_colors.scss (gold ramp = mat-palettes `tertiary`).
+// Primary CTA tokens: ../shared/_colors.scss (gold ramp in mat-palettes).
 // ---------------------------------------------------------------------------
 
 @mixin _white-label {

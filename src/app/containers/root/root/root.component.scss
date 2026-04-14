@@ -1,44 +1,13 @@
-@use 'variables' as *;
-@use 'colors' as *;
-
-.fade-shell-enter {
-  animation: fade-shell-in 300ms ease-in forwards;
-}
-
-.fade-shell-leave {
-  animation: fade-shell-out 300ms ease-out forwards;
-}
-
-@keyframes fade-shell-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-shell-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
 .root-container {
   width: 100vw;
   height: 100vh;
-  background-color: $base-color;
+  background-color: var(--app-color-surface-base);
 
   .root-content {
     max-width: 1440px;
 
     .header {
-      padding: 1rem 1.5rem;
+      padding: var(--app-space-sm) var(--app-space-md);
 
       .header-leading {
         align-items: center;
@@ -49,7 +18,7 @@
         border: none;
         box-shadow: none;
         outline: none;
-        padding-top: 16px;
+        padding-top: var(--app-space-inline-sm);
       }
 
       .logo-link {
@@ -57,11 +26,11 @@
         align-items: center;
         text-decoration: none;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: var(--app-radius-focus);
 
         &:focus-visible {
-          outline: 2px solid $primary-color;
-          outline-offset: 2px;
+          outline: var(--app-focus-ring-width) solid var(--app-color-primary);
+          outline-offset: var(--app-focus-ring-offset);
         }
       }
 
@@ -69,25 +38,25 @@
         background: url('/assets/logo.svg') no-repeat center center;
         background-size: contain;
         border: none;
-        width: 64px;
-        height: 80px;
-        margin-top: -8px;
+        width: var(--app-size-logo-width);
+        height: var(--app-size-logo-height);
+        margin-top: var(--app-size-logo-offset-top);
       }
     }
 
     .page-header {
       width: 100%;
-      background: $primary-color;
-      color: white;
+      background: var(--app-color-primary);
+      color: var(--app-color-on-primary);
       font-size: 1.5rem;
       font-weight: 600;
-      height: 4rem;
-      padding: 1rem 1.5rem;
+      height: var(--app-size-page-header-height);
+      padding: var(--app-space-sm) var(--app-space-md);
     }
 
     .footer {
-      padding: 1rem 1.5rem;
-      color: $text-label;
+      padding: var(--app-space-sm) var(--app-space-md);
+      color: var(--app-color-text-label);
       font-size: 0.75rem;
       font-weight: 500;
     }

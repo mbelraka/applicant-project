@@ -3,34 +3,31 @@
 @use './mat-palettes' as *;
 @use '../shared/variables' as *;
 
-// Theme color roles (rotated from ramp keys in mat-palettes):
-// - Primary role ← gold ramp (was "tertiary" key)
-// - Tertiary role ← slate ramp (was "secondary" key)
-// Each merge's companion `secondary` entry: primary role uses teal (was "primary" key);
-// tertiary role uses gold so secondary/tertiary companions stay coherent with the cycle.
-
+// Shared neutral + error ramps merged into every Material color role.
 $_rest_base: (
   neutral: map.get($palettes, neutral),
   neutral-variant: map.get($palettes, neutral-variant),
   error: map.get($palettes, error),
 );
 
+// Material primary = gold brand; `secondary` slot on the palette = teal companion tones.
 $_primary: map.merge(
-  map.get($palettes, tertiary),
+  map.get($palettes, gold),
   map.merge(
     $_rest_base,
     (
-      secondary: map.get($palettes, primary),
+      secondary: map.get($palettes, teal),
     )
   )
 );
 
+// Material tertiary = slate; companion tones borrow from gold for harmony.
 $_tertiary: map.merge(
-  map.get($palettes, secondary),
+  map.get($palettes, slate),
   map.merge(
     $_rest_base,
     (
-      secondary: map.get($palettes, tertiary),
+      secondary: map.get($palettes, gold),
     )
   )
 );

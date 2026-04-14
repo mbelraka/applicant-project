@@ -1,8 +1,27 @@
-// M3 tonal palettes from seed colors (Material Color Utilities–style ramps).
-// Keys: primary = teal #004D4D, secondary = slate #2F3E46, tertiary = gold #D4AF37.
-// Theme role assignment is rotated in theme/_definitions.scss (gold → primary, slate → tertiary).
+// M3 tonal palettes (0–100) from seed colors. Keys match the brand color, not Material role names.
+// — gold #D4AF37: main brand / Material primary role
+// — teal #004D4D: accent / companion tones for primary
+// — slate #2F3E46: tertiary / neutral emphasis
 $palettes: (
-  primary: (
+  gold: (
+    0: #000000,
+    10: #241a00,
+    20: #3c2f00,
+    25: #4a3900,
+    30: #574500,
+    35: #655000,
+    40: #735c00,
+    50: #917400,
+    60: #af8d11,
+    70: #cca730,
+    80: #e9c349,
+    90: #ffe088,
+    95: #ffefcc,
+    98: #fff8f0,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+  teal: (
     0: #000000,
     10: #002020,
     20: #003737,
@@ -20,7 +39,7 @@ $palettes: (
     99: #f1fffe,
     100: #ffffff,
   ),
-  secondary: (
+  slate: (
     0: #000000,
     10: #081e27,
     20: #1f333d,
@@ -36,24 +55,6 @@ $palettes: (
     95: #e1f4ff,
     98: #f4faff,
     99: #fafcff,
-    100: #ffffff,
-  ),
-  tertiary: (
-    0: #000000,
-    10: #241a00,
-    20: #3c2f00,
-    25: #4a3900,
-    30: #574500,
-    35: #655000,
-    40: #735c00,
-    50: #917400,
-    60: #af8d11,
-    70: #cca730,
-    80: #e9c349,
-    90: #ffe088,
-    95: #ffefcc,
-    98: #fff8f0,
-    99: #fffbff,
     100: #ffffff,
   ),
   neutral: (

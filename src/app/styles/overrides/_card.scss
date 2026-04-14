@@ -1,5 +1,3 @@
-@use '../shared/colors' as *;
-
 .mat-card {
   padding: 0 !important;
   min-width: 12rem;
@@ -8,26 +6,26 @@
 
   .mat-card-header {
     padding: 1rem;
-    border-bottom: 1px solid $black-4;
+    border-bottom: 1px solid var(--app-color-border-subtle);
     justify-content: center;
 
     .mat-card-title {
       margin: 0 !important;
       font-size: 1.125rem !important;
-      color: $text-headline !important;
+      color: var(--app-color-text-headline) !important;
     }
   }
 
   .mat-card-content {
     padding: 1rem;
-    border-bottom: 1px solid $black-4;
+    border-bottom: 1px solid var(--app-color-border-subtle);
     margin-bottom: 0 !important;
 
     .avatar {
       width: auto;
       height: auto;
       font-size: 3rem;
-      color: $primary-color;
+      color: var(--app-color-primary);
     }
   }
 
@@ -36,7 +34,7 @@
     padding: 0 0 0 1rem;
 
     .availability {
-      color: $text-body;
+      color: var(--app-color-text-body);
       font-size: 0.875rem;
       font-style: italic;
     }

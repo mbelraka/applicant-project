@@ -1,21 +1,8 @@
-import {
-  animate,
-  AnimationTriggerMetadata,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+/** Base class: keeps opacity at 1 before `animate.leave` applies the leave class. */
+export const FADE_IN_OUT_BASE_CLASS = 'ng-fade-in-out';
 
-export const fadeInOutAnimation: AnimationTriggerMetadata = trigger(
-  'fadeInOutAnimation',
-  [
-    transition(':enter', [
-      style({ opacity: 0 }),
-      animate('300ms ease-in', style({ opacity: 1 })),
-    ]),
-    transition(':leave', [
-      style({ opacity: 1 }),
-      animate('300ms ease-out', style({ opacity: 0 })),
-    ]),
-  ]
-);
+/** Class applied temporarily by `animate.enter` (keyframes in global styles). */
+export const FADE_IN_OUT_ENTER_CLASS = 'ng-fade-in-out-enter';
+
+/** Class applied by `animate.leave` before the element is removed from the DOM. */
+export const FADE_IN_OUT_LEAVE_CLASS = 'ng-fade-in-out-leave';

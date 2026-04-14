@@ -1,27 +1,8 @@
-import {
-  animate,
-  AnimationTriggerMetadata,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+/** Base class for slide-in-from-left enter/leave (pair with global styles). */
+export const SLIDE_IN_LEFT_BASE_CLASS = 'ng-slide-in-left';
 
-export const slideInLeftAnimation: AnimationTriggerMetadata = trigger(
-  'slideInLeftAnimation',
-  [
-    transition(':enter', [
-      style({ transform: 'translateX(-1000px)' }),
-      animate(
-        '0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-        style({ transform: 'translateX(0)' })
-      ),
-    ]),
-    transition(':leave', [
-      style({ transform: 'translateX(0)' }),
-      animate(
-        '0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-        style({ transform: 'translateX(-1000px)' })
-      ),
-    ]),
-  ]
-);
+/** Class applied temporarily by `animate.enter`. */
+export const SLIDE_IN_LEFT_ENTER_CLASS = 'ng-slide-in-left-enter';
+
+/** Class applied by `animate.leave` before removal. */
+export const SLIDE_IN_LEFT_LEAVE_CLASS = 'ng-slide-in-left-leave';

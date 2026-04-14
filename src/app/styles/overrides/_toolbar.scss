@@ -1,10 +1,8 @@
-@use '../shared/colors' as *;
-
 .mat-toolbar {
-  background: $base-color !important;
-  color: $primary-color !important;
-  padding: 0 1.5rem !important;
-  height: 4rem !important;
+  background: var(--app-color-surface-base) !important;
+  color: var(--app-color-primary) !important;
+  padding: 0 var(--app-space-md) !important;
+  height: var(--app-size-page-header-height) !important;
   position: relative;
   box-shadow: none;
 

@@ -1,26 +1,23 @@
 <div class="grid-container flex flex-row flex-wrap gap-4">
-  <mat-card
-    *ngFor="let applicant of applicants"
-    class="grid-item mat-elevation-z3"
-  >
-    <mat-card-header>
-      <mat-card-title>{{ applicant.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{ 'applicants.availableFrom' | translate }}:
-        {{ applicant.availableFrom | localeDate }}
-      </p>
-      <div>
-        <span>{{ 'applicants.skills' | translate }}:</span>
-        <button
-          mat-button
-          *ngFor="let skill of applicant.skills"
-          (click)="onSkillClick(skill)"
-        >
-          {{ skill }}
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  @for (applicant of applicants; track applicant.id) {
+    <mat-card class="grid-item mat-elevation-z3">
+      <mat-card-header>
+        <mat-card-title>{{ applicant.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ 'applicants.availableFrom' | translate }}:
+          {{ applicant.availableFrom | localeDate }}
+        </p>
+        <div class="flex flex-row flex-wrap items-center gap-1">
+          <span>{{ 'applicants.skills' | translate }}:</span>
+          @for (skill of applicant.skills ?? []; track $index) {
+            <button mat-button type="button" (click)="onSkillClick(skill)">
+              {{ skill }}
+            </button>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

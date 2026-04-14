@@ -1,12 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 
 import { NewApplicantComponent } from 'src/app/modules/applicants/components/new-applicant/new-applicant.component';
-import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
-import { slideInLeftAnimation } from 'src/app/shared/animations/slide-in-left.animation';
+import {
+  FADE_IN_OUT_BASE_CLASS,
+  FADE_IN_OUT_ENTER_CLASS,
+  FADE_IN_OUT_LEAVE_CLASS,
+} from 'src/app/shared/animations/fade-in-out.animation';
 import { Applicant } from '../../models/applicant.model';
 import {
   addApplicant,
@@ -16,40 +20,35 @@ import {
 } from '../../state/applicants.actions';
 import {
   selectGlobalFilter,
-  selectLoading,
   selectViewType,
 } from '../../state/applicants.selectors';
 import { APP_CONFIG } from '../../../../config/app.config';
 import { FullState } from '../../../../models/full-state.model';
-import { ViewTypes } from '../../enums/view-types.enum';
+import { isViewType, ViewTypes } from '../../enums/view-types.enum';
 
 @Component({
   selector: 'app-applicants',
   templateUrl: './applicants.component.html',
   styleUrls: ['./applicants.component.scss'],
-  animations: [fadeInOutAnimation, slideInLeftAnimation],
   standalone: false,
 })
-export class ApplicantsComponent implements OnInit, OnDestroy {
+export class ApplicantsComponent {
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _dialog = inject(MatDialog);
+  private readonly _store = inject(Store<FullState>);
+
+  public readonly fade = {
+    base: FADE_IN_OUT_BASE_CLASS,
+    enter: FADE_IN_OUT_ENTER_CLASS,
+    leave: FADE_IN_OUT_LEAVE_CLASS,
+  } as const;
+
   public readonly viewTypes = ViewTypes;
   public readonly viewType$ = this._store.select(selectViewType);
-  public readonly loading$ = this._store.select(selectLoading);
   public readonly globalFilter$ = this._store.select(selectGlobalFilter);
 
-  private readonly _destroy$ = new Subject<void>();
-
-  public constructor(
-    private readonly _dialogRef: MatDialog,
-    private readonly _store: Store<FullState>
-  ) {}
-
-  public ngOnInit(): void {
+  public constructor() {
     this._store.dispatch(loadApplicants());
-  }
-
-  public ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
   public applyFilter(event: Event): void {
@@ -61,20 +60,20 @@ export class ApplicantsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleView(viewType: string): void {
-    if (Object.values(ViewTypes).includes(viewType as ViewTypes)) {
-      this._store.dispatch(setViewType({ viewType: viewType as ViewTypes }));
-    } else {
-      console.error(`Invalid viewType: ${viewType}`);
+  public toggleView(value: unknown): void {
+    if (!isViewType(value)) {
+      console.error(`Invalid viewType: ${String(value)}`);
+      return;
     }
+    this._store.dispatch(setViewType({ viewType: value }));
   }
 
   public openForm(): void {
-    this._dialogRef
+    this._dialog
       .open(NewApplicantComponent, APP_CONFIG.DIALOG_CONFIG)
       .afterClosed()
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         filter((applicant: Applicant): boolean => Boolean(applicant))
       )
       .subscribe((applicant: Applicant): void => {

@@ -4,17 +4,24 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { fadeInOutAnimation } from 'src/app/shared/animations/fade-in-out.animation';
+import {
+  FADE_IN_OUT_BASE_CLASS,
+  FADE_IN_OUT_ENTER_CLASS,
+  FADE_IN_OUT_LEAVE_CLASS,
+} from 'src/app/shared/animations/fade-in-out.animation';
 import { ApplicantForm } from '../../models/applicanion-form.model';
 
 @Component({
   selector: 'app-new-applicant',
   templateUrl: './new-applicant.component.html',
   styleUrls: ['./new-applicant.component.scss'],
-  animations: [fadeInOutAnimation],
   standalone: false,
 })
 export class NewApplicantComponent {
+  public readonly dialogRootClass = `full-container flex flex-col gap-8 ${FADE_IN_OUT_BASE_CLASS}`;
+  public readonly fadeEnterClass = FADE_IN_OUT_ENTER_CLASS;
+  public readonly fadeLeaveClass = FADE_IN_OUT_LEAVE_CLASS;
+
   /** Constants for key codes */
   public readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
