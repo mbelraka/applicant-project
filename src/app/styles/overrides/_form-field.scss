@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @use '../shared/colors' as *;
-@use '../shared/variables' as *;
 @use '../theme/theme' as app-theme;
 
 .mat-mdc-form-field {
@@ -9,12 +8,12 @@
 }
 
 .mat-mdc-text-field-wrapper {
-  height: $control-height-md !important;
+  height: var(--app-control-height-md) !important;
 }
 
 .mat-mdc-form-field-infix {
   padding: 8px 0 !important;
-  min-height: $control-height-md !important;
+  min-height: var(--app-control-height-md) !important;
 }
 
 // Default label tint; fields using another palette add .form-field--palette-secondary (etc.) in templates.

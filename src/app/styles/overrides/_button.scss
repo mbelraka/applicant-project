@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @use '../shared/colors' as *;
-@use '../shared/variables' as *;
 
 @use '../theme/theme' as theme-def;
 
@@ -24,7 +23,7 @@
 }
 
 @mixin _primary-filled {
-  --mat-button-filled-container-height: #{$control-height-md};
+  --mat-button-filled-container-height: var(--app-control-height-md);
   --mat-button-filled-horizontal-padding: 24px;
   --mat-button-filled-container-shape: 0;
   min-width: 160px;
@@ -132,7 +131,7 @@
     transparent
   );
   // Match primary filled CTA geometry (_primary-filled): square, same min width / height / padding.
-  --mat-button-outlined-container-height: #{$control-height-md};
+  --mat-button-outlined-container-height: var(--app-control-height-md);
   --mat-button-outlined-horizontal-padding: 24px;
   --mat-button-outlined-container-shape: 0;
   min-width: 160px;

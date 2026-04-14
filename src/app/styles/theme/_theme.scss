@@ -1,7 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use './mat-palettes' as *;
-@use '../shared/variables' as *;
 
 // Shared neutral + error ramps merged into every Material color role.
 $_rest_base: (
@@ -32,9 +31,10 @@ $_tertiary: map.merge(
   )
 );
 
+// Font stack must match :root --app-font-family in _design-tokens.scss (Material theme is Sass-time).
 $_theme-typography: (
-  brand-family: $font-family,
-  plain-family: $font-family,
+  brand-family: 'Manrope, sans-serif',
+  plain-family: 'Manrope, sans-serif',
 );
 
 $light-theme: mat.define-theme(

@@ -1,10 +1,10 @@
 @use 'sass:color';
 @use './colors' as *;
-@use './variables' as *;
 
 // Canonical CSS custom properties (single source for theme-aligned values).
 :root {
-  --app-font-family: #{$font-family};
+  --app-font-family: 'Manrope', sans-serif;
+  --app-control-height-md: 40px;
 
   --app-color-text-headline: #{$text-headline};
   --app-color-text-body: #{$text-body};
@@ -18,9 +18,9 @@
   --app-color-on-primary: #ffffff;
   --app-overlay-elevated: #d7e4ea;
 
-  --app-space-xs: #{$l-gutter};
-  --app-space-sm: #{$gutter};
-  --app-space-md: 1.5rem;
+  --app-space-xs: 8px;
+  --app-space-sm: 16px;
+  --app-space-md: 24px;
   --app-space-inline-sm: 16px;
   --app-space-inline-md: 32px;
 
