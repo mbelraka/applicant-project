@@ -34,18 +34,14 @@
 
     <div class="main-image-container main-anim-visual">
       <img src="assets/main-image.png" alt="" class="main-image" />
-      <div class="overlay flex flex-col items-start justify-center gap-2">
-        <div
-          class="main-overlay__translated flex flex-col items-start justify-center gap-2"
-          [appMainLangRefreshHost]="langRefreshZone.OVERLAY"
-        >
-          <span class="overlay-title">{{
-            'main.overlayTitle' | translate
-          }}</span>
-          <span class="overlay-subtitle">{{
-            'main.overlaySubtitle' | translate
-          }}</span>
-        </div>
+      <div
+        class="overlay flex flex-col items-start justify-center gap-2"
+        [appMainLangRefreshHost]="langRefreshZone.OVERLAY"
+      >
+        <span class="overlay-title">{{ 'main.overlayTitle' | translate }}</span>
+        <span class="overlay-subtitle">{{
+          'main.overlaySubtitle' | translate
+        }}</span>
       </div>
     </div>
   </div>

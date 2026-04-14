@@ -123,7 +123,7 @@
         padding: 16px;
         background-color: var(--app-overlay-elevated);
 
-        .main-overlay__translated.main-copy--lang-refresh {
+        &.main-copy--lang-refresh {
           will-change: opacity, transform, filter;
           animation: main-copy-lang-refresh 520ms cubic-bezier(0.22, 1, 0.36, 1)
             both;
