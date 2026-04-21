@@ -5,6 +5,7 @@ import en from '@angular/common/locales/en';
 import de from '@angular/common/locales/de';
 import fr from '@angular/common/locales/fr';
 import it from '@angular/common/locales/it';
+import es from '@angular/common/locales/es';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -34,3 +35,4 @@ registerLocaleData(en);
 registerLocaleData(de);
 registerLocaleData(fr);
 registerLocaleData(it);
+registerLocaleData(es);

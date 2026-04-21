@@ -1,0 +1,136 @@
+{
+  "nav": {
+    "main": "Principal",
+    "applicants": "Candidatos",
+    "matchCandidates": "Coincidencia de candidatos",
+    "export": "Exportar"
+  },
+  "language": {
+    "label": "Idioma",
+    "names": {
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR",
+      "it": "IT",
+      "rm": "RM",
+      "es": "ES"
+    }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "ano de experiencia",
+    "yearsSuffixOther": "anos de experiencia",
+    "unitYear": "Ano",
+    "unitYears": "Anos"
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Contratacion global sin esfuerzo",
+    "subHeadline": "Descubriendo talento, sin fronteras",
+    "start": "Empecemos",
+    "explore": "Explorar",
+    "overlayTitle": "Matching de talento con IA",
+    "overlaySubtitle": "Usa el poder de la IA para encontrar la mejor coincidencia"
+  },
+  "match": {
+    "pageTitle": "Coincidencia de candidatos",
+    "intro": "Encuentra y clasifica los mejores perfiles para puestos abiertos.",
+    "placeholder": "Las herramientas de coincidencia apareceran aqui."
+  },
+  "applicants": {
+    "searchLabel": "Buscar candidatos",
+    "searchPlaceholder": "Buscar candidatos",
+    "clearSearch": "Limpiar busqueda",
+    "filterByStatus": "Estado",
+    "filterByCountry": "Pais",
+    "sortBy": "Ordenar por",
+    "sortDefault": "Orden predeterminado",
+    "filterAll": "Todos",
+    "skillFilterLabel": "Habilidad",
+    "removeSkillFilter": "Quitar filtro de habilidad",
+    "newApplicant": "Nuevo candidato",
+    "gridView": "Vista de cuadrícula",
+    "listView": "Vista de lista",
+    "viewToggle": "Modo de vista",
+    "availableFrom": "Disponible desde",
+    "skills": "Habilidades",
+    "location": "Ubicacion",
+    "yearsOfExperience": "Anos de experiencia",
+    "applicationStatus": "Estado de candidatura",
+    "currentJobTitle": "Puesto actual",
+    "deleteApplicant": "Eliminar candidato",
+    "confirmDeleteTitle": "Confirmar eliminacion",
+    "confirmDeleteMessage": "Estas seguro de que deseas eliminar este candidato? Esta accion eliminara permanentemente su perfil y todos los datos asociados del registro.",
+    "confirmDeleteConfirm": "Eliminar candidato",
+    "confirmDeleteCancel": "Cancelar",
+    "gridPaginationLabel": "Paginas de la cuadrícula de candidatos",
+    "goToGridPage": "Ir a la pagina {{page}}",
+    "gridPagerPreviousPage": "Pagina anterior",
+    "gridPagerNextPage": "Pagina siguiente"
+  },
+  "applicantList": {
+    "name": "Nombre",
+    "email": "Correo",
+    "phone": "Telefono",
+    "availability": "Disponibilidad",
+    "skills": "Habilidades",
+    "currentJobTitle": "Puesto",
+    "location": "Ubicacion",
+    "yearsOfExperience": "Experiencia",
+    "applicationStatus": "Estado"
+  },
+  "applicantCard": {
+    "availablePrefix": "Disponible:"
+  },
+  "applicationStatus": {
+    "received": "Recibida",
+    "screening": "Preseleccion",
+    "interview_scheduled": "Entrevista programada",
+    "shortlisted": "Preseleccionado",
+    "offer_extended": "Oferta enviada",
+    "rejected": "Rechazada",
+    "withdrawn": "Retirada"
+  },
+  "jobTitles": {
+    "seniorFrontendEngineer": "Ingeniero frontend senior",
+    "qaAutomationLead": "Lider de automatizacion QA",
+    "uiEngineer": "Ingeniero UI",
+    "productDesigner": "Disenador de producto",
+    "engineeringManager": "Gerente de ingenieria",
+    "backendEngineer": "Ingeniero backend",
+    "devopsEngineer": "Ingeniero DevOps",
+    "fullStackDeveloper": "Desarrollador full-stack",
+    "dataEngineer": "Ingeniero de datos",
+    "mobileEngineer": "Ingeniero mobile",
+    "siteReliabilityEngineer": "Ingeniero de confiabilidad del sitio"
+  },
+  "export": {
+    "title": "Exportar candidatos",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "Nuevo candidato",
+    "editTitle": "Ver / editar candidato",
+    "name": "Nombre",
+    "email": "Correo electronico",
+    "emailRequired": "El correo es obligatorio",
+    "emailInvalid": "Introduce un correo electronico valido",
+    "phone": "Numero de telefono",
+    "location": "Ubicacion",
+    "yearsOfExperience": "Anos de experiencia",
+    "applicationStatus": "Estado de candidatura",
+    "currentJobTitle": "Puesto actual",
+    "skills": "Habilidades",
+    "skillPlaceholder": "Agregar habilidad",
+    "availableFrom": "Disponible desde",
+    "notes": "Notas",
+    "cancel": "Cancelar",
+    "apply": "Aplicar",
+    "submit": "Enviar",
+    "save": "Actualizar"
+  }
+}

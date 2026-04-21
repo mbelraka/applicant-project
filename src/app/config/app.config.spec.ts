@@ -35,4 +35,12 @@ describe('AppConfig', () => {
   it('should get correct date format for Romansh', () => {
     expect(APP_CONFIG.getDateFormat(Languages.Romansh)).toBe('dd.MM.yyyy');
   });
+
+  it('should get correct locale for Spanish', () => {
+    expect(APP_CONFIG.getLocale(Languages.Spanish)).toBe('es-ES');
+  });
+
+  it('should get correct date format for Spanish', () => {
+    expect(APP_CONFIG.getDateFormat(Languages.Spanish)).toBe('dd/MM/yyyy');
+  });
 });

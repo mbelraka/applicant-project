@@ -236,6 +236,7 @@ export const APP_CONFIG = {
       Languages.French,
       Languages.Italian,
       Languages.Romansh,
+      Languages.Spanish,
     ] as const,
     DATE_FORMATS: {
       [Languages.English]: 'MM/dd/yyyy',
@@ -243,6 +244,7 @@ export const APP_CONFIG = {
       [Languages.French]: 'dd/MM/yyyy',
       [Languages.Italian]: 'dd/MM/yyyy',
       [Languages.Romansh]: 'dd.MM.yyyy',
+      [Languages.Spanish]: 'dd/MM/yyyy',
     },
     LOCALES: {
       [Languages.English]: 'en-US',
@@ -250,6 +252,7 @@ export const APP_CONFIG = {
       [Languages.French]: 'fr-FR',
       [Languages.Italian]: 'it-IT',
       [Languages.Romansh]: 'de-CH',
+      [Languages.Spanish]: 'es-ES',
     },
     // Keys for localStorage management
     LANGUAGE_KEY: 'app_language',
