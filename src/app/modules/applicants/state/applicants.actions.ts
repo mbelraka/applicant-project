@@ -29,6 +29,20 @@ export const addApplicantFailure = createAction(
   props<{ error: string }>()
 );
 
+// Update Applicant
+export const updateApplicant = createAction(
+  ApplicantActionTypes.UpdateApplicant,
+  props<{ applicant: Applicant }>()
+);
+export const updateApplicantSuccess = createAction(
+  ApplicantActionTypes.UpdateApplicantSuccess,
+  props<{ applicants: Applicant[] }>()
+);
+export const updateApplicantFailure = createAction(
+  ApplicantActionTypes.UpdateApplicantFailure,
+  props<{ error: string }>()
+);
+
 // Delete Applicant
 export const deleteApplicant = createAction(
   ApplicantActionTypes.DeleteApplicant,
@@ -51,7 +65,10 @@ export const setGlobalFilter = createAction(
 
 export const setSortBy = createAction(
   ApplicantActionTypes.SetSortBy,
-  props<{ sortBy: keyof Applicant }>()
+  props<{
+    sortBy: keyof Applicant | null;
+    sortDirection?: 'asc' | 'desc';
+  }>()
 );
 
 export const setViewType = createAction(
@@ -61,5 +78,34 @@ export const setViewType = createAction(
 
 export const setFilterBySkill = createAction(
   ApplicantActionTypes.SetFilterBySkill,
-  props<{ skill: string }>()
+  props<{ skill: string | null }>()
+);
+
+export const setFilterByStatus = createAction(
+  ApplicantActionTypes.SetFilterByStatus,
+  props<{ status: string | null }>()
+);
+
+export const setFilterByCountry = createAction(
+  ApplicantActionTypes.SetFilterByCountry,
+  props<{ country: string | null }>()
+);
+
+// Seed demo applicants (each row goes through the same add pipeline as the new-applicant dialog)
+export const seedApplicants = createAction(ApplicantActionTypes.SeedApplicants);
+
+// Location autocomplete (geocoding)
+export const searchLocationSuggestions = createAction(
+  ApplicantActionTypes.SearchLocationSuggestions,
+  props<{ query: string }>()
+);
+export const searchLocationSuggestionsSuccess = createAction(
+  ApplicantActionTypes.SearchLocationSuggestionsSuccess,
+  props<{ suggestions: string[] }>()
+);
+export const searchLocationSuggestionsFailure = createAction(
+  ApplicantActionTypes.SearchLocationSuggestionsFailure
+);
+export const clearLocationSuggestions = createAction(
+  ApplicantActionTypes.ClearLocationSuggestions
 );

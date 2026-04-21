@@ -1,0 +1,78 @@
+.applicant {
+  position: relative;
+}
+
+.applicant__header {
+  padding-inline-end: min(42%, 11rem);
+  box-sizing: border-box;
+}
+
+.applicant__application-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  font-size: 0.675rem;
+}
+
+.applicant__name {
+  font-size: 1.25rem;
+  color: var(--app-color-secondary);
+  text-transform: capitalize;
+}
+
+.applicant__contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 100%;
+  font-size: 0.8125rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+.applicant__contact--experience-location {
+  color: var(--app-color-text-inner);
+
+  .applicant__contact-icon {
+    color: var(--app-color-text-inner);
+  }
+}
+
+.applicant__contact-icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.applicant__experience-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 8px;
+  min-width: 0;
+  text-align: center;
+}
+
+.applicant__experience-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.applicant__experience-suffix {
+  margin-inline-start: 0.75rem;
+}
+
+.applicant__notes {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--app-color-text-inner-label, rgba(0, 0, 0, 0.6));
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,41 @@
+// New-applicant dialog: chip and notes field internals (global).
+
+.new-applicant__skills-field {
+  .mat-mdc-text-field-wrapper {
+    height: auto !important;
+  }
+
+  .mat-mdc-form-field-flex {
+    align-items: flex-start;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: auto !important;
+    max-height: 12rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .new-applicant__chip-grid {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.new-applicant__notes-field {
+  .mat-mdc-text-field-wrapper {
+    height: auto !important;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: auto !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  textarea {
+    min-height: 5rem;
+    resize: vertical;
+    line-height: 1.4;
+  }
+}

@@ -8,6 +8,9 @@ import {
   addApplicant,
   addApplicantFailure,
   addApplicantSuccess,
+  updateApplicant,
+  updateApplicantFailure,
+  updateApplicantSuccess,
   deleteApplicant,
   deleteApplicantFailure,
   deleteApplicantSuccess,
@@ -15,9 +18,14 @@ import {
   loadApplicantsFailure,
   loadApplicantsSuccess,
   setFilterBySkill,
+  setFilterByStatus,
+  setFilterByCountry,
   setGlobalFilter,
   setSortBy,
   setViewType,
+  searchLocationSuggestionsSuccess,
+  searchLocationSuggestionsFailure,
+  clearLocationSuggestions,
 } from './applicants.actions';
 
 // Create an Entity Adapter
@@ -32,9 +40,13 @@ const initialApplicantState: ApplicantState = adapter.getInitialState({
   loading: false,
   error: null,
   filter: '',
-  sortBy: null,
+  sortBy: 'name',
+  sortDirection: 'asc',
   filterBySkill: null,
+  filterByStatus: null,
+  filterByCountry: null,
   viewType: ViewTypes.GRID,
+  locationSuggestions: [],
 });
 
 // Reducer Definition
@@ -54,14 +66,11 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(loadApplicantsFailure, (state, { error }) => {
-    console.error('Failed to load applicants:', error);
-    return {
-      ...state,
-      loading: false,
-      error,
-    };
-  }),
+  on(loadApplicantsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 
   // **Add Applicant**
   on(addApplicant, (state) => ({
@@ -75,14 +84,29 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(addApplicantFailure, (state, { error }) => {
-    console.error('Failed to add applicant:', error);
-    return {
+  on(addApplicantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  // **Update Applicant**
+  on(updateApplicant, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(updateApplicantSuccess, (state, { applicants }) =>
+    adapter.setAll(applicants, {
       ...state,
       loading: false,
-      error,
-    };
-  }),
+      error: null,
+    })
+  ),
+  on(updateApplicantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 
   // **Delete Applicant**
   on(deleteApplicant, (state) => ({
@@ -96,14 +120,11 @@ export const applicantsReducer = createReducer(
       error: null,
     })
   ),
-  on(deleteApplicantFailure, (state, { error }) => {
-    console.error('Failed to delete applicant:', error);
-    return {
-      ...state,
-      loading: false,
-      error,
-    };
-  }),
+  on(deleteApplicantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 
   // **Set Global Filter**
   on(setGlobalFilter, (state, { filter }) => ({
@@ -112,9 +133,10 @@ export const applicantsReducer = createReducer(
   })),
 
   // **Set Sort By**
-  on(setSortBy, (state, { sortBy }) => ({
+  on(setSortBy, (state, { sortBy, sortDirection = 'asc' }) => ({
     ...state,
     sortBy,
+    sortDirection: sortBy == null ? 'asc' : sortDirection,
   })),
 
   // **Set View Type**
@@ -127,5 +149,28 @@ export const applicantsReducer = createReducer(
   on(setFilterBySkill, (state, { skill }) => ({
     ...state,
     filterBySkill: skill,
+  })),
+
+  on(setFilterByStatus, (state, { status }) => ({
+    ...state,
+    filterByStatus: status,
+  })),
+
+  on(setFilterByCountry, (state, { country }) => ({
+    ...state,
+    filterByCountry: country,
+  })),
+
+  on(searchLocationSuggestionsSuccess, (state, { suggestions }) => ({
+    ...state,
+    locationSuggestions: suggestions,
+  })),
+  on(searchLocationSuggestionsFailure, (state) => ({
+    ...state,
+    locationSuggestions: [] as string[],
+  })),
+  on(clearLocationSuggestions, (state) => ({
+    ...state,
+    locationSuggestions: [] as string[],
   }))
 );

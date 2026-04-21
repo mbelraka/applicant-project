@@ -1,22 +1,36 @@
 @use 'sass:color';
 @use './colors' as *;
 
-// Canonical CSS custom properties (single source for theme-aligned values).
+// ---------------------------------------------------------------------------
+// Typography — keep in sync with Figma text styles and theme/_theme.scss
+// ($_theme-typography brand-family / plain-family).
+// Load only Manrope in index.html (variable wght 200–800).
+// ---------------------------------------------------------------------------
 :root {
   --app-font-family: 'Manrope', sans-serif;
+  --app-font-size-root: 16px;
+  --app-line-height-base: 1.5;
+  --app-letter-spacing-normal: 0;
+
   --app-control-height-md: 40px;
 
   --app-color-text-headline: #{$text-headline};
   --app-color-text-body: #{$text-body};
   --app-color-text-label: #{$text-label};
+  --app-color-text-inner-label: #{$text-inner-label};
+  --app-color-text-inner: rgb(81 97 105);
   --app-color-text-muted: #{$black-2};
-  --app-color-border-subtle: #{$black-4};
 
   --app-color-surface-base: #{$base-color};
+  --app-color-background-dark: #{$background-dark};
   --app-color-primary: #{$primary-color};
   --app-color-secondary: #{$secondary-color};
+  --secondary-main-color: #{$secondary-main-color};
+  --app-color-secondary-emphasis: var(--secondary-main-color);
+  --app-color-on-secondary-emphasis: #{$secondary-emphasis-on-surface};
   --app-color-on-primary: #ffffff;
   --app-overlay-elevated: #d7e4ea;
+  --app-color-border-subtle: #{$border-subtle};
 
   --app-space-xs: 8px;
   --app-space-sm: 16px;
@@ -40,6 +54,12 @@
 
   --app-shadow-cta-primary: 0 12px 24px -8px
     #{color.change($button-primary-fill, $alpha: 0.3)};
+
+  // Floating primary FAB: higher elevation than hero CTA (layered, same gold tint).
+  --app-shadow-fab-primary: 0 4px 8px -2px
+      #{color.change($button-primary-fill, $alpha: 0.28)},
+    0 14px 28px -6px #{color.change($button-primary-fill, $alpha: 0.38)},
+    0 24px 48px -12px #{color.change($button-primary-fill, $alpha: 0.22)};
 
   /* Existing consumers (utilities, button overrides) */
   --color-secondary: var(--app-color-secondary);

@@ -1,0 +1,74 @@
+.mat-mdc-table {
+  width: 100%;
+  margin-top: 16px;
+  background-color: #fff !important;
+  border: 1px solid var(--app-color-border-subtle) !important;
+  border-collapse: collapse;
+  --mat-table-row-item-outline-width: 0;
+}
+.mat-mdc-header-row,
+.mat-mdc-row {
+  background-color: #fff !important;
+}
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  background-color: #fff !important;
+  font-size: 0.75rem;
+}
+
+// Horizontal padding: outer edges only on first/last column; 8px both sides between.
+.mat-mdc-table .mat-mdc-header-cell:first-of-type:not(:last-of-type),
+.mat-mdc-table .mat-mdc-cell:first-of-type:not(:last-of-type) {
+  padding: 0 8px 0 16px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell:last-of-type:not(:first-of-type),
+.mat-mdc-table .mat-mdc-cell:last-of-type:not(:first-of-type) {
+  padding: 0 16px 0 8px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell:not(:first-of-type):not(:last-of-type),
+.mat-mdc-table .mat-mdc-cell:not(:first-of-type):not(:last-of-type) {
+  padding: 0 8px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell:only-of-type,
+.mat-mdc-table .mat-mdc-cell:only-of-type {
+  padding: 0 16px;
+}
+.mat-mdc-table tbody .mat-mdc-row:not(:last-child) .mat-mdc-cell,
+.mat-mdc-table > tr.mat-mdc-row:not(:last-child) .mat-mdc-cell {
+  border-bottom: 1px solid var(--app-color-border-subtle);
+  box-shadow: none;
+}
+
+.mat-mdc-table tbody .mat-mdc-row:last-child .mat-mdc-cell,
+.mat-mdc-table > tr.mat-mdc-row:last-child .mat-mdc-cell {
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.mat-mdc-table tr.mat-mdc-header-row .mat-mdc-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--app-color-border-subtle);
+  box-shadow: none;
+}
+
+// Generic modifier for cells that should stay pinned to the start edge while
+// a Material table scrolls horizontally.
+.table-cell--sticky-start.mat-mdc-header-cell {
+  left: 0;
+  z-index: 4;
+  background-color: #fff !important;
+  box-shadow: 2px 0 6px -4px rgba(14 29 37 / 0.18);
+}
+
+.table-cell--sticky-start.mat-mdc-cell {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #fff !important;
+  box-shadow: 2px 0 6px -4px rgba(14 29 37 / 0.12);
+}

@@ -2,6 +2,7 @@
   "nav": {
     "main": "Accueil",
     "applicants": "Candidats",
+    "matchCandidates": "Correspondance des candidats",
     "export": "Export"
   },
   "language": {
@@ -11,6 +12,12 @@
       "de": "DE",
       "fr": "FR"
     }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "an d'expérience",
+    "yearsSuffixOther": "ans d'expérience",
+    "unitYear": "an",
+    "unitYears": "ans"
   },
   "footer": {
     "copyright": "© 2026 Elrakaiby"
@@ -23,23 +30,64 @@
     "overlayTitle": "Jumelage de talents par IA",
     "overlaySubtitle": "Exploitez la puissance de l'IA pour trouver la meilleure correspondance."
   },
+  "match": {
+    "pageTitle": "Correspondance des candidats",
+    "intro": "Trouvez et classez les profils les plus adaptés aux postes ouverts.",
+    "placeholder": "Les outils de correspondance apparaîtront ici."
+  },
   "applicants": {
     "searchLabel": "Rechercher des candidats",
     "searchPlaceholder": "Rechercher des candidats",
-    "newApplicant": "Nouveau candidat",
+    "clearSearch": "Effacer la recherche",
+    "filterByStatus": "Statut",
+    "filterByCountry": "Pays",
+    "sortBy": "Trier par",
+    "sortDefault": "Ordre par défaut",
+    "filterAll": "Tous",
+    "skillFilterLabel": "Compétence",
+    "removeSkillFilter": "Retirer le filtre compétence",
+    "newApplicant": "Nouveau Candidat",
     "gridView": "Grille",
     "listView": "Liste",
     "viewToggle": "Mode d'affichage",
     "availableFrom": "Disponible à partir du",
-    "skills": "Compétences"
+    "skills": "Compétences",
+    "location": "Localisation",
+    "yearsOfExperience": "Années d'expérience",
+    "applicationStatus": "Statut de candidature",
+    "currentJobTitle": "Poste actuel",
+    "deleteApplicant": "Supprimer le candidat",
+    "confirmDeleteTitle": "Confirmer la suppression",
+    "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer ce candidat ? Cette action supprimera définitivement son profil et toutes les données associées du registre de curation.",
+    "confirmDeleteConfirm": "Supprimer le candidat",
+    "confirmDeleteCancel": "Annuler",
+    "gridPaginationLabel": "Pages de la grille des candidats",
+    "goToGridPage": "Aller à la page {{page}}",
+    "gridPagerPreviousPage": "Page précédente",
+    "gridPagerNextPage": "Page suivante"
   },
   "applicantList": {
     "name": "Nom",
+    "email": "E-mail",
+    "phone": "Téléphone",
     "availability": "Disponibilité",
-    "skills": "Compétences"
+    "skills": "Compétences",
+    "currentJobTitle": "Poste",
+    "location": "Lieu",
+    "yearsOfExperience": "Expérience",
+    "applicationStatus": "Statut"
   },
   "applicantCard": {
     "availablePrefix": "Disponible :"
+  },
+  "applicationStatus": {
+    "received": "Reçue",
+    "screening": "Présélection",
+    "interview_scheduled": "Entretien planifié",
+    "shortlisted": "Présélectionnés",
+    "offer_extended": "Offre envoyée",
+    "rejected": "Refusé",
+    "withdrawn": "Retirée"
   },
   "export": {
     "title": "Exporter les candidats",
@@ -49,14 +97,24 @@
     "pdf": "PDF"
   },
   "newApplicant": {
-    "title": "Nouveau candidat",
-    "firstName": "Prénom",
-    "lastName": "Nom",
+    "title": "Nouveau Candidat",
+    "editTitle": "Voir / modifier le candidat",
+    "name": "Nom",
+    "email": "Adresse e-mail",
+    "emailRequired": "L'e-mail est obligatoire",
+    "emailInvalid": "Saisissez une adresse e-mail valide",
+    "phone": "Numéro de téléphone",
+    "location": "Localisation",
+    "yearsOfExperience": "Années d'expérience",
+    "applicationStatus": "Statut de candidature",
+    "currentJobTitle": "Poste actuel",
     "skills": "Compétences",
     "skillPlaceholder": "Ajouter une compétence",
     "availableFrom": "Disponible à partir du",
+    "notes": "Notes",
     "cancel": "Annuler",
     "apply": "Valider",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "save": "Mettre à jour"
   }
 }

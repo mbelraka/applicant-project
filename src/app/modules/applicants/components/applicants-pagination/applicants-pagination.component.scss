@@ -1,0 +1,8 @@
+@use 'shared/pager' as *;
+
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+@include pager('applicants-pagination');

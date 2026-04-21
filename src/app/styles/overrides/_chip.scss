@@ -1,4 +1,110 @@
-.mat-standard-chip {
-  padding: 0.5rem 0.75rem !important;
-  min-height: 1.5rem !important;
+@use '@angular/material' as mat;
+@use '../shared/colors' as *;
+
+.mat-mdc-chip {
+  --mat-chip-container-shape-radius: 0;
+  --mat-chip-with-avatar-avatar-shape-radius: 0;
+}
+
+.mat-mdc-standard-chip {
+  height: 24px !important;
+  min-height: 24px !important;
+  box-sizing: border-box;
+  border-radius: 0 !important;
+
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: $secondary-emphasis-surface,
+      label-text-color: $secondary-emphasis-on-surface,
+      with-trailing-icon-trailing-icon-color: $secondary-emphasis-on-surface,
+      focus-outline-color: $secondary-emphasis-on-surface,
+      hover-state-layer-color: $secondary-emphasis-on-surface,
+      hover-state-layer-opacity: 0.08,
+      trailing-action-hover-state-layer-opacity: 0,
+      trailing-action-focus-state-layer-opacity: 0,
+    )
+  );
+}
+
+.mdc-evolution-chip {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  padding-right: 6px !important;
+}
+
+.mdc-evolution-chip__text-label {
+  font-size: 0.75rem !important;
+}
+
+.mat-mdc-standard-chip .mdc-evolution-chip__action--primary {
+  border-radius: 0 !important;
+}
+
+.mat-mdc-standard-chip .mat-mdc-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 2px !important;
+  padding: 0 !important;
+  min-width: 1.125rem !important;
+  width: 1.125rem !important;
+  min-height: 1.125rem !important;
+  height: 1.125rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  vertical-align: middle;
+
+  &:focus-visible {
+    outline: 2px solid $secondary-emphasis-on-surface;
+    outline-offset: 1px;
+  }
+
+  .mat-mdc-button-touch-target {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .mat-mdc-button-persistent-ripple,
+  .mat-ripple {
+    display: none;
+  }
+
+  .mat-focus-indicator::before {
+    border-radius: 0 !important;
+  }
+
+  .mat-mdc-chip-trailing-icon,
+  .mdc-evolution-chip__icon--trailing,
+  .mdc-evolution-chip__icon {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    overflow: visible;
+  }
+
+  .mat-icon {
+    display: block;
+    width: 0.875rem !important;
+    height: 0.875rem !important;
+    font-size: 0.875rem !important;
+    line-height: 0.875rem !important;
+  }
+}
+
+.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+  row-gap: 4px !important;
+  margin-inline: 0 !important;
+  align-items: center;
+  align-content: flex-start;
+}
+
+.mat-mdc-chip-set .mdc-evolution-chip:not(:first-of-type) {
+  margin-left: 8px !important;
+}
+
+[dir='rtl'] .mat-mdc-chip-set .mdc-evolution-chip:not(:first-of-type) {
+  margin-left: 0 !important;
+  margin-right: 8px !important;
 }

@@ -1,0 +1,41 @@
+@use '@angular/material' as mat;
+
+// Use the theme secondary palette for selection, range, today, preview, and active toggle (M3 tokens).
+@include mat.datepicker-overrides(
+  (
+    calendar-date-selected-state-background-color: var(--mat-sys-secondary),
+    calendar-date-selected-state-text-color: var(--mat-sys-on-secondary),
+    calendar-date-today-outline-color: var(--mat-sys-secondary),
+    calendar-date-today-selected-state-outline-color: var(--mat-sys-secondary),
+    calendar-date-preview-state-outline-color: var(--mat-sys-secondary),
+    calendar-date-in-range-state-background-color: var(
+        --mat-sys-secondary-container
+      ),
+    toggle-active-state-icon-color: var(--mat-sys-secondary),
+  )
+);
+
+// Popup: white surface + square corners (theme token on `html` is easy to lose in the cascade).
+.mat-datepicker-content,
+.mat-datepicker-content.mat-datepicker-content-touch {
+  --mat-datepicker-calendar-container-background-color: #fff;
+  --mat-datepicker-calendar-container-shape: 0;
+  --mat-datepicker-calendar-container-touch-shape: 0;
+  background-color: #fff !important;
+}
+
+.mat-datepicker-content-container {
+  background-color: #fff;
+}
+
+// Cancel is a text `mat-button`; square corners (apply stays on raised-button rules).
+.mat-datepicker-actions button[matDatepickerCancel] {
+  --mat-button-text-container-shape: 0;
+  border-radius: 0 !important;
+
+  &,
+  .mat-mdc-button-touch-target,
+  .mdc-button {
+    border-radius: 0 !important;
+  }
+}

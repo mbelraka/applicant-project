@@ -8,5 +8,9 @@ import { LocalizationService } from './services/localization.service';
   standalone: false,
 })
 export class AppComponent {
-  public constructor(private readonly _localization: LocalizationService) {}
+  /**
+   * Eagerly injects `LocalizationService` so it bootstraps at app start.
+   * The service syncs translations and Material date locale via its constructor.
+   */
+  public constructor(_localization: LocalizationService) {}
 }

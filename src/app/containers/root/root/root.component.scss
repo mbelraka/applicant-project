@@ -1,12 +1,31 @@
+:host {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .root-container {
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
   background-color: var(--app-color-surface-base);
 
   .root-content {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
     max-width: 1440px;
+    min-height: 0;
+    min-width: 0;
 
     .header {
+      flex-shrink: 0;
       padding: var(--app-space-sm) var(--app-space-md);
 
       .header-leading {
@@ -55,19 +74,20 @@
     }
 
     .footer {
+      flex-shrink: 0;
       padding: var(--app-space-sm) var(--app-space-md);
       color: var(--app-color-text-label);
       font-size: 0.75rem;
       font-weight: 500;
     }
 
-    // Flex column so routed views (sibling after <router-outlet>) can use flex-1 / min-h-0.
     .full-container {
       display: flex;
+      flex: 1 1 0%;
       flex-direction: column;
       min-height: 0;
       min-width: 0;
-      padding: var(--app-space-xs) var(--app-space-md);
+      padding: 0 var(--app-space-md) var(--app-space-xs);
 
       & > router-outlet {
         display: none;

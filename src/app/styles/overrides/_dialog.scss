@@ -1,0 +1,53 @@
+.mat-mdc-dialog-container {
+  max-height: 80vh;
+  --mat-dialog-container-shape: 0;
+}
+
+.mat-mdc-dialog-component-host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: inherit;
+  overflow: hidden;
+  padding: 24px;
+
+  &.-secondary {
+    background-color: #fff;
+  }
+}
+
+.mat-mdc-dialog-title {
+  padding-inline: 0;
+  font-size: 1.25rem !important;
+  line-height: 1.13rem !important;
+  font-weight: 600 !important;
+  color: var(--app-color-text-label) !important;
+
+  &::before {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+.mat-mdc-dialog-actions {
+  padding-inline: 0;
+  min-height: unset !important;
+}
+
+.confirm-delete-applicant-dialog-panel {
+  .mat-mdc-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-unelevated-button,
+  .mat-mdc-outlined-button {
+    --mat-button-filled-container-shape: 0;
+    --mat-button-outlined-container-shape: 0;
+    --mat-button-text-container-shape: 0;
+    border-radius: 0 !important;
+
+    .mdc-button {
+      border-radius: 0 !important;
+    }
+  }
+}

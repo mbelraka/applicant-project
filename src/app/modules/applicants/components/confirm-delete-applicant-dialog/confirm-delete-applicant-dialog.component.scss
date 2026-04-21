@@ -1,0 +1,82 @@
+@use 'shared/colors' as *;
+
+:host {
+  display: flex;
+  background-color: #fff;
+  gap: 16px;
+  border-top: 4px solid var(--app-color-text-label);
+}
+
+.confirm-delete-applicant-dialog__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.confirm-delete-applicant-dialog__title-icon {
+  flex-shrink: 0;
+  color: $warn-color;
+  width: 18px;
+  height: 18px;
+  font-size: 1.25rem;
+  line-height: 1.125rem;
+}
+
+.confirm-delete-applicant-dialog__title-text {
+  min-width: 0;
+}
+
+.confirm-delete-applicant-dialog__content {
+  padding: 0;
+  margin: 0;
+}
+
+.confirm-delete-applicant-dialog__message {
+  font-size: 0.875rem;
+  line-height: 24px;
+  color: var(--app-color-text-inner, inherit);
+}
+
+.confirm-delete-applicant-dialog__candidate {
+  margin-top: 8px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border: 1px solid $border-subtle;
+}
+
+.confirm-delete-applicant-dialog__name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  color: var(--app-color-secondary);
+  text-transform: capitalize;
+  word-break: break-word;
+}
+
+.confirm-delete-applicant-dialog__job-title {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 12px;
+  color: var(--app-color-text-inner, inherit);
+  word-break: break-word;
+}
+
+.confirm-delete-applicant-dialog__actions {
+  padding: 0;
+  text-transform: uppercase;
+
+  // Secondary stroked global style uses min-width 160px for CTAs; cancel is content-sized.
+  .confirm-delete-applicant-dialog__cancel {
+    min-width: unset;
+    width: auto;
+  }
+
+  .confirm-delete-applicant-dialog__delete {
+    border: 1px solid $border-subtle;
+    box-sizing: border-box;
+  }
+}

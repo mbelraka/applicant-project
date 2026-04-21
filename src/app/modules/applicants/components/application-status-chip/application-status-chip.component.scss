@@ -1,0 +1,48 @@
+@use '../../styles/application-status' as *;
+@use 'shared/colors' as *;
+
+:host {
+  @include application-status-chip-box;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--app-color-border-subtle) 55%, #fff);
+  color: var(--app-color-text-body);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+:host.application-status-chip--received {
+  background: color-mix(in srgb, $border-subtle 42%, #fff);
+}
+
+:host.application-status-chip--screening {
+  background: color-mix(in srgb, $green-2 14%, #fff);
+}
+
+:host.application-status-chip--interview_scheduled {
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, $green-2 48%, $green-1) 52%,
+    #fff
+  );
+}
+
+:host.application-status-chip--shortlisted {
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, $green-1 86%, $green-2 14%) 66%,
+    #fff
+  );
+}
+
+:host.application-status-chip--offer_extended {
+  background: color-mix(in srgb, $button-primary-fill 32%, #fff);
+}
+
+:host.application-status-chip--rejected {
+  background: color-mix(in srgb, $warn-color 22%, #fff);
+}
+
+:host.application-status-chip--withdrawn {
+  background: color-mix(in srgb, $primary-color 14%, #fffef2);
+}

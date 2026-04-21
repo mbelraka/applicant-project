@@ -1,63 +1,278 @@
 <div class="applicants-container flex min-h-0 flex-1 flex-col">
   @let viewType = viewType$ | async;
   @let globalFilter = globalFilter$ | async;
+  @let filterBySkill = filterBySkill$ | async;
+  @let statusFilterValue = filterByStatus$ | async;
+  @let countryFilterValue = filterByCountry$ | async;
+  @let uniqueStatuses = uniqueStatuses$ | async;
+  @let uniqueCountries = uniqueCountries$ | async;
+  @let sortBy = sortBy$ | async;
+  @let sortDirection = sortDirection$ | async;
+  @let searchHasText = (globalFilter ?? '').trim().length > 0;
 
-  <header class="header flex flex-row items-center justify-between gap-6">
-    <mat-form-field appearance="outline" class="min-w-0 flex-1">
-      <mat-label>{{ 'applicants.searchLabel' | translate }}</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        [value]="globalFilter"
-        [placeholder]="'applicants.searchPlaceholder' | translate"
-      />
-    </mat-form-field>
-    <button
-      mat-flat-button
-      type="button"
-      class="shrink-0 whitespace-nowrap"
-      (click)="openForm()"
+  <header
+    class="header applicants-header flex flex-row flex-wrap items-end justify-between gap-4"
+  >
+    <div
+      class="applicants-header__filters-group flex min-w-0 flex-row flex-wrap items-start justify-start gap-4"
     >
-      {{ 'applicants.newApplicant' | translate }}
-    </button>
-  </header>
-
-  <div class="content flex flex-col gap-6">
-    <div class="options flex justify-center">
-      <mat-button-toggle-group
-        [value]="viewType ?? viewTypes.GRID"
-        (change)="toggleView($event.value)"
-        [attr.aria-label]="'applicants.viewToggle' | translate"
-        [hideSingleSelectionIndicator]="true"
+      <div
+        class="applicants-header__filters-static flex min-w-0 flex-row flex-wrap items-start justify-start gap-4"
+        [class]="fade.base"
+        [animate.enter]="fade.enter"
+        [animate.leave]="fade.leave"
       >
-        <mat-button-toggle [value]="viewTypes.GRID">
-          {{ 'applicants.gridView' | translate }}
-        </mat-button-toggle>
-        <mat-button-toggle [value]="viewTypes.LIST">
-          {{ 'applicants.listView' | translate }}
-        </mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-
-    @switch (viewType) {
-      @case (viewTypes.LIST) {
+        <div class="applicants-header-field flex min-w-0 flex-col gap-1">
+          <label class="applicants-header-label" for="applicants-search-input">
+            {{ 'applicants.searchLabel' | translate }}
+          </label>
+          <mat-form-field
+            appearance="fill"
+            class="form-field--filled-white form-field--full-width min-w-0 no-subscript"
+            subscriptSizing="dynamic"
+          >
+            <input
+              id="applicants-search-input"
+              #searchInput
+              matInput
+              [value]="globalFilter ?? ''"
+              (input)="applyFilter($event)"
+            />
+            @if (searchHasText) {
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                [attr.aria-label]="'applicants.clearSearch' | translate"
+                (click)="clearSearch()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            } @else {
+              <mat-icon matSuffix aria-hidden="true">search</mat-icon>
+            }
+          </mat-form-field>
+        </div>
+        <div class="applicants-header-field flex min-w-0 flex-col gap-1">
+          <label
+            class="applicants-header-label"
+            for="applicants-filter-status"
+            id="applicants-filter-status-label"
+          >
+            {{ 'applicants.filterByStatus' | translate }}
+          </label>
+          <mat-form-field
+            appearance="fill"
+            class="form-field--filled-white form-field--full-width shrink-0 no-subscript"
+            subscriptSizing="dynamic"
+          >
+            <mat-select
+              id="applicants-filter-status"
+              panelClass="select-panel--filled-white"
+              [value]="statusFilterValue ?? null"
+              [attr.aria-labelledby]="'applicants-filter-status-label'"
+              (selectionChange)="onStatusFilterChange($event.value)"
+              [placeholder]="'applicants.filterAll' | translate"
+            >
+              <mat-option [value]="null">{{
+                'applicants.filterAll' | translate
+              }}</mat-option>
+              @for (st of uniqueStatuses ?? []; track st) {
+                <mat-option [value]="st">{{
+                  'applicationStatus.' + st | translate
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="applicants-header-field flex min-w-0 flex-col gap-1">
+          <label
+            class="applicants-header-label"
+            for="applicants-filter-country"
+            id="applicants-filter-country-label"
+          >
+            {{ 'applicants.filterByCountry' | translate }}
+          </label>
+          <mat-form-field
+            appearance="fill"
+            class="form-field--filled-white form-field--full-width shrink-0 no-subscript"
+            subscriptSizing="dynamic"
+          >
+            <mat-select
+              id="applicants-filter-country"
+              panelClass="select-panel--filled-white"
+              [value]="countryFilterValue ?? null"
+              [attr.aria-labelledby]="'applicants-filter-country-label'"
+              (selectionChange)="onCountryFilterChange($event.value)"
+              [placeholder]="'applicants.filterAll' | translate"
+            >
+              <mat-option [value]="null">{{
+                'applicants.filterAll' | translate
+              }}</mat-option>
+              @for (c of uniqueCountries ?? []; track c) {
+                <mat-option [value]="c">{{ c }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      @if (viewType === viewTypes.GRID) {
         <div
+          class="applicants-header-field flex min-w-0 flex-col gap-1"
           [class]="fade.base"
           [animate.enter]="fade.enter"
           [animate.leave]="fade.leave"
         >
-          <app-applicant-list />
+          <label
+            class="applicants-header-label"
+            for="applicants-grid-sort-field"
+            id="applicants-grid-sort-label"
+          >
+            {{ 'applicants.sortBy' | translate }}
+          </label>
+          <mat-form-field
+            appearance="fill"
+            class="form-field--filled-white form-field--full-width shrink-0 no-subscript"
+            subscriptSizing="dynamic"
+          >
+            <mat-select
+              id="applicants-grid-sort-field"
+              panelClass="select-panel--filled-white"
+              [value]="gridSortMatSelectValue(sortBy)"
+              [attr.aria-labelledby]="'applicants-grid-sort-label'"
+              (selectionChange)="
+                onGridSortFieldChange($event.value, sortDirection ?? 'asc')
+              "
+              [placeholder]="'applicants.sortDefault' | translate"
+            >
+              <mat-option [value]="''">{{
+                'applicants.sortDefault' | translate
+              }}</mat-option>
+              @for (opt of gridSortFieldOptions; track opt.value) {
+                <mat-option [value]="opt.value">{{
+                  opt.labelKey | translate
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
+      @if (filterBySkill) {
+        <div
+          [ngClass]="[
+            'applicants-header__skill-wrap',
+            'flex',
+            'shrink-0',
+            'flex-col',
+            'gap-1',
+            fade.base,
+          ]"
+          [animate.enter]="fade.enter"
+          [animate.leave]="fade.leave"
+        >
+          <span
+            id="applicants-skill-filter-label"
+            class="applicants-header-label"
+          >
+            {{ 'applicants.skillFilterLabel' | translate }}
+          </span>
+          <mat-chip-set
+            class="applicants-header__chip-set"
+            [attr.aria-labelledby]="'applicants-skill-filter-label'"
+          >
+            <mat-chip (removed)="clearSkillFilter()">
+              {{ filterBySkill }}
+              <button
+                matChipRemove
+                type="button"
+                [attr.aria-label]="'applicants.removeSkillFilter' | translate"
+              >
+                <mat-icon aria-hidden="true">close</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      }
+    </div>
+    <div class="applicants-header-field flex shrink-0 flex-col gap-1">
+      <span id="applicants-view-mode-label" class="applicants-header-label">
+        {{ 'applicants.viewToggle' | translate }}
+      </span>
+      <div class="options flex justify-center">
+        <mat-button-toggle-group
+          [value]="viewType ?? viewTypes.GRID"
+          (change)="toggleView($event.value)"
+          [attr.aria-labelledby]="'applicants-view-mode-label'"
+          [hideSingleSelectionIndicator]="true"
+        >
+          <mat-button-toggle
+            [value]="viewTypes.GRID"
+            class="applicants-view-toggle-option gap-2"
+          >
+            <mat-icon aria-hidden="true">grid_view</mat-icon>
+            {{ 'applicants.gridView' | translate }}
+          </mat-button-toggle>
+          <mat-button-toggle
+            [value]="viewTypes.LIST"
+            class="applicants-view-toggle-option gap-2"
+          >
+            <mat-icon aria-hidden="true">view_list</mat-icon>
+            {{ 'applicants.listView' | translate }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </header>
+
+  <div class="content applicants__content flex flex-col gap-6">
+    @switch (viewType) {
+      @case (viewTypes.LIST) {
+        <div
+          class="applicants__view-slot"
+          [class]="fade.base"
+          [animate.enter]="fade.enter"
+          [animate.leave]="fade.leave"
+        >
+          <app-applicant-list (editApplicant)="openForm($event)" />
         </div>
       }
       @default {
         <div
+          class="applicants__view-slot"
           [class]="fade.base"
           [animate.enter]="fade.enter"
           [animate.leave]="fade.leave"
         >
-          <app-applicant-grid />
+          <app-applicant-grid (editApplicant)="openForm($event)" />
         </div>
       }
     }
+  </div>
+
+  <div
+    #newApplicantFabShell
+    class="new-applicant-fab-shell"
+    (mouseenter)="onNewApplicantFabShellPointerEnter()"
+    (mouseleave)="onNewApplicantFabShellPointerLeave()"
+  >
+    <button
+      #newApplicantButton
+      mat-fab
+      extended
+      type="button"
+      color="primary"
+      class="new-applicant-button"
+      [class.new-applicant-button--expanded]="newApplicantFabExpanded()"
+      (click)="openForm()"
+      (focusin)="onNewApplicantButtonFocusIn()"
+      (focusout)="onNewApplicantButtonFocusOut($event)"
+      [attr.aria-expanded]="newApplicantFabExpanded()"
+      [attr.aria-label]="'applicants.newApplicant' | translate"
+    >
+      <mat-icon>person_add</mat-icon>
+      <span class="new-applicant-button__text">{{
+        'applicants.newApplicant' | translate
+      }}</span>
+    </button>
   </div>
 </div>

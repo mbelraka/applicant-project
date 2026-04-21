@@ -2,6 +2,7 @@
   "nav": {
     "main": "Start",
     "applicants": "Bewerber",
+    "matchCandidates": "Kandidaten-Matching",
     "export": "Export"
   },
   "language": {
@@ -11,6 +12,12 @@
       "de": "DE",
       "fr": "FR"
     }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "Jahr Erfahrung",
+    "yearsSuffixOther": "Jahre Erfahrung",
+    "unitYear": "Jahr",
+    "unitYears": "Jahre"
   },
   "footer": {
     "copyright": "© 2026 Elrakaiby"
@@ -23,23 +30,64 @@
     "overlayTitle": "KI-gestütztes Talent-Matching",
     "overlaySubtitle": "Nutzen Sie die Kraft der KI, um die beste Passung zu finden."
   },
+  "match": {
+    "pageTitle": "Kandidaten-Matching",
+    "intro": "Finden und bewerten Sie die besten Passungen für offene Rollen.",
+    "placeholder": "Matching-Funktionen werden hier angezeigt."
+  },
   "applicants": {
     "searchLabel": "Bewerber suchen",
     "searchPlaceholder": "Bewerber suchen",
+    "clearSearch": "Suche löschen",
+    "filterByStatus": "Status",
+    "filterByCountry": "Land",
+    "sortBy": "Sortieren nach",
+    "sortDefault": "Standardreihenfolge",
+    "filterAll": "Alle",
+    "skillFilterLabel": "Fähigkeit",
+    "removeSkillFilter": "Fähigkeitsfilter entfernen",
     "newApplicant": "Neuer Bewerber",
     "gridView": "Rasteransicht",
     "listView": "Listenansicht",
     "viewToggle": "Ansichtsmodus",
     "availableFrom": "Verfügbar ab",
-    "skills": "Skills"
+    "skills": "Skills",
+    "location": "Standort",
+    "yearsOfExperience": "Berufserfahrung (Jahre)",
+    "applicationStatus": "Bewerbungsstatus",
+    "currentJobTitle": "Aktuelle Berufsbezeichnung",
+    "deleteApplicant": "Bewerber löschen",
+    "confirmDeleteTitle": "Löschen bestätigen",
+    "confirmDeleteMessage": "Sind Sie sicher, dass Sie diesen Bewerber löschen möchten? Diese Aktion entfernt sein Profil und alle zugehörigen Daten dauerhaft aus dem Curation-Registry.",
+    "confirmDeleteConfirm": "Bewerber löschen",
+    "confirmDeleteCancel": "Abbrechen",
+    "gridPaginationLabel": "Seiten der Bewerber-Rasteransicht",
+    "goToGridPage": "Zu Seite {{page}} wechseln",
+    "gridPagerPreviousPage": "Vorherige Seite",
+    "gridPagerNextPage": "Nächste Seite"
   },
   "applicantList": {
     "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
     "availability": "Verfügbarkeit",
-    "skills": "Skills"
+    "skills": "Fähigkeiten",
+    "currentJobTitle": "Berufsbezeichnung",
+    "location": "Standort",
+    "yearsOfExperience": "Erfahrung",
+    "applicationStatus": "Status"
   },
   "applicantCard": {
     "availablePrefix": "Verfügbar:"
+  },
+  "applicationStatus": {
+    "received": "Eingegangen",
+    "screening": "Sichtung",
+    "interview_scheduled": "Vorstellungsgespräch",
+    "shortlisted": "Engere Wahl",
+    "offer_extended": "Angebot",
+    "rejected": "Absage",
+    "withdrawn": "Zurückgezogen"
   },
   "export": {
     "title": "Bewerber exportieren",
@@ -50,13 +98,23 @@
   },
   "newApplicant": {
     "title": "Neuer Bewerber",
-    "firstName": "Vorname",
-    "lastName": "Nachname",
+    "editTitle": "Bewerber ansehen / bearbeiten",
+    "name": "Name",
+    "email": "E-Mail-Adresse",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "phone": "Telefonnummer",
+    "location": "Standort",
+    "yearsOfExperience": "Berufserfahrung (Jahre)",
+    "applicationStatus": "Bewerbungsstatus",
+    "currentJobTitle": "Aktuelle Berufsbezeichnung",
     "skills": "Skills",
     "skillPlaceholder": "Neues Skill",
     "availableFrom": "Verfügbar ab",
+    "notes": "Notizen",
     "cancel": "Abbrechen",
     "apply": "Wählen",
-    "submit": "Einreichen"
+    "submit": "Einreichen",
+    "save": "Aktualisieren"
   }
 }

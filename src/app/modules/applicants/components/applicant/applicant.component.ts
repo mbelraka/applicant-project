@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
-import { Applicant } from 'src/app/modules/applicants/models/applicant.model';
 import { FullState } from 'src/app/models/full-state.model';
-import { deleteApplicant } from '../../state/applicants.actions';
+import { Applicant } from 'src/app/modules/applicants/models/applicant.model';
+import { MATERIAL_SYMBOLS_OUTLINED_FONT_SET } from 'src/app/utilities/initializers/material-symbols-outlined-font.initializer';
+import { confirmDeleteApplicant } from '../../utilities/confirm-delete.util';
 
 @Component({
   selector: 'app-applicant',
@@ -12,19 +14,15 @@ import { deleteApplicant } from '../../state/applicants.actions';
   standalone: false,
 })
 export class ApplicantComponent {
-  private _applicant!: Applicant;
+  private readonly _dialog = inject(MatDialog);
 
-  public get applicant(): Applicant {
-    return this._applicant;
-  }
+  @Input({ required: true }) public applicant!: Applicant;
 
-  @Input() public set applicant(value: Applicant) {
-    this._applicant = value;
-  }
+  public readonly outlinedIconFontSet = MATERIAL_SYMBOLS_OUTLINED_FONT_SET;
 
-  public constructor(private readonly store: Store<FullState>) {}
+  public constructor(private readonly _store: Store<FullState>) {}
 
-  public delete(): void {
-    this.store.dispatch(deleteApplicant({ id: this.applicant.id }));
+  public confirmDelete(): void {
+    confirmDeleteApplicant(this._dialog, this._store, this.applicant);
   }
 }

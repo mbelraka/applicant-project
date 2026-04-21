@@ -1,0 +1,45 @@
+<nav
+  class="applicants-pagination__pager"
+  [attr.aria-label]="'applicants.gridPaginationLabel' | translate"
+>
+  <button
+    type="button"
+    class="applicants-pagination__pager-nav"
+    [disabled]="pageIndex === 0"
+    [attr.aria-label]="'applicants.gridPagerPreviousPage' | translate"
+    (click)="goToPreviousPage()"
+  >
+    <mat-icon
+      [fontSet]="outlinedIconFontSet"
+      fontIcon="chevron_left"
+      aria-hidden="true"
+    ></mat-icon>
+  </button>
+  <div class="applicants-pagination__pager-pages" role="presentation">
+    @for (n of pageNumbers; track n) {
+      <button
+        type="button"
+        class="applicants-pagination__page-btn"
+        [class.applicants-pagination__page-btn--current]="pageIndex === n - 1"
+        [attr.aria-current]="pageIndex === n - 1 ? 'page' : null"
+        [attr.aria-label]="'applicants.goToGridPage' | translate: { page: n }"
+        (click)="goToPage(n - 1)"
+      >
+        {{ n }}
+      </button>
+    }
+  </div>
+  <button
+    type="button"
+    class="applicants-pagination__pager-nav"
+    [disabled]="pageIndex >= pageCount - 1"
+    [attr.aria-label]="'applicants.gridPagerNextPage' | translate"
+    (click)="goToNextPage()"
+  >
+    <mat-icon
+      [fontSet]="outlinedIconFontSet"
+      fontIcon="chevron_right"
+      aria-hidden="true"
+    ></mat-icon>
+  </button>
+</nav>

@@ -1,23 +1,135 @@
-<div class="grid-container flex flex-row flex-wrap gap-4">
-  @for (applicant of applicants; track applicant.id) {
-    <mat-card class="grid-item mat-elevation-z3">
-      <mat-card-header>
-        <mat-card-title>{{ applicant.name }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{ 'applicants.availableFrom' | translate }}:
-          {{ applicant.availableFrom | localeDate }}
-        </p>
-        <div class="flex flex-row flex-wrap items-center gap-1">
-          <span>{{ 'applicants.skills' | translate }}:</span>
-          @for (skill of applicant.skills ?? []; track $index) {
-            <button mat-button type="button" (click)="onSkillClick(skill)">
-              {{ skill }}
-            </button>
+<div class="applicant-grid">
+  <div class="applicant-grid__scroll">
+    <div
+      class="applicant-grid__cards"
+      #cardsMeasure
+      [style.--applicant-grid-cols]="columnsPerRow()"
+    >
+      @for (
+        applicant of pagedApplicants();
+        track applicant.id;
+        let idx = $index
+      ) {
+        <mat-card
+          class="applicant-grid__card"
+          [style.animation-delay.ms]="cardEnterDelayMs(idx)"
+          (click)="onCardClick($event, applicant)"
+        >
+          @if (applicant.applicationStatus) {
+            <app-application-status-chip
+              class="applicant-grid__application-status"
+              [status]="applicant.applicationStatus"
+            ></app-application-status-chip>
           }
-        </div>
-      </mat-card-content>
-    </mat-card>
+          <mat-card-header class="applicant-grid__header">
+            <mat-card-title class="applicant-grid__name">{{
+              applicant.name
+            }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="applicant-grid__card-body">
+            @if (applicant.currentJobTitle?.trim()) {
+              <p
+                class="applicant-grid__meta applicant-grid__meta--current-job-title"
+              >
+                {{ applicant.currentJobTitle }}
+              </p>
+              <hr class="applicant-grid__divider" />
+            }
+            @if (
+              applicant.yearsOfExperience !== undefined &&
+              applicant.yearsOfExperience !== null
+            ) {
+              <p
+                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
+              >
+                <mat-icon
+                  class="applicant-grid__meta-icon"
+                  [fontSet]="outlinedIconFontSet"
+                  fontIcon="work"
+                  aria-hidden="true"
+                ></mat-icon>
+                <span
+                  class="applicant-grid__meta-inline flex flex-row gap-1 items-center"
+                >
+                  <span class="applicant-grid__years-value">{{
+                    applicant.yearsOfExperience
+                  }}</span>
+                  <span class="applicant-grid__years-suffix"
+                    >{{
+                      (applicant.yearsOfExperience === 1
+                        ? 'experienceDisplay.yearsSuffixOne'
+                        : 'experienceDisplay.yearsSuffixOther'
+                      ) | translate
+                    }}
+                  </span>
+                </span>
+              </p>
+            }
+            @if (applicant.location?.trim()) {
+              <p
+                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
+              >
+                <mat-icon
+                  class="applicant-grid__meta-icon"
+                  [fontSet]="outlinedIconFontSet"
+                  fontIcon="location_on"
+                  aria-hidden="true"
+                ></mat-icon>
+                <span>{{ applicant.location }}</span>
+              </p>
+            }
+            @if (applicant.availableFrom) {
+              <p
+                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
+                [attr.aria-label]="
+                  ('applicants.availableFrom' | translate) +
+                  ' ' +
+                  (applicant.availableFrom | localeDate)
+                "
+              >
+                <mat-icon
+                  class="applicant-grid__meta-icon"
+                  [fontSet]="outlinedIconFontSet"
+                  fontIcon="calendar_clock"
+                  aria-hidden="true"
+                ></mat-icon>
+                <span>
+                  {{ 'applicants.availableFrom' | translate }}
+                  {{ applicant.availableFrom | localeDate }}
+                </span>
+              </p>
+            }
+            <app-applicant-skills
+              class="applicant-grid__skills"
+              [skills]="applicant.skills"
+              variant="filter-chip"
+              (skillSelected)="filterBySkill($event)"
+            ></app-applicant-skills>
+          </mat-card-content>
+          <button
+            mat-icon-button
+            type="button"
+            color="primary"
+            class="applicant-grid__delete"
+            (click)="confirmRemoveApplicant(applicant, $event)"
+            [attr.aria-label]="'applicants.deleteApplicant' | translate"
+          >
+            <mat-icon
+              [fontSet]="outlinedIconFontSet"
+              fontIcon="delete"
+              aria-hidden="true"
+            ></mat-icon>
+          </button>
+        </mat-card>
+      }
+    </div>
+  </div>
+  @if (applicants().length > 0) {
+    <app-applicants-pagination
+      [pageCount]="pageCount()"
+      [pageIndex]="pageIndex()"
+      [pageNumbers]="pageNumbers()"
+      (pageChange)="goToPage($event)"
+    ></app-applicants-pagination>
   }
 </div>

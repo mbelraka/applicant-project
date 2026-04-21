@@ -90,6 +90,210 @@
   @include _primary-filled;
 }
 
+@mixin _primary-fab {
+  --mat-fab-container-shape: 0;
+  --mat-fab-extended-container-shape: 0;
+  border-radius: 0 !important;
+  transition:
+    background-color 0.3s linear,
+    color 0.3s linear,
+    box-shadow 0.3s linear;
+
+  --mat-fab-container-color: #{$button-primary-fill};
+  --mat-fab-foreground-color: #{$button-primary-label};
+  --mat-fab-state-layer-color: #{$button-primary-label};
+  --mat-fab-ripple-color: #{color-mix(
+      in srgb,
+      $button-primary-label 28%,
+      transparent
+    )};
+  --mat-fab-disabled-state-container-color: #{color-mix(
+      in srgb,
+      $button-primary-fill 38%,
+      #fff
+    )};
+  --mat-fab-disabled-state-foreground-color: #{color-mix(
+      in srgb,
+      $button-primary-label 38%,
+      transparent
+    )};
+
+  mat-icon,
+  .mat-icon {
+    color: inherit !important;
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled),
+  &:active:not(:disabled),
+  &.cdk-keyboard-focused:not(:disabled) {
+    --mat-fab-container-color: #{$button-primary-hover-fill};
+    --mat-fab-foreground-color: #{$button-primary-hover-label};
+    --mat-fab-state-layer-color: #{$button-primary-hover-label};
+    --mat-fab-ripple-color: #{color-mix(
+        in srgb,
+        $button-primary-hover-label 28%,
+        transparent
+      )};
+  }
+}
+
+@mixin _primary-mini-fab {
+  --mat-fab-small-container-shape: 0;
+  border-radius: 0 !important;
+  transition:
+    background-color 0.3s linear,
+    color 0.3s linear,
+    box-shadow 0.3s linear;
+
+  --mat-fab-small-container-color: #{$button-primary-fill};
+  --mat-fab-small-foreground-color: #{$button-primary-label};
+  --mat-fab-small-state-layer-color: #{$button-primary-label};
+  --mat-fab-small-ripple-color: #{color-mix(
+      in srgb,
+      $button-primary-label 28%,
+      transparent
+    )};
+  --mat-fab-small-disabled-state-container-color: #{color-mix(
+      in srgb,
+      $button-primary-fill 38%,
+      #fff
+    )};
+  --mat-fab-small-disabled-state-foreground-color: #{color-mix(
+      in srgb,
+      $button-primary-label 38%,
+      transparent
+    )};
+
+  mat-icon,
+  .mat-icon {
+    color: inherit !important;
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled),
+  &:active:not(:disabled),
+  &.cdk-keyboard-focused:not(:disabled) {
+    --mat-fab-small-container-color: #{$button-primary-hover-fill};
+    --mat-fab-small-foreground-color: #{$button-primary-hover-label};
+    --mat-fab-small-state-layer-color: #{$button-primary-hover-label};
+    --mat-fab-small-ripple-color: #{color-mix(
+        in srgb,
+        $button-primary-hover-label 28%,
+        transparent
+      )};
+  }
+}
+
+.mat-mdc-fab-base.mat-primary.mat-mdc-fab {
+  @include _primary-fab;
+}
+
+.mat-mdc-fab-base.mat-primary.mat-mdc-mini-fab {
+  @include _primary-mini-fab;
+}
+
+// Applicants FAB: label hidden until hover / focus-visible / active / keyboard focus (not disabled).
+// Flex items use min-width:auto by default; label needs min-width:0 + inner span to collapse.
+// CTA shadow must not be clipped: avoid overflow:hidden on the host (clip label only).
+// Keep the same elevation in all states so Material hover shadow does not replace it.
+.new-applicant-button.mat-mdc-fab-base.mat-primary.mat-mdc-fab {
+  $_dur: 0.32s;
+  $_ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --mat-fab-extended-container-height: 48px;
+
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  justify-content: center;
+  overflow: visible;
+  box-sizing: border-box;
+
+  box-shadow: var(--app-shadow-fab-primary) !important;
+  --mat-fab-extended-container-elevation-shadow: var(--app-shadow-fab-primary);
+  --mat-fab-extended-hover-container-elevation-shadow: var(
+    --app-shadow-fab-primary
+  );
+  --mat-fab-extended-focus-container-elevation-shadow: var(
+    --app-shadow-fab-primary
+  );
+  --mat-fab-extended-pressed-container-elevation-shadow: var(
+    --app-shadow-fab-primary
+  );
+
+  // One transition list: layout + primary-fab hover colors + shadow (do not drop mixin behavior).
+  transition:
+    min-width $_dur $_ease,
+    max-width $_dur $_ease,
+    width $_dur $_ease,
+    padding $_dur $_ease,
+    background-color 0.3s linear,
+    color 0.3s linear,
+    box-shadow $_dur $_ease;
+
+  > mat-icon {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    flex-shrink: 0;
+    transition: margin $_dur $_ease;
+  }
+
+  > .mdc-button__label {
+    display: block;
+    box-sizing: border-box;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    flex: 0 1 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition:
+      max-width $_dur $_ease,
+      opacity #{$_dur * 0.85} $_ease;
+  }
+
+  > .mdc-button__label .new-applicant-button__text {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  // Expanded state is driven by `newApplicantFabExpanded` (delayed pointer-leave in component).
+  &.new-applicant-button--expanded:not(:disabled) {
+    --mat-fab-container-color: #{$button-primary-hover-fill};
+    --mat-fab-foreground-color: #{$button-primary-hover-label};
+    --mat-fab-state-layer-color: #{$button-primary-hover-label};
+    --mat-fab-ripple-color: #{color-mix(
+        in srgb,
+        $button-primary-hover-label 28%,
+        transparent
+      )};
+
+    width: auto !important;
+    min-width: auto !important;
+    max-width: min(90vw, 22rem) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    justify-content: flex-start;
+
+    > mat-icon {
+      margin-left: -8px !important;
+      margin-right: 12px !important;
+    }
+
+    > .mdc-button__label {
+      flex: 0 1 auto;
+      max-width: 18rem !important;
+      opacity: 1;
+    }
+  }
+}
+
 // color="accent" (M3 tertiary slot in this app)
 .mat-mdc-raised-button.mat-accent,
 .mat-mdc-unelevated-button.mat-accent,
@@ -155,4 +359,21 @@
 
 .mat-mdc-button.button--palette-secondary {
   @include mat.button-color(theme-def.$light-theme, $color-variant: secondary);
+}
+
+// Skill tags in list/grid: same fill as selected view toggle (secondary emphasis), square corners.
+.mat-mdc-button.applicant-skill {
+  border-radius: 0 !important;
+  background-color: var(--app-color-secondary-emphasis) !important;
+  color: var(--app-color-on-secondary-emphasis) !important;
+  min-height: 24px;
+  padding: 0 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 24px;
+
+  .mdc-button__ripple,
+  .mat-mdc-button-persistent-ripple::before {
+    border-radius: 0 !important;
+  }
 }

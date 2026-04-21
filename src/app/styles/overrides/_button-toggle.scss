@@ -1,3 +1,46 @@
+.mat-button-toggle-group {
+  --mat-button-toggle-shape: 0;
+  --mat-button-toggle-legacy-shape: 0;
+  --mat-button-toggle-background-color: #fff;
+  --mat-button-toggle-divider-color: transparent;
+  --mat-button-toggle-selected-state-background-color: var(
+    --app-color-secondary-emphasis
+  );
+  --mat-button-toggle-selected-state-text-color: var(
+    --app-color-on-secondary-emphasis
+  );
+
+  border: 1px solid var(--app-color-border-subtle);
+  background-color: #fff;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.mat-button-toggle-group-appearance-standard
+  .mat-button-toggle-appearance-standard
+  + .mat-button-toggle-appearance-standard {
+  border-left: none !important;
+}
+
+[dir='rtl']
+  .mat-button-toggle-group-appearance-standard
+  .mat-button-toggle-appearance-standard
+  + .mat-button-toggle-appearance-standard {
+  border-right: none !important;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 32px !important;
+  .mat-icon {
+    font-size: 1.125rem;
+  }
+}
+
+.mat-button-toggle-appearance-standard.mat-button-toggle-checked
+  .mat-button-toggle-label-content {
+  font-weight: 700;
+}
+
 .mat-button-toggle {
   .mat-pseudo-checkbox {
     display: none !important;

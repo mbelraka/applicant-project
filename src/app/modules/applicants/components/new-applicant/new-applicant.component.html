@@ -1,82 +1,199 @@
 <div
-  [class]="dialogRootClass"
-  [animate.enter]="fadeEnterClass"
-  [animate.leave]="fadeLeaveClass"
+  class="new-applicant ng-fade-in-out"
+  [animate.enter]="'ng-fade-in-out-enter'"
+  [animate.leave]="'ng-fade-in-out-leave'"
 >
-  <div class="header -dialog flex flex-row items-center justify-between gap-4">
-    <span class="title">{{ 'newApplicant.title' | translate }}</span>
-    <div class="close-action-container">
-      <button mat-icon-button type="button">
-        <mat-icon class="icon close-action" (click)="dismissAction()"
+  <div class="new-applicant__header">
+    <span class="title">{{
+      (isEditMode ? 'newApplicant.editTitle' : 'newApplicant.title') | translate
+    }}</span>
+    <div class="new-applicant__close-wrap">
+      <button mat-icon-button type="button" (click)="dismiss()">
+        <mat-icon class="new-applicant__close-icon" aria-hidden="true"
           >close</mat-icon
         >
       </button>
     </div>
   </div>
-  <div class="body flex flex-col">
-    <div class="content flex flex-col gap-[5px]">
+
+  <div class="new-applicant__body">
+    <div class="new-applicant__content">
       <form
-        class="form -no-bottom-padding -dialog flex flex-col items-center justify-center"
+        id="new-applicant-form"
+        class="new-applicant__form"
         [formGroup]="fgNewApplicant"
-        (submit)="submitDataAction()"
+        (ngSubmit)="submit()"
       >
-        <div class="inputs flex flex-col gap-[5px]">
-          <div class="group flex flex-col gap-2">
-            <mat-form-field appearance="outline" class="custom-form-field">
-              <mat-label>{{ 'newApplicant.firstName' | translate }}</mat-label>
-
+        <div class="new-applicant__fields">
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-name"
+            >
+              {{ 'newApplicant.name' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
               <input
+                id="new-applicant-name"
                 matInput
-                [attr.aria-label]="'newApplicant.firstName' | translate"
                 type="text"
-                formControlName="firstName"
+                formControlName="name"
                 required
               />
             </mat-form-field>
           </div>
-          <div class="group flex flex-col gap-2">
-            <mat-form-field appearance="outline" class="custom-form-field">
-              <mat-label>{{ 'newApplicant.lastName' | translate }}</mat-label>
-
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-job-title"
+            >
+              {{ 'newApplicant.currentJobTitle' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
               <input
+                id="new-applicant-job-title"
                 matInput
-                [attr.aria-label]="'newApplicant.lastName' | translate"
-                id="name"
                 type="text"
-                formControlName="lastName"
+                formControlName="currentJobTitle"
                 required
               />
             </mat-form-field>
           </div>
-          <div class="group flex flex-col gap-2">
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'newApplicant.skills' | translate }}</mat-label>
-              <mat-chip-grid #chipList>
-                <mat-chip
-                  *ngFor="let skill of skills"
-                  (removed)="removeSkill(skill)"
-                >
-                  {{ skill }}
-                  <button matChipRemove type="button">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <input
-                  [placeholder]="'newApplicant.skillPlaceholder' | translate"
-                  [matChipInputFor]="chipList"
-                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="true"
-                  (matChipInputTokenEnd)="newSkill($event)"
-                />
-              </mat-chip-grid>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-email"
+            >
+              {{ 'newApplicant.email' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control"
+              subscriptSizing="dynamic"
+            >
+              <input
+                id="new-applicant-email"
+                matInput
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                required
+              />
+              @if (
+                fgNewApplicant.controls.email.touched &&
+                fgNewApplicant.controls.email.invalid
+              ) {
+                <mat-error>
+                  @if (fgNewApplicant.controls.email.hasError('required')) {
+                    {{ 'newApplicant.emailRequired' | translate }}
+                  } @else if (fgNewApplicant.controls.email.hasError('email')) {
+                    {{ 'newApplicant.emailInvalid' | translate }}
+                  }
+                </mat-error>
+              }
             </mat-form-field>
           </div>
-          <div class="group flex flex-col gap-2">
-            <mat-form-field appearance="outline">
-              <mat-label>{{
-                'newApplicant.availableFrom' | translate
-              }}</mat-label>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-phone"
+            >
+              {{ 'newApplicant.phone' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
               <input
+                id="new-applicant-phone"
+                matInput
+                type="tel"
+                formControlName="phone"
+                autocomplete="tel"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-years-exp"
+            >
+              {{ 'newApplicant.yearsOfExperience' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <input
+                id="new-applicant-years-exp"
+                matInput
+                type="number"
+                [attr.min]="yearsOfExperienceInput.min"
+                [attr.max]="yearsOfExperienceInput.max"
+                [attr.step]="yearsOfExperienceInput.step"
+                formControlName="yearsOfExperience"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-location"
+            >
+              {{ 'newApplicant.location' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <input
+                id="new-applicant-location"
+                matInput
+                type="text"
+                formControlName="location"
+                [matAutocomplete]="locationAuto"
+                autocomplete="off"
+                required
+              />
+              <mat-autocomplete #locationAuto="matAutocomplete">
+                @for (option of locationSuggestions$ | async; track option) {
+                  <mat-option [value]="option">{{ option }}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label"
+              for="new-applicant-available-from"
+            >
+              {{ 'newApplicant.availableFrom' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <input
+                id="new-applicant-available-from"
                 matInput
                 [matDatepicker]="datepicker"
                 formControlName="availableFrom"
@@ -85,7 +202,7 @@
                 matSuffix
                 [for]="datepicker"
               ></mat-datepicker-toggle>
-              <mat-datepicker #datepicker>
+              <mat-datepicker #datepicker [restoreFocus]="false">
                 <mat-datepicker-actions>
                   <button mat-button matDatepickerCancel type="button">
                     {{ 'newApplicant.cancel' | translate }}
@@ -102,18 +219,102 @@
               </mat-datepicker>
             </mat-form-field>
           </div>
+
+          <div class="new-applicant__field">
+            <label
+              class="new-applicant__label new-applicant__label--required"
+              for="new-applicant-status"
+            >
+              {{ 'newApplicant.applicationStatus' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <mat-select
+                id="new-applicant-status"
+                formControlName="applicationStatus"
+                required
+                panelClass="select-panel--filled-white"
+                [attr.aria-label]="'newApplicant.applicationStatus' | translate"
+              >
+                @for (status of applicationStatuses; track status) {
+                  <mat-option [value]="status">{{
+                    'applicationStatus.' + status | translate
+                  }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="new-applicant__field new-applicant__field--full">
+            <label
+              class="new-applicant__label"
+              for="new-applicant-skills-input"
+            >
+              {{ 'newApplicant.skills' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control new-applicant__skills-field no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <mat-chip-grid #chipList class="new-applicant__chip-grid">
+                <mat-chip
+                  *ngFor="let skill of skills; trackBy: trackSkill"
+                  (removed)="removeSkill(skill)"
+                >
+                  {{ skill }}
+                  <button matChipRemove type="button">
+                    <mat-icon aria-hidden="true">close</mat-icon>
+                  </button>
+                </mat-chip>
+                <input
+                  id="new-applicant-skills-input"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="addSkill($event)"
+                />
+              </mat-chip-grid>
+            </mat-form-field>
+          </div>
+
+          <div class="new-applicant__field new-applicant__field--full">
+            <label class="new-applicant__label" for="new-applicant-notes">
+              {{ 'newApplicant.notes' | translate }}
+            </label>
+            <mat-form-field
+              appearance="fill"
+              class="form-field--filled-white new-applicant__control new-applicant__notes-field no-subscript"
+              subscriptSizing="dynamic"
+            >
+              <textarea
+                id="new-applicant-notes"
+                matInput
+                formControlName="notes"
+                rows="4"
+              ></textarea>
+            </mat-form-field>
+          </div>
         </div>
-        <button
-          mat-raised-button
-          class="submit"
-          color="primary"
-          type="submit"
-          [disabled]="!fgNewApplicant.valid"
-          (click)="submitDataAction()"
-        >
-          {{ 'newApplicant.submit' | translate }}
-        </button>
       </form>
     </div>
   </div>
+
+  <footer class="new-applicant__footer">
+    <button
+      mat-raised-button
+      class="new-applicant__submit"
+      color="primary"
+      type="submit"
+      form="new-applicant-form"
+      [disabled]="!fgNewApplicant.valid"
+    >
+      {{
+        (isEditMode ? 'newApplicant.save' : 'newApplicant.submit') | translate
+      }}
+    </button>
+  </footer>
 </div>

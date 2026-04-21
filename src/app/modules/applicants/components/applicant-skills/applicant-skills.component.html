@@ -1,0 +1,43 @@
+@if ((skills ?? []).length > 0) {
+  @switch (variant) {
+    @case ('filter-chip') {
+      <div class="applicant-skills applicant-skills--filter-chip">
+        @for (skill of skills ?? []; track skill) {
+          <button
+            mat-button
+            type="button"
+            class="applicant-skill applicant-skills__filter-button"
+            (click)="onSkillClick($event, skill)"
+          >
+            {{ skill }}
+          </button>
+        }
+      </div>
+    }
+    @case ('inline-link') {
+      <span class="applicant-skills applicant-skills--inline-link">
+        @for (skill of skills ?? []; track skill) {
+          @if (!$first) {
+            <span class="applicant-skills__separator" aria-hidden="true"
+              >,
+            </span>
+          }
+          <button
+            type="button"
+            class="applicant-skills__inline-link"
+            (click)="onSkillClick($event, skill)"
+          >
+            {{ skill }}
+          </button>
+        }
+      </span>
+    }
+    @default {
+      <mat-chip-set class="applicant-skills applicant-skills--chip">
+        @for (skill of skills ?? []; track skill) {
+          <mat-chip>{{ skill }}</mat-chip>
+        }
+      </mat-chip-set>
+    }
+  }
+}

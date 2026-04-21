@@ -1,6 +1,15 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+var existsSync = require('fs').existsSync;
+var chromeBinByPlatform = require('./karma.chrome.config.cjs').chromeBinByPlatform;
+
+var configuredChromeBin = chromeBinByPlatform[process.platform];
+
+if (!process.env.CHROME_BIN && configuredChromeBin && existsSync(configuredChromeBin)) {
+  process.env.CHROME_BIN = configuredChromeBin;
+}
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -29,8 +38,22 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
-      ]
+        { type: 'text' }
+      ],
+      check: {
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80
+        }
+      }
+    },
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,

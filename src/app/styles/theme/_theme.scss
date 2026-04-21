@@ -31,7 +31,7 @@ $_tertiary: map.merge(
   )
 );
 
-// Font stack must match :root --app-font-family in _design-tokens.scss (Material theme is Sass-time).
+// Font stack: same as :root typography in shared/_design-tokens.scss (Sass cannot read CSS vars).
 $_theme-typography: (
   brand-family: 'Manrope, sans-serif',
   plain-family: 'Manrope, sans-serif',

@@ -13,18 +13,28 @@ $button-primary-hover-label: map.get($_gold-ramp, 25);
 $black-1: #0e1d25;
 $black-2: #516169;
 $black-3: #83939c;
-$black-4: #e3f3fd;
 
 $text-headline: $black-1;
 $text-body: #3f4848;
 $text-label: $text-body;
+/// Muted slate for inline / field-adjacent labels (same as rgb(81, 97, 105)).
+$text-inner-label: rgb(81, 97, 105);
+
+/// Light neutral border for filled fields, button-toggle groups, etc. (same as rgb(229, 231, 235)).
+$border-subtle: rgb(229, 231, 235);
 
 $green-1: #004d4d;
 $green-2: #5f9b9a;
-$green-3: #e2fffe;
 
 $base-color: #f4faff;
+/// Deeper cool background (design token; pair with surface base).
+$background-dark: #e7f6ff;
 $primary-color: #d4af37;
 $secondary-color: $green-1;
+/// Teal main / emphasis surface (same as rgb(0 52 52) / #003434).
+$secondary-main-color: rgb(0, 52, 52);
+/// Selected button-toggle & skill chips / pills (teal emphasis; pairs with on-surface).
+$secondary-emphasis-surface: $secondary-main-color;
+$secondary-emphasis-on-surface: #ffffff;
 $accent-color: #2f3e46;
 $warn-color: #ba1a1a;

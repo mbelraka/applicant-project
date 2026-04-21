@@ -6,10 +6,15 @@ import {
   withInterceptorsFromDi,
   withXsrfConfiguration,
 } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import {
+  inject,
+  LOCALE_ID,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatIconRegistry } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -21,6 +26,8 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { APP_CONFIG } from './config/app.config';
+import { provideRootAnimations } from './provide-root-animations';
 import { Languages } from './enums/language.enum';
 import { appReducer } from './state/app.reducer';
 import { metaReducerLocalStorage } from './state/meta-reducers';
@@ -30,6 +37,7 @@ import { matDateLocaleFactory } from './utilities/factories/mat-date-locale.fact
 import { AuthInterceptor } from './core/http/auth.interceptor';
 import { LocalStorageService } from './services/local-storage.service';
 import { environment } from '../environments/environment';
+import { registerMaterialSymbolsOutlinedFont } from './utilities/initializers/material-symbols-outlined-font.initializer';
 
 function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -39,7 +47,6 @@ function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     TranslateModule.forRoot({
       defaultLanguage: Languages.English,
       loader: {
@@ -65,16 +72,17 @@ function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     EffectsModule.forRoot([AppEffects]),
     // Register Redux DevTools in development
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retain the last 25 states
+      maxAge: APP_CONFIG.NGRX_DEVTOOLS.MAX_STATE_HISTORY,
       logOnly: environment.production, // Restrict extension to log-only mode in production
       autoPause: true, // Pause when DevTools are not open
     }),
   ],
   providers: [
+    provideRootAnimations,
     provideHttpClient(
       withXsrfConfiguration({
-        cookieName: 'XSRF-TOKEN',
-        headerName: 'X-XSRF-TOKEN',
+        cookieName: APP_CONFIG.HTTP.XSRF_COOKIE_NAME,
+        headerName: APP_CONFIG.HTTP.XSRF_HEADER_NAME,
       }),
       withInterceptorsFromDi()
     ),
@@ -94,6 +102,9 @@ function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       deps: [LocalStorageService],
     },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    provideAppInitializer(() => {
+      registerMaterialSymbolsOutlinedFont(inject(MatIconRegistry))();
+    }),
   ],
   bootstrap: [AppComponent],
 })

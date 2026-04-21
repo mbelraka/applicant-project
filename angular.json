@@ -38,12 +38,7 @@
             ],
             "allowedCommonJsDependencies": ["exceljs", "file-saver", "pako"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/app",
-                "src/app/styles",
-                "src/app/styles/shared",
-                "node_modules"
-              ]
+              "includePaths": ["src/app/styles", "src/app", "node_modules"]
             },
             "scripts": [],
             "aot": true,
@@ -150,12 +145,7 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/app",
-                "src/app/styles",
-                "src/app/styles/shared",
-                "node_modules"
-              ]
+              "includePaths": ["src/app/styles", "src/app", "node_modules"]
             },
             "scripts": []
           }

@@ -1,15 +1,31 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component } from '@angular/core';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef } from '@angular/material/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, Inject, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 
+import { APP_CONFIG } from '../../../../config/app.config';
+import { ApplicationStatus } from '../../enums/application-status.enum';
+import { Applicant } from '../../models/applicant.model';
 import {
-  FADE_IN_OUT_BASE_CLASS,
-  FADE_IN_OUT_ENTER_CLASS,
-  FADE_IN_OUT_LEAVE_CLASS,
-} from 'src/app/shared/animations/fade-in-out.animation';
-import { ApplicantForm } from '../../models/applicanion-form.model';
+  clearLocationSuggestions,
+  searchLocationSuggestions,
+} from '../../state/applicants.actions';
+import { selectLocationSuggestions } from '../../state/applicants.selectors';
+import { applicantPhonePatternValidator } from '../../../../utilities/validators/applicant-phone-pattern.validator';
+import { applicantYearsOfExperienceValidator } from '../../../../utilities/validators/applicant-years-of-experience.validators';
+import { emailFieldValidator } from '../../../../utilities/validators/email-field.validator';
+
+/** Passed when opening the dialog to view or edit an existing applicant. */
+export interface NewApplicantDialogData {
+  applicant: Applicant;
+}
+
+export type NewApplicantDialogCloseResult =
+  | Applicant
+  | { applicant: Applicant; isUpdate: true };
 
 @Component({
   selector: 'app-new-applicant',
@@ -18,72 +34,159 @@ import { ApplicantForm } from '../../models/applicanion-form.model';
   standalone: false,
 })
 export class NewApplicantComponent {
-  public readonly dialogRootClass = `full-container flex flex-col gap-8 ${FADE_IN_OUT_BASE_CLASS}`;
-  public readonly fadeEnterClass = FADE_IN_OUT_ENTER_CLASS;
-  public readonly fadeLeaveClass = FADE_IN_OUT_LEAVE_CLASS;
+  public readonly isEditMode: boolean;
 
-  /** Constants for key codes */
-  public readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  private _editingId: string | null = null;
 
-  /** Reactive form for applicant data */
-  public readonly fgNewApplicant: FormGroup = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    availableFrom: new FormControl(null),
+  public readonly separatorKeysCodes =
+    APP_CONFIG.APPLICANTS.NEW_APPLICANT_CHIP_SEPARATOR_KEYS;
+  public readonly yearsOfExperienceInput = {
+    min: APP_CONFIG.APPLICANTS.YEARS_OF_EXPERIENCE_MIN,
+    max: APP_CONFIG.APPLICANTS.YEARS_OF_EXPERIENCE_MAX,
+    step: APP_CONFIG.APPLICANTS.YEARS_OF_EXPERIENCE_STEP,
+  } as const;
+
+  public readonly applicationStatuses = Object.values(ApplicationStatus);
+
+  public readonly fgNewApplicant = new FormGroup({
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [emailFieldValidator],
+    }),
+    phone: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, applicantPhonePatternValidator],
+    }),
+    location: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    yearsOfExperience: new FormControl<number | null>(null, {
+      validators: [Validators.required, applicantYearsOfExperienceValidator],
+    }),
+    applicationStatus: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    currentJobTitle: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    availableFrom: new FormControl<Date | null>(null),
+    notes: new FormControl('', { nonNullable: true }),
   });
 
-  /** List of skills added by the user */
-  public skills: string[] = [];
+  skills: string[] = [];
+
+  public readonly locationSuggestions$ = this._store.select(
+    selectLocationSuggestions
+  );
 
   public constructor(
-    private readonly _dialogRef: MatDialogRef<NewApplicantComponent>
-  ) {}
+    private readonly _dialogRef: MatDialogRef<
+      NewApplicantComponent,
+      NewApplicantDialogCloseResult | undefined
+    >,
+    private readonly _store: Store,
+    @Optional()
+    @Inject(MAT_DIALOG_DATA)
+    dialogData: NewApplicantDialogData | null
+  ) {
+    const initial = dialogData?.applicant ?? null;
+    this._editingId = initial?.id ?? null;
+    this.isEditMode = this._editingId !== null;
 
-  /**
-   * Submits the form data along with skills and closes the dialog.
-   */
-  public submitDataAction(): void {
-    if (this.fgNewApplicant.valid) {
-      const formData: ApplicantForm = {
-        ...this.fgNewApplicant.value,
-        skills: this.skills,
-      };
-      this._dialogRef.close(formData);
+    this._store.dispatch(clearLocationSuggestions());
+    if (initial) {
+      this.skills = initial.skills?.length ? [...initial.skills] : [];
+      this.fgNewApplicant.patchValue({
+        name: initial.name ?? '',
+        email: initial.email ?? '',
+        phone: initial.phone ?? '',
+        location: initial.location ?? '',
+        yearsOfExperience: initial.yearsOfExperience ?? null,
+        applicationStatus: initial.applicationStatus ?? '',
+        currentJobTitle: initial.currentJobTitle ?? '',
+        availableFrom: initial.availableFrom ?? null,
+        notes: initial.notes ?? '',
+      });
+    }
+    this.fgNewApplicant.controls.location.valueChanges
+      .pipe(
+        startWith(this.fgNewApplicant.controls.location.value),
+        debounceTime(APP_CONFIG.APPLICANTS.LOCATION_SUGGESTIONS_DEBOUNCE_MS),
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      )
+      .subscribe((raw) =>
+        this._store.dispatch(searchLocationSuggestions({ query: raw }))
+      );
+  }
+
+  public submit(): void {
+    if (!this.fgNewApplicant.valid) {
+      this.fgNewApplicant.markAllAsTouched();
+      return;
+    }
+    const {
+      name,
+      email,
+      phone,
+      location,
+      yearsOfExperience,
+      applicationStatus,
+      currentJobTitle,
+      availableFrom,
+      notes,
+    } = this.fgNewApplicant.getRawValue();
+    const trimmedNotes = notes.trim();
+    const id = this._editingId ?? crypto.randomUUID();
+    const applicant = new Applicant({
+      id,
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      location: location.trim(),
+      yearsOfExperience: yearsOfExperience ?? undefined,
+      applicationStatus,
+      currentJobTitle: currentJobTitle.trim(),
+      availableFrom: availableFrom ?? undefined,
+      skills: [...this.skills],
+      ...(trimmedNotes ? { notes: trimmedNotes } : {}),
+    });
+    this._store.dispatch(clearLocationSuggestions());
+    if (this.isEditMode) {
+      this._dialogRef.close({ applicant, isUpdate: true });
+    } else {
+      this._dialogRef.close(applicant);
     }
   }
 
-  /**
-   * Closes the dialog without submitting data.
-   */
-  public dismissAction(): void {
+  public dismiss(): void {
+    this._store.dispatch(clearLocationSuggestions());
     this._dialogRef.close();
   }
 
-  /**
-   * Adds a new skill to the skills array.
-   *
-   * @param event - The chip input event containing the skill value.
-   */
-  public newSkill(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
+  public addSkill(event: MatChipInputEvent): void {
+    const value = (event.value ?? '').toString().trim();
     if (value) {
       this.skills.push(value);
     }
-
-    event.chipInput!.clear();
+    event.chipInput?.clear();
   }
 
-  /**
-   * Removes a skill from the skills array.
-   *
-   * @param skill - The skill to remove.
-   */
   public removeSkill(skill: string): void {
     const index = this.skills.indexOf(skill);
-
     if (index >= 0) {
       this.skills.splice(index, 1);
     }
+  }
+
+  public trackSkill(_index: number, skill: string): string {
+    return skill;
   }
 }

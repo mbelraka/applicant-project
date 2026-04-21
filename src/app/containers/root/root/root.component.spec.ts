@@ -45,6 +45,7 @@ describe('RootComponent', () => {
         RouterModule.forRoot([
           { path: 'root/main', component: RouteStubComponent },
           { path: 'root/applicants', component: RouteStubComponent },
+          { path: 'root/match', component: RouteStubComponent },
           { path: 'root/export', component: RouteStubComponent },
         ]),
         MatFormFieldModule,

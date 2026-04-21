@@ -1,32 +1,118 @@
 <mat-card class="applicant">
-  <mat-card-header>
-    <mat-card-title>{{ applicant.name }}</mat-card-title>
+  @if (applicant.applicationStatus) {
+    <app-application-status-chip
+      class="applicant__application-status"
+      [status]="applicant.applicationStatus"
+    ></app-application-status-chip>
+  }
+  <mat-card-header class="applicant__header">
+    <mat-card-title class="applicant__name">{{
+      applicant.name
+    }}</mat-card-title>
   </mat-card-header>
   <mat-card-content
     class="applicants flex flex-col items-center justify-center gap-4"
   >
     <mat-icon class="avatar"> person </mat-icon>
 
-    <mat-chip-grid class="skills">
-      <ng-container *ngFor="let skill of applicant?.skills">
-        <mat-chip>
-          {{ skill }}
-        </mat-chip>
-      </ng-container>
-    </mat-chip-grid>
+    @if (applicant.email) {
+      <div class="applicant__contact">
+        <mat-icon class="applicant__contact-icon" aria-hidden="true"
+          >email</mat-icon
+        >
+        <span>{{ applicant.email }}</span>
+      </div>
+    }
+    @if (applicant.phone) {
+      <div class="applicant__contact">
+        <mat-icon class="applicant__contact-icon" aria-hidden="true"
+          >phone</mat-icon
+        >
+        <span>{{ applicant.phone }}</span>
+      </div>
+    }
+    @if (applicant.currentJobTitle?.trim()) {
+      <div class="applicant__contact">
+        <mat-icon class="applicant__contact-icon" aria-hidden="true"
+          >work</mat-icon
+        >
+        <span>{{ applicant.currentJobTitle }}</span>
+      </div>
+    }
+    @if (
+      applicant.yearsOfExperience !== undefined &&
+      applicant.yearsOfExperience !== null
+    ) {
+      <div class="applicant__contact applicant__contact--experience-location">
+        <mat-icon
+          class="applicant__contact-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="work"
+          aria-hidden="true"
+        ></mat-icon>
+        <span class="applicant__experience-line">
+          <span class="applicant__experience-value">{{
+            applicant.yearsOfExperience
+          }}</span>
+          <span class="applicant__experience-suffix">{{
+            (applicant.yearsOfExperience === 1
+              ? 'experienceDisplay.yearsSuffixOne'
+              : 'experienceDisplay.yearsSuffixOther'
+            ) | translate
+          }}</span>
+        </span>
+      </div>
+    }
+    @if (applicant.location?.trim()) {
+      <div class="applicant__contact applicant__contact--experience-location">
+        <mat-icon
+          class="applicant__contact-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="location_on"
+          aria-hidden="true"
+        ></mat-icon>
+        <span>{{ applicant.location }}</span>
+      </div>
+    }
+    @if (applicant.availableFrom) {
+      <div
+        class="applicant__contact applicant__contact--experience-location"
+        [attr.aria-label]="
+          ('applicants.availableFrom' | translate) +
+          ' ' +
+          (applicant.availableFrom | localeDate)
+        "
+      >
+        <mat-icon
+          class="applicant__contact-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="calendar_clock"
+          aria-hidden="true"
+        ></mat-icon>
+        <span>
+          {{ 'applicants.availableFrom' | translate }}
+          {{ applicant.availableFrom | localeDate }}
+        </span>
+      </div>
+    }
+
+    <app-applicant-skills
+      class="skills"
+      [skills]="applicant.skills"
+    ></app-applicant-skills>
+
+    @if (applicant.notes?.trim()) {
+      <p class="applicant__notes">{{ applicant.notes }}</p>
+    }
   </mat-card-content>
-  <mat-card-actions class="actions flex flex-row items-center justify-between">
-    <div class="availability">
-      {{ 'applicantCard.availablePrefix' | translate }}
-      {{ applicant.availableFrom | localeDate }}
-    </div>
+  <mat-card-actions class="actions flex flex-row items-center justify-end">
     <button
       mat-icon-button
       color="primary"
       class="card__action-end"
-      (click)="delete()"
+      (click)="confirmDelete()"
     >
-      <mat-icon class="material-icons-outlined"> delete </mat-icon>
+      <mat-icon [fontSet]="outlinedIconFontSet" fontIcon="delete"></mat-icon>
     </button>
   </mat-card-actions>
 </mat-card>

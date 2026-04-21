@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+// All autocomplete panels: square, white (`overrides` loads after theme in styles/index.scss).
+@include mat.autocomplete-overrides(
+  (
+    container-shape: 0,
+    background-color: #fff,
+  )
+);
+
+.cdk-overlay-container .mat-mdc-autocomplete-panel {
+  border-radius: 0 !important;
+  background-color: #fff !important;
+}

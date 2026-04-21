@@ -1,0 +1,49 @@
+<span mat-dialog-title class="confirm-delete-applicant-dialog__title">
+  <mat-icon
+    class="confirm-delete-applicant-dialog__title-icon"
+    [fontSet]="outlinedIconFontSet"
+    aria-hidden="true"
+    >warning</mat-icon
+  >
+  <span class="confirm-delete-applicant-dialog__title-text">{{
+    'applicants.confirmDeleteTitle' | translate
+  }}</span>
+</span>
+<mat-dialog-content class="confirm-delete-applicant-dialog__content">
+  <p class="confirm-delete-applicant-dialog__message">
+    {{ 'applicants.confirmDeleteMessage' | translate }}
+  </p>
+  <div class="confirm-delete-applicant-dialog__candidate">
+    <p class="confirm-delete-applicant-dialog__name">
+      {{ data.candidateName }}
+    </p>
+    <p
+      *ngIf="data.jobTitle?.trim()"
+      class="confirm-delete-applicant-dialog__job-title"
+    >
+      {{ data.jobTitle }}
+    </p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions
+  align="end"
+  class="confirm-delete-applicant-dialog__actions flex flex-row items-center justify-end gap-2"
+>
+  <button
+    mat-stroked-button
+    type="button"
+    class="button--palette-secondary confirm-delete-applicant-dialog__cancel"
+    mat-dialog-close
+  >
+    {{ 'applicants.confirmDeleteCancel' | translate }}
+  </button>
+  <button
+    mat-flat-button
+    color="warn"
+    type="button"
+    class="confirm-delete-applicant-dialog__delete"
+    [mat-dialog-close]="true"
+  >
+    {{ 'applicants.confirmDeleteConfirm' | translate }}
+  </button>
+</mat-dialog-actions>

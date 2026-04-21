@@ -13,4 +13,7 @@ html {
   @include mat.app-background();
   @include mat.button-theme($light-theme);
   @include mat.all-component-themes($light-theme);
+
+  // After theme: popup uses this token on `.mat-datepicker-content` (overrides load earlier and lose).
+  --mat-datepicker-calendar-container-background-color: #fff;
 }

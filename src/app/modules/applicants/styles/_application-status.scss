@@ -1,0 +1,54 @@
+@use 'shared/colors' as *;
+
+@mixin application-status-chip-box {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  padding-block: 4px;
+  padding-inline: 8px;
+  text-align: center;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+/// Compound `.#{$block}.#{$block}--*` beats nested single-class base for status chips.
+@mixin application-status-background-modifiers($block) {
+  .#{$block}.#{$block}--received {
+    background: color-mix(in srgb, $border-subtle 42%, #fff);
+  }
+
+  .#{$block}.#{$block}--screening {
+    background: color-mix(in srgb, $green-2 14%, #fff);
+  }
+
+  .#{$block}.#{$block}--interview_scheduled {
+    background: color-mix(
+      in srgb,
+      color-mix(in srgb, $green-2 48%, $green-1) 52%,
+      #fff
+    );
+  }
+
+  .#{$block}.#{$block}--shortlisted {
+    background: color-mix(
+      in srgb,
+      color-mix(in srgb, $green-1 86%, $green-2 14%) 66%,
+      #fff
+    );
+  }
+
+  .#{$block}.#{$block}--offer_extended {
+    background: color-mix(in srgb, $button-primary-fill 32%, #fff);
+  }
+
+  .#{$block}.#{$block}--rejected {
+    background: color-mix(in srgb, $warn-color 22%, #fff);
+  }
+
+  .#{$block}.#{$block}--withdrawn {
+    background: color-mix(in srgb, $primary-color 14%, #fffef2);
+  }
+}

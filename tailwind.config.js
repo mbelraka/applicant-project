@@ -7,6 +7,10 @@ module.exports = {
   },
   theme: {
     extend: {
+      fontFamily: {
+        // Match --app-font-family / Figma UI text (Manrope only in index.html).
+        sans: ['Manrope', 'sans-serif'],
+      },
       colors: {
         // Theme tokens from src/app/styles/theme (_theming.scss)
         secondary: 'var(--color-secondary)',

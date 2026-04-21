@@ -1,42 +1,48 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
-import { Languages } from 'src/app/enums/language.enum';
-import { Applicant } from '../../models/applicant.model';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { EMPTY } from 'rxjs';
+
+import { SharedModule } from 'src/app/shared/shared.module';
+import { Applicant } from 'src/app/modules/applicants/models/applicant.model';
 import { ApplicantComponent } from './applicant.component';
 
 describe('ApplicantComponent', () => {
   let component: ApplicantComponent;
   let fixture: ComponentFixture<ApplicantComponent>;
+  let mockStore: jasmine.SpyObj<Store>;
+  let mockDialog: jasmine.SpyObj<MatDialog>;
 
   beforeEach(async () => {
+    mockStore = jasmine.createSpyObj('Store', ['dispatch']);
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
+    // confirmDeleteApplicant calls .open(...).afterClosed() — stub the dialog ref
+    mockDialog.open.and.returnValue({ afterClosed: () => EMPTY } as any);
+
     await TestBed.configureTestingModule({
       declarations: [ApplicantComponent],
+      imports: [TranslateModule.forRoot(), SharedModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        provideMockStore({
-          initialState: {
-            app: { language: Languages.English },
-          },
-        }),
+        { provide: Store, useValue: mockStore },
+        { provide: MatDialog, useValue: mockDialog },
       ],
-    })
-      .overrideComponent(ApplicantComponent, {
-        set: { template: '<span></span>' },
-      })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ApplicantComponent);
     component = fixture.componentInstance;
-    component.applicant = new Applicant({
-      id: '1',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      skills: ['Angular'],
-      availableFrom: new Date(),
-    });
+    component.applicant = new Applicant({ id: '1', name: 'John Doe' });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call confirmDeleteApplicant utility', () => {
+    component.confirmDelete();
+    expect(mockDialog.open).toHaveBeenCalled();
   });
 });

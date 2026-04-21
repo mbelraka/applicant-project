@@ -1,3 +1,108 @@
+.applicants-container {
+  overflow: hidden;
+}
+
+.applicants-container > .header {
+  flex-shrink: 0;
+}
+
 .applicants {
   row-gap: 16px;
+}
+
+// Single grid cell so list ↔ grid @switch can briefly mount two view roots during
+// animate.leave; flex + flex:1 on siblings would split height and break the fade.
+.applicants__content {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 0%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.applicants__view-slot {
+  grid-row: 1;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+// Let grid/list fill the slot so inner scroll + paginator can share height.
+.applicants__view-slot app-applicant-grid,
+.applicants__view-slot app-applicant-list {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.applicants-container > .header {
+  background-color: var(--app-color-background-dark);
+  padding: 16px;
+}
+
+// Search + skill chip: one left-aligned cluster; view mode stays on the right (header justify-between).
+.applicants-header__filters-group {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+// Stack label + control: same width (field stretches to column; column width follows the wider of the two).
+.applicants-header-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+// Search + filter dropdowns: compact fixed width (skill chip block uses another wrapper).
+.applicants-header__filters-group .applicants-header-field {
+  width: 160px;
+  max-width: 100%;
+  flex: 0 0 auto;
+}
+
+.applicants-view-toggle-option {
+  display: inline-flex;
+  align-items: center;
+}
+
+.applicants-header-label {
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--app-color-text-inner-label);
+  opacity: 0.7;
+  text-transform: uppercase;
+  line-height: 16px;
+  letter-spacing: 1px;
+  overflow-wrap: break-word;
+}
+
+.new-applicant-fab-shell {
+  --new-applicant-fab-shell-inset: var(--app-space-md, 24px);
+  --new-applicant-fab-shell-pad: 12px;
+
+  position: fixed;
+  z-index: 10;
+  right: calc(
+    var(--new-applicant-fab-shell-inset) - var(--new-applicant-fab-shell-pad)
+  );
+  bottom: calc(
+    var(--new-applicant-fab-shell-inset) - var(--new-applicant-fab-shell-pad)
+  );
+  padding: var(--new-applicant-fab-shell-pad);
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }

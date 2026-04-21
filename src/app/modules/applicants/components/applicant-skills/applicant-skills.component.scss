@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  max-width: 100%;
+}
+
+.applicant-skills--filter-chip {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.applicant-skills__filter-button {
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-height: 24px;
+  height: auto;
+  line-height: 1.25;
+  padding-block: 4px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.applicant-skills--inline-link {
+  display: inline;
+}
+
+.applicant-skills__inline-link {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--app-color-secondary);
+    outline-offset: 2px;
+  }
+}

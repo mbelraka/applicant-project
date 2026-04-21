@@ -1,9 +1,15 @@
+@use './autocomplete';
 @use './button';
 @use './button-toggle';
 @use './card';
+@use './chip';
+@use './datepicker';
+@use './dialog';
 @use './form-field';
 @use './icons';
+@use './new-applicant';
 @use './select';
+@use './table';
 @use './tabs';
 @use './textarea';
 @use './toolbar';

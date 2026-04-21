@@ -2,6 +2,7 @@
   "nav": {
     "main": "Main",
     "applicants": "Applicants",
+    "matchCandidates": "Match Candidates",
     "export": "Export"
   },
   "language": {
@@ -11,6 +12,12 @@
       "de": "DE",
       "fr": "FR"
     }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "year experience",
+    "yearsSuffixOther": "years experience",
+    "unitYear": "Year",
+    "unitYears": "Years"
   },
   "footer": {
     "copyright": "© 2026 Elrakaiby"
@@ -23,23 +30,64 @@
     "overlayTitle": "AI-Powered talent Matching",
     "overlaySubtitle": "Use the power of AI to find the best match"
   },
+  "match": {
+    "pageTitle": "Match Candidates",
+    "intro": "Find and rank the best fit for open roles.",
+    "placeholder": "Matching tools will appear here."
+  },
   "applicants": {
     "searchLabel": "Search applicants",
     "searchPlaceholder": "Search applicants",
-    "newApplicant": "New applicant",
+    "clearSearch": "Clear search",
+    "filterByStatus": "Status",
+    "filterByCountry": "Country",
+    "sortBy": "Sort by",
+    "sortDefault": "Default order",
+    "filterAll": "All",
+    "skillFilterLabel": "Skill",
+    "removeSkillFilter": "Remove skill filter",
+    "newApplicant": "New Applicant",
     "gridView": "Grid view",
     "listView": "List view",
-    "viewToggle": "View mode",
+    "viewToggle": "View Mode",
     "availableFrom": "Available from",
-    "skills": "Skills"
+    "skills": "Skills",
+    "location": "Location",
+    "yearsOfExperience": "Years of experience",
+    "applicationStatus": "Application status",
+    "currentJobTitle": "Current job title",
+    "deleteApplicant": "Delete applicant",
+    "confirmDeleteTitle": "Confirm deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this applicant? This action will permanently remove their profile and all associated data from the curation registry.",
+    "confirmDeleteConfirm": "Delete applicant",
+    "confirmDeleteCancel": "Cancel",
+    "gridPaginationLabel": "Applicant grid pages",
+    "goToGridPage": "Go to page {{page}}",
+    "gridPagerPreviousPage": "Previous page",
+    "gridPagerNextPage": "Next page"
   },
   "applicantList": {
     "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
     "availability": "Availability",
-    "skills": "Skills"
+    "skills": "Skills",
+    "currentJobTitle": "Job title",
+    "location": "Location",
+    "yearsOfExperience": "Experience",
+    "applicationStatus": "Status"
   },
   "applicantCard": {
     "availablePrefix": "Available:"
+  },
+  "applicationStatus": {
+    "received": "Received",
+    "screening": "Screening",
+    "interview_scheduled": "Interview scheduled",
+    "shortlisted": "Shortlisted",
+    "offer_extended": "Offer extended",
+    "rejected": "Rejected",
+    "withdrawn": "Withdrawn"
   },
   "export": {
     "title": "Export applicants",
@@ -49,14 +97,24 @@
     "pdf": "PDF"
   },
   "newApplicant": {
-    "title": "New applicant",
-    "firstName": "First name",
-    "lastName": "Last name",
+    "title": "New Applicant",
+    "editTitle": "View / Edit Applicant",
+    "name": "Name",
+    "email": "Email address",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email address",
+    "phone": "Phone number",
+    "location": "Location",
+    "yearsOfExperience": "Years of experience",
+    "applicationStatus": "Application status",
+    "currentJobTitle": "Current job title",
     "skills": "Skills",
     "skillPlaceholder": "Add skill",
     "availableFrom": "Available from",
+    "notes": "Notes",
     "cancel": "Cancel",
     "apply": "Apply",
-    "submit": "Submit"
+    "submit": "Submit",
+    "save": "Update"
   }
 }

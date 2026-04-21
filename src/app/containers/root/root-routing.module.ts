@@ -21,6 +21,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'match',
+        loadChildren: () =>
+          import('../../modules/match/match.module').then((m) => m.MatchModule),
+      },
+      {
         path: 'export',
         loadChildren: () =>
           import('../../modules/export/export.module').then(

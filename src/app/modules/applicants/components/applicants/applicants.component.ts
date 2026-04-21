@@ -1,30 +1,54 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
+import { filter, tap } from 'rxjs';
 
-import { NewApplicantComponent } from 'src/app/modules/applicants/components/new-applicant/new-applicant.component';
+import {
+  NewApplicantComponent,
+  NewApplicantDialogCloseResult,
+  NewApplicantDialogData,
+} from '../new-applicant/new-applicant.component';
 import {
   FADE_IN_OUT_BASE_CLASS,
   FADE_IN_OUT_ENTER_CLASS,
   FADE_IN_OUT_LEAVE_CLASS,
 } from 'src/app/shared/animations/fade-in-out.animation';
+import { APP_CONFIG } from '../../../../config/app.config';
+import { FullState } from '../../../../models/full-state.model';
+import { isViewType, ViewTypes } from '../../enums/view-types.enum';
 import { Applicant } from '../../models/applicant.model';
 import {
   addApplicant,
   loadApplicants,
+  seedApplicants,
+  setFilterByCountry,
+  setFilterBySkill,
+  setFilterByStatus,
   setGlobalFilter,
+  setSortBy,
   setViewType,
+  updateApplicant,
 } from '../../state/applicants.actions';
 import {
+  selectFilterByCountry,
+  selectFilterBySkill,
+  selectFilterByStatus,
   selectGlobalFilter,
+  selectSortBy,
+  selectSortDirection,
+  selectUniqueApplicationStatuses,
+  selectUniqueCountries,
   selectViewType,
 } from '../../state/applicants.selectors';
-import { APP_CONFIG } from '../../../../config/app.config';
-import { FullState } from '../../../../models/full-state.model';
-import { isViewType, ViewTypes } from '../../enums/view-types.enum';
 
 @Component({
   selector: 'app-applicants',
@@ -37,6 +61,23 @@ export class ApplicantsComponent {
   private readonly _dialog = inject(MatDialog);
   private readonly _store = inject(Store<FullState>);
 
+  private readonly _newApplicantFabShellEl = viewChild<ElementRef<HTMLElement>>(
+    'newApplicantFabShell'
+  );
+  private readonly _newApplicantButtonEl =
+    viewChild<ElementRef<HTMLButtonElement>>('newApplicantButton');
+
+  private readonly _searchInput =
+    viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
+  private _newApplicantFabExpandTimer: ReturnType<typeof setTimeout> | null =
+    null;
+
+  private _suppressNewApplicantFabPointerExpandUntil = 0;
+
+  /** Drives FAB label visibility; delayed pointer-leave avoids hover flicker at the edge during resize. */
+  public readonly newApplicantFabExpanded = signal(false);
+
   public readonly fade = {
     base: FADE_IN_OUT_BASE_CLASS,
     enter: FADE_IN_OUT_ENTER_CLASS,
@@ -46,18 +87,136 @@ export class ApplicantsComponent {
   public readonly viewTypes = ViewTypes;
   public readonly viewType$ = this._store.select(selectViewType);
   public readonly globalFilter$ = this._store.select(selectGlobalFilter);
+  public readonly filterBySkill$ = this._store.select(selectFilterBySkill);
+  public readonly filterByStatus$ = this._store.select(selectFilterByStatus);
+  public readonly filterByCountry$ = this._store.select(selectFilterByCountry);
+  public readonly uniqueStatuses$ = this._store.select(
+    selectUniqueApplicationStatuses
+  );
+  public readonly uniqueCountries$ = this._store.select(selectUniqueCountries);
+  public readonly sortBy$ = this._store.select(selectSortBy);
+  public readonly sortDirection$ = this._store.select(selectSortDirection);
+
+  public readonly gridSortFieldOptions =
+    APP_CONFIG.APPLICANTS.GRID_SORT_FIELD_OPTIONS;
 
   public constructor() {
     this._store.dispatch(loadApplicants());
+    this._store.dispatch(seedApplicants());
+    this._store.dispatch(setFilterBySkill({ skill: null }));
+    this._destroyRef.onDestroy((): void =>
+      this._clearNewApplicantFabExpandTimer()
+    );
+  }
+
+  public onNewApplicantFabShellPointerEnter(): void {
+    if (performance.now() < this._suppressNewApplicantFabPointerExpandUntil) {
+      return;
+    }
+    this._clearNewApplicantFabExpandTimer();
+    this.newApplicantFabExpanded.set(true);
+  }
+
+  public onNewApplicantFabShellPointerLeave(): void {
+    this._clearNewApplicantFabExpandTimer();
+    this._newApplicantFabExpandTimer = setTimeout((): void => {
+      this._newApplicantFabExpandTimer = null;
+      if (!this._isNewApplicantButtonFocused()) {
+        this.newApplicantFabExpanded.set(false);
+      }
+    }, APP_CONFIG.APPLICANTS.NEW_APPLICANT_FAB_POINTER_LEAVE_MS);
+  }
+
+  public onNewApplicantButtonFocusIn(): void {
+    this._clearNewApplicantFabExpandTimer();
+    this.newApplicantFabExpanded.set(true);
+  }
+
+  public onNewApplicantButtonFocusOut(event: FocusEvent): void {
+    this._clearNewApplicantFabExpandTimer();
+    const host = this._newApplicantButtonEl()?.nativeElement;
+    const next = event.relatedTarget;
+    if (host && next instanceof Node && host.contains(next)) {
+      return;
+    }
+    const shell = this._newApplicantFabShellEl()?.nativeElement;
+    if (shell?.matches(':hover')) {
+      this.newApplicantFabExpanded.set(true);
+      return;
+    }
+    this.newApplicantFabExpanded.set(false);
+  }
+
+  private _isNewApplicantButtonFocused(): boolean {
+    const el = this._newApplicantButtonEl()?.nativeElement;
+    return Boolean(el && document.activeElement === el);
+  }
+
+  private _clearNewApplicantFabExpandTimer(): void {
+    if (this._newApplicantFabExpandTimer !== null) {
+      clearTimeout(this._newApplicantFabExpandTimer);
+      this._newApplicantFabExpandTimer = null;
+    }
   }
 
   public applyFilter(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input?.value) {
-      this._store.dispatch(setGlobalFilter({ filter: input.value }));
-    } else {
-      console.warn('Invalid filter input event');
+    if (!input) {
+      return;
     }
+    this._store.dispatch(setGlobalFilter({ filter: input.value }));
+  }
+
+  public clearSearch(): void {
+    this._store.dispatch(setGlobalFilter({ filter: '' }));
+    queueMicrotask((): void => {
+      this._searchInput()?.nativeElement?.focus();
+    });
+  }
+
+  public clearSkillFilter(): void {
+    this._store.dispatch(setFilterBySkill({ skill: null }));
+  }
+
+  public onStatusFilterChange(value: string | null | undefined): void {
+    this._store.dispatch(
+      setFilterByStatus({ status: value === undefined ? null : value })
+    );
+  }
+
+  public onCountryFilterChange(value: string | null | undefined): void {
+    this._store.dispatch(
+      setFilterByCountry({ country: value === undefined ? null : value })
+    );
+  }
+
+  /** Mat-select value for grid sort: list column id, or empty when unsorted. */
+  public gridSortMatSelectValue(
+    sortBy: keyof Applicant | null | undefined
+  ): string {
+    if (!sortBy) {
+      return '';
+    }
+    if (sortBy === 'availableFrom') {
+      return 'availability';
+    }
+    const match = this.gridSortFieldOptions.find((o) => o.sortKey === sortBy);
+    return match?.value ?? '';
+  }
+
+  public onGridSortFieldChange(
+    value: string | null | undefined,
+    sortDirection: 'asc' | 'desc'
+  ): void {
+    if (value === null || value === undefined || value === '') {
+      this._store.dispatch(setSortBy({ sortBy: null }));
+      return;
+    }
+    const opt = this.gridSortFieldOptions.find((o) => o.value === value);
+    if (!opt) {
+      return;
+    }
+    this._store.dispatch(setSortBy({ sortBy: opt.sortKey, sortDirection }));
   }
 
   public toggleView(value: unknown): void {
@@ -68,16 +227,52 @@ export class ApplicantsComponent {
     this._store.dispatch(setViewType({ viewType: value }));
   }
 
-  public openForm(): void {
+  public openForm(applicant?: Applicant): void {
     this._dialog
-      .open(NewApplicantComponent, APP_CONFIG.DIALOG_CONFIG)
+      .open(NewApplicantComponent, {
+        ...APP_CONFIG.DIALOG_CONFIG,
+        ...(applicant
+          ? { data: { applicant } satisfies NewApplicantDialogData }
+          : {}),
+      })
       .afterClosed()
       .pipe(
         takeUntilDestroyed(this._destroyRef),
-        filter((applicant: Applicant): boolean => Boolean(applicant))
+        tap((): void => {
+          this._onNewApplicantDialogClosed();
+        }),
+        filter((result): result is NewApplicantDialogCloseResult =>
+          Boolean(result)
+        )
       )
-      .subscribe((applicant: Applicant): void => {
-        this._store.dispatch(addApplicant({ applicant }));
+      .subscribe((result: NewApplicantDialogCloseResult): void => {
+        if (this._isApplicantDialogUpdate(result)) {
+          this._store.dispatch(
+            updateApplicant({ applicant: result.applicant })
+          );
+        } else {
+          this._store.dispatch(addApplicant({ applicant: result }));
+        }
       });
+  }
+
+  private _isApplicantDialogUpdate(
+    result: NewApplicantDialogCloseResult
+  ): result is { applicant: Applicant; isUpdate: true } {
+    return (
+      typeof result === 'object' &&
+      result !== null &&
+      'isUpdate' in result &&
+      result.isUpdate === true
+    );
+  }
+
+  private _onNewApplicantDialogClosed(): void {
+    this._clearNewApplicantFabExpandTimer();
+    this.newApplicantFabExpanded.set(false);
+    this._suppressNewApplicantFabPointerExpandUntil =
+      performance.now() +
+      APP_CONFIG.APPLICANTS
+        .NEW_APPLICANT_FAB_SUPPRESS_POINTER_EXPAND_AFTER_DIALOG_MS;
   }
 }

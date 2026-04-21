@@ -1,0 +1,100 @@
+/// Shared paginator styles used by both grid and list views.
+/// Call with the BEM block name, e.g. `@include pager('applicant-grid')`.
+@mixin pager($block) {
+  .#{$block}__pager {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 0 0;
+  }
+
+  .#{$block}__pager-pages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .#{$block}__pager-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    appearance: none;
+    cursor: pointer;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    color: var(--app-color-text-body);
+
+    mat-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      line-height: 20px;
+      color: currentColor;
+    }
+
+    &:hover:not(:disabled) {
+      border-color: color-mix(
+        in srgb,
+        var(--app-color-text-body) 28%,
+        var(--app-color-border-subtle)
+      );
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--app-color-secondary);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.38;
+    }
+  }
+
+  .#{$block}__page-btn {
+    appearance: none;
+    margin: 0;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    color: var(--app-color-text-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-family: inherit;
+    line-height: 1;
+
+    &:hover {
+      border-color: color-mix(
+        in srgb,
+        var(--app-color-text-body) 28%,
+        var(--app-color-border-subtle)
+      );
+    }
+
+    &--current {
+      background-color: var(--app-color-secondary);
+      border-color: var(--app-color-secondary);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--app-color-secondary);
+      outline-offset: 2px;
+    }
+  }
+}

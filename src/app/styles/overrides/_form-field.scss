@@ -5,15 +5,42 @@
 .mat-mdc-form-field {
   --mat-form-field-outlined-container-shape: 0;
   --mat-form-field-filled-container-shape: 0;
+  --mat-form-field-hover-state-layer-opacity: 0;
+  --mat-form-field-focus-state-layer-opacity: 0;
+
+  .mdc-text-field--filled .mdc-floating-label {
+    font-size: 0.625rem;
+  }
+
+  .mat-icon {
+    font-size: 1.125rem;
+  }
+
+  &.no-subscript {
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
 }
 
 .mat-mdc-text-field-wrapper {
   height: var(--app-control-height-md) !important;
+
+  .mat-mdc-form-field-flex .mat-mdc-floating-label {
+    top: 20px !important;
+  }
 }
 
 .mat-mdc-form-field-infix {
   padding: 8px 0 !important;
+  line-height: 24px !important;
+  font-size: 0.875rem !important;
   min-height: var(--app-control-height-md) !important;
+}
+
+.mat-mdc-form-field-icon-suffix,
+.mat-mdc-form-field-icon-prefix {
+  padding: 0 8px 0 4px !important;
 }
 
 // Default label tint; fields using another palette add .form-field--palette-secondary (etc.) in templates.
@@ -31,6 +58,26 @@
 .mat-mdc-form-field input.mat-mdc-input-element,
 .mat-mdc-form-field textarea.mat-mdc-input-element {
   color: $text-body;
+}
+
+// Filled appearance: white field surface, no bottom active indicator line.
+// Use on specific mat-form-fields only (not outlined controls like the language select).
+.form-field--filled-white.mat-mdc-form-field {
+  --mat-form-field-filled-container-color: #fff;
+  --mat-form-field-filled-active-indicator-height: 0;
+  --mat-form-field-filled-focus-active-indicator-height: 0;
+  --mat-form-field-filled-active-indicator-color: transparent;
+  --mat-form-field-filled-hover-active-indicator-color: transparent;
+  --mat-form-field-filled-focus-active-indicator-color: transparent;
+  --mat-form-field-filled-disabled-active-indicator-color: transparent;
+  --mat-form-field-filled-error-active-indicator-color: transparent;
+  --mat-form-field-filled-error-hover-active-indicator-color: transparent;
+  --mat-form-field-filled-error-focus-active-indicator-color: transparent;
+
+  .mat-mdc-text-field-wrapper {
+    border: 1px solid var(--app-color-border-subtle);
+    box-sizing: border-box;
+  }
 }
 
 // Modifier: add to mat-form-field in template when using Material secondary palette + compact select chrome.
@@ -61,4 +108,12 @@
     min-width: 0;
     max-width: 100%;
   }
+}
+
+// Generic modifier for controls that should stretch to the width of their
+// parent layout slot.
+.form-field--full-width.mat-mdc-form-field {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
