@@ -59,8 +59,8 @@ export class ApplicantsEffects {
   searchLocationSuggestions$ = createEffect(() =>
     this._actions$.pipe(
       ofType(searchLocationSuggestions),
-      switchMap(({ query }) =>
-        this._citySearchService.searchCityLabels(query).pipe(
+      switchMap(({ query, language }) =>
+        this._citySearchService.searchCityLabels(query, language).pipe(
           map((suggestions) =>
             searchLocationSuggestionsSuccess({ suggestions })
           ),

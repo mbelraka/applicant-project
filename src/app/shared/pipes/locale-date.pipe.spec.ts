@@ -9,10 +9,12 @@ import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import localeDe from '@angular/common/locales/de';
 import localeFr from '@angular/common/locales/fr';
+import localeIt from '@angular/common/locales/it';
 
 registerLocaleData(localeEn, 'en-US');
 registerLocaleData(localeDe, 'de-DE');
 registerLocaleData(localeFr, 'fr-FR');
+registerLocaleData(localeIt, 'it-IT');
 
 describe('LocaleDatePipe', () => {
   let pipe: LocaleDatePipe;

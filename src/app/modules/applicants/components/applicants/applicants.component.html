@@ -110,7 +110,7 @@
                 'applicants.filterAll' | translate
               }}</mat-option>
               @for (c of uniqueCountries ?? []; track c) {
-                <mat-option [value]="c">{{ c }}</mat-option>
+                <mat-option [value]="c">{{ c | localeLocation }}</mat-option>
               }
             </mat-select>
           </mat-form-field>

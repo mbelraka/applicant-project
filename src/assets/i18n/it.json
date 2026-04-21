@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "main": "Principale",
+    "applicants": "Candidati",
+    "matchCandidates": "Abbinamento candidati",
+    "export": "Esporta"
+  },
+  "language": {
+    "label": "Ling.",
+    "names": {
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR",
+      "it": "IT"
+    }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "anno di esperienza",
+    "yearsSuffixOther": "anni di esperienza",
+    "unitYear": "Anno",
+    "unitYears": "Anni"
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Recruiting globale senza sforzo",
+    "subHeadline": "Sbloccare i talenti, senza confini",
+    "start": "Iniziamo!",
+    "explore": "Esplora",
+    "overlayTitle": "Abbinamento talenti con IA",
+    "overlaySubtitle": "Sfrutta la potenza dell'IA per trovare il miglior abbinamento."
+  },
+  "match": {
+    "pageTitle": "Abbinamento candidati",
+    "intro": "Trova e classifica i profili migliori per le posizioni aperte.",
+    "placeholder": "Gli strumenti di abbinamento appariranno qui."
+  },
+  "applicants": {
+    "searchLabel": "Cerca candidati",
+    "searchPlaceholder": "Cerca candidati",
+    "clearSearch": "Cancella ricerca",
+    "filterByStatus": "Stato",
+    "filterByCountry": "Paese",
+    "sortBy": "Ordina per",
+    "sortDefault": "Ordine predefinito",
+    "filterAll": "Tutti",
+    "skillFilterLabel": "Competenza",
+    "removeSkillFilter": "Rimuovi filtro competenza",
+    "newApplicant": "Nuovo candidato",
+    "gridView": "Vista griglia",
+    "listView": "Vista elenco",
+    "viewToggle": "Modalita vista",
+    "availableFrom": "Disponibile dal",
+    "skills": "Competenze",
+    "location": "Localita",
+    "yearsOfExperience": "Anni di esperienza",
+    "applicationStatus": "Stato candidatura",
+    "currentJobTitle": "Ruolo attuale",
+    "deleteApplicant": "Elimina candidato",
+    "confirmDeleteTitle": "Conferma eliminazione",
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare questo candidato? Questa azione rimuovera definitivamente il profilo e tutti i dati associati dal registro di curation.",
+    "confirmDeleteConfirm": "Elimina candidato",
+    "confirmDeleteCancel": "Annulla",
+    "gridPaginationLabel": "Pagine della griglia candidati",
+    "goToGridPage": "Vai alla pagina {{page}}",
+    "gridPagerPreviousPage": "Pagina precedente",
+    "gridPagerNextPage": "Pagina successiva"
+  },
+  "applicantList": {
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefono",
+    "availability": "Disponibilita",
+    "skills": "Competenze",
+    "currentJobTitle": "Ruolo",
+    "location": "Localita",
+    "yearsOfExperience": "Esperienza",
+    "applicationStatus": "Stato"
+  },
+  "applicantCard": {
+    "availablePrefix": "Disponibile:"
+  },
+  "applicationStatus": {
+    "received": "Ricevuta",
+    "screening": "Screening",
+    "interview_scheduled": "Colloquio pianificato",
+    "shortlisted": "Selezionato",
+    "offer_extended": "Offerta inviata",
+    "rejected": "Rifiutato",
+    "withdrawn": "Ritirata"
+  },
+  "jobTitles": {
+    "seniorFrontendEngineer": "Ingegnere frontend senior",
+    "qaAutomationLead": "Responsabile automazione QA",
+    "uiEngineer": "Ingegnere UI",
+    "productDesigner": "Product designer",
+    "engineeringManager": "Responsabile ingegneria",
+    "backendEngineer": "Ingegnere backend",
+    "devopsEngineer": "Ingegnere DevOps",
+    "fullStackDeveloper": "Sviluppatore full-stack",
+    "dataEngineer": "Ingegnere dei dati",
+    "mobileEngineer": "Ingegnere mobile",
+    "siteReliabilityEngineer": "Ingegnere affidabilita del sito"
+  },
+  "export": {
+    "title": "Esporta candidati",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "Nuovo candidato",
+    "editTitle": "Visualizza / modifica candidato",
+    "name": "Nome",
+    "email": "Indirizzo email",
+    "emailRequired": "L'email e obbligatoria",
+    "emailInvalid": "Inserisci un indirizzo email valido",
+    "phone": "Numero di telefono",
+    "location": "Localita",
+    "yearsOfExperience": "Anni di esperienza",
+    "applicationStatus": "Stato candidatura",
+    "currentJobTitle": "Ruolo attuale",
+    "skills": "Competenze",
+    "skillPlaceholder": "Aggiungi competenza",
+    "availableFrom": "Disponibile dal",
+    "notes": "Note",
+    "cancel": "Annulla",
+    "apply": "Applica",
+    "submit": "Invia",
+    "save": "Aggiorna"
+  }
+}

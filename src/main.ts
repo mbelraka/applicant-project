@@ -1,9 +1,10 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowser } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import de from '@angular/common/locales/de';
 import fr from '@angular/common/locales/fr';
+import it from '@angular/common/locales/it';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -25,10 +26,11 @@ if (environment.production) {
 }
 
 // Bootstrap the application
-platformBrowserDynamic()
+platformBrowser()
   .bootstrapModule(AppModule)
   .catch((err: unknown): void => console.error(err));
 
 registerLocaleData(en);
 registerLocaleData(de);
 registerLocaleData(fr);
+registerLocaleData(it);

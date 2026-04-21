@@ -35,6 +35,10 @@ export class LocaleDatePipe implements PipeTransform {
       return '';
     }
     const locale = APP_CONFIG.getLocale(this.language);
-    return formatDate(value, format, locale) ?? '';
+    const resolvedFormat =
+      format === 'mediumDate' && this.language === Languages.Italian
+        ? 'longDate'
+        : format;
+    return formatDate(value, resolvedFormat, locale) ?? '';
   }
 }

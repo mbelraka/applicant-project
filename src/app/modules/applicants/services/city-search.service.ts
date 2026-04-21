@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { APP_CONFIG } from '../../../config/app.config';
+import { Languages } from '../../../enums/language.enum';
 import { OpenMeteoGeocodeResponse } from '../models/open-meteo-geocode-response.model';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +14,10 @@ export class CitySearchService {
   /**
    * Returns distinct "City, Country" labels for autocomplete. Empty when the query is too short or the request fails.
    */
-  public searchCityLabels(query: string): Observable<string[]> {
+  public searchCityLabels(
+    query: string,
+    language: Languages
+  ): Observable<string[]> {
     const name = query.trim();
     if (name.length < 2) {
       return of([]);
@@ -23,7 +27,7 @@ export class CitySearchService {
     const params = new HttpParams()
       .set('name', name)
       .set('count', applicants.LOCATION_GEOCODE_RESULT_COUNT)
-      .set('language', applicants.LOCATION_GEOCODE_LANGUAGE)
+      .set('language', language)
       .set('format', applicants.LOCATION_GEOCODE_FORMAT);
 
     return this._http

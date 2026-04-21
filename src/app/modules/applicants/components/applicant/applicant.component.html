@@ -36,7 +36,7 @@
         <mat-icon class="applicant__contact-icon" aria-hidden="true"
           >work</mat-icon
         >
-        <span>{{ applicant.currentJobTitle }}</span>
+        <span>{{ applicant.currentJobTitle | localizedJobTitle }}</span>
       </div>
     }
     @if (
@@ -71,7 +71,7 @@
           fontIcon="location_on"
           aria-hidden="true"
         ></mat-icon>
-        <span>{{ applicant.location }}</span>
+        <span>{{ applicant.location | localeLocation }}</span>
       </div>
     }
     @if (applicant.availableFrom) {

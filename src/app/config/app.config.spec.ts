@@ -19,4 +19,12 @@ describe('AppConfig', () => {
   it('should get correct date format for French', () => {
     expect(APP_CONFIG.getDateFormat(Languages.French)).toBe('dd/MM/yyyy');
   });
+
+  it('should get correct locale for Italian', () => {
+    expect(APP_CONFIG.getLocale(Languages.Italian)).toBe('it-IT');
+  });
+
+  it('should get correct date format for Italian', () => {
+    expect(APP_CONFIG.getDateFormat(Languages.Italian)).toBe('dd/MM/yyyy');
+  });
 });

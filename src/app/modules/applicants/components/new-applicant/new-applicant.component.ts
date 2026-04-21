@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 import { APP_CONFIG } from '../../../../config/app.config';
+import { Languages } from '../../../../enums/language.enum';
+import { selectAppLanguage } from '../../../../state/app.selectors';
 import { ApplicationStatus } from '../../enums/application-status.enum';
 import { Applicant } from '../../models/applicant.model';
 import {
@@ -35,6 +37,8 @@ export type NewApplicantDialogCloseResult =
 })
 export class NewApplicantComponent {
   public readonly isEditMode: boolean;
+  private _currentLanguage: Languages =
+    APP_CONFIG.LOCALIZATION.DEFAULT_LANGUAGE;
 
   private _editingId: string | null = null;
 
@@ -123,8 +127,20 @@ export class NewApplicantComponent {
         takeUntilDestroyed()
       )
       .subscribe((raw) =>
-        this._store.dispatch(searchLocationSuggestions({ query: raw }))
+        this._store.dispatch(
+          searchLocationSuggestions({
+            query: raw,
+            language: this._currentLanguage,
+          })
+        )
       );
+
+    this._store
+      .select(selectAppLanguage)
+      .pipe(takeUntilDestroyed())
+      .subscribe((language) => {
+        this._currentLanguage = language;
+      });
   }
 
   public submit(): void {

@@ -40,7 +40,11 @@
           *matCellDef="let applicant"
           class="applicant-list__cell--nowrap"
         >
-          {{ applicant.currentJobTitle ?? '—' }}
+          {{
+            applicant.currentJobTitle
+              ? (applicant.currentJobTitle | localizedJobTitle)
+              : '—'
+          }}
         </td>
       </ng-container>
 
@@ -114,7 +118,7 @@
           {{ 'applicantList.location' | translate }}
         </th>
         <td mat-cell *matCellDef="let applicant">
-          {{ applicant.location ?? '—' }}
+          {{ applicant.location ? (applicant.location | localeLocation) : '—' }}
         </td>
       </ng-container>
 

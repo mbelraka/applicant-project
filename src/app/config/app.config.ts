@@ -167,8 +167,6 @@ export const APP_CONFIG = {
       'https://geocoding-api.open-meteo.com/v1/search',
     /** Open-Meteo geocode query: `count` (max results). */
     LOCATION_GEOCODE_RESULT_COUNT: '10',
-    /** Open-Meteo geocode query: `language` (API response language). */
-    LOCATION_GEOCODE_LANGUAGE: 'en',
     /** Open-Meteo geocode query: `format` (response shape). */
     LOCATION_GEOCODE_FORMAT: 'json',
     /**
@@ -236,16 +234,19 @@ export const APP_CONFIG = {
       Languages.English,
       Languages.German,
       Languages.French,
+      Languages.Italian,
     ] as const,
     DATE_FORMATS: {
       [Languages.English]: 'MM/dd/yyyy',
       [Languages.German]: 'dd.MM.yyyy',
       [Languages.French]: 'dd/MM/yyyy',
+      [Languages.Italian]: 'dd/MM/yyyy',
     },
     LOCALES: {
       [Languages.English]: 'en-US',
       [Languages.German]: 'de-DE',
       [Languages.French]: 'fr-FR',
+      [Languages.Italian]: 'it-IT',
     },
     // Keys for localStorage management
     LANGUAGE_KEY: 'app_language',

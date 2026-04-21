@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { Applicant } from '../models/applicant.model';
 import { ApplicantActionTypes } from '../enums/applicant-action-types.enum';
 import { ViewTypes } from '../enums/view-types.enum';
+import { Languages } from '../../../enums/language.enum';
 
 // Load Applicants
 export const loadApplicants = createAction(ApplicantActionTypes.LoadApplicants);
@@ -97,7 +98,7 @@ export const seedApplicants = createAction(ApplicantActionTypes.SeedApplicants);
 // Location autocomplete (geocoding)
 export const searchLocationSuggestions = createAction(
   ApplicantActionTypes.SearchLocationSuggestions,
-  props<{ query: string }>()
+  props<{ query: string; language: Languages }>()
 );
 export const searchLocationSuggestionsSuccess = createAction(
   ApplicantActionTypes.SearchLocationSuggestionsSuccess,
