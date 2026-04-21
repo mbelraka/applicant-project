@@ -27,4 +27,12 @@ describe('AppConfig', () => {
   it('should get correct date format for Italian', () => {
     expect(APP_CONFIG.getDateFormat(Languages.Italian)).toBe('dd/MM/yyyy');
   });
+
+  it('should get locale fallback for Romansh', () => {
+    expect(APP_CONFIG.getLocale(Languages.Romansh)).toBe('de-CH');
+  });
+
+  it('should get correct date format for Romansh', () => {
+    expect(APP_CONFIG.getDateFormat(Languages.Romansh)).toBe('dd.MM.yyyy');
+  });
 });

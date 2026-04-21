@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "main": "Principal",
+    "applicants": "Candidats",
+    "matchCandidates": "Cumparegliaziun da candidats",
+    "export": "Exportar"
+  },
+  "language": {
+    "label": "Ling.",
+    "names": {
+      "en": "EN",
+      "de": "DE",
+      "fr": "FR",
+      "it": "IT",
+      "rm": "RM"
+    }
+  },
+  "experienceDisplay": {
+    "yearsSuffixOne": "onn d'experientscha",
+    "yearsSuffixOther": "onns d'experientscha",
+    "unitYear": "Onn",
+    "unitYears": "Onns"
+  },
+  "footer": {
+    "copyright": "© 2026 Elrakaiby"
+  },
+  "main": {
+    "headline": "Recrutaziun globala senza sforz",
+    "subHeadline": "Scuvrir talents senza cunfins",
+    "start": "Cumenzain!",
+    "explore": "Scuvrir",
+    "overlayTitle": "Matching da talents cun IA",
+    "overlaySubtitle": "Utilisescha la forza da l'IA per chattar la meglra correspundenza."
+  },
+  "match": {
+    "pageTitle": "Cumparegliaziun da candidats",
+    "intro": "Chattar e classar ils profils ils pli adattads per las plazzas avertas.",
+    "placeholder": "Ils utensils da matching cumparan qua."
+  },
+  "applicants": {
+    "searchLabel": "Tschertgar candidats",
+    "searchPlaceholder": "Tschertgar candidats",
+    "clearSearch": "Stizzar tschertga",
+    "filterByStatus": "Status",
+    "filterByCountry": "Pajais",
+    "sortBy": "Sortir tenor",
+    "sortDefault": "Urden predefini",
+    "filterAll": "Tut",
+    "skillFilterLabel": "Abilitad",
+    "removeSkillFilter": "Allontanar filter d'abilitad",
+    "newApplicant": "Nov candidat",
+    "gridView": "Vista griglia",
+    "listView": "Vista glista",
+    "viewToggle": "Modus da vista",
+    "availableFrom": "Disponibel a partir da",
+    "skills": "Abilitads",
+    "location": "Lieu",
+    "yearsOfExperience": "Onns d'experientscha",
+    "applicationStatus": "Status da candidatura",
+    "currentJobTitle": "Posiziun actuala",
+    "deleteApplicant": "Stizzar candidat",
+    "confirmDeleteTitle": "Confermar eliminaziun",
+    "confirmDeleteMessage": "Es ti segir che ti vuls stizzar quest candidat? Questa acziun stizza definitivamain il profil e tut las novitads associadas.",
+    "confirmDeleteConfirm": "Stizzar candidat",
+    "confirmDeleteCancel": "Annullar",
+    "gridPaginationLabel": "Paginas da la griglia da candidats",
+    "goToGridPage": "Ir a pagina {{page}}",
+    "gridPagerPreviousPage": "Pagina precedenta",
+    "gridPagerNextPage": "Proxima pagina"
+  },
+  "applicantList": {
+    "name": "Num",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "availability": "Disponibilitad",
+    "skills": "Abilitads",
+    "currentJobTitle": "Posiziun",
+    "location": "Lieu",
+    "yearsOfExperience": "Experientscha",
+    "applicationStatus": "Status"
+  },
+  "applicantCard": {
+    "availablePrefix": "Disponibel:"
+  },
+  "applicationStatus": {
+    "received": "Repartida",
+    "screening": "Preselecziun",
+    "interview_scheduled": "Intervista planisada",
+    "shortlisted": "Preselecziun finala",
+    "offer_extended": "Offerta tramessa",
+    "rejected": "Refusada",
+    "withdrawn": "Retirada"
+  },
+  "jobTitles": {
+    "seniorFrontendEngineer": "Inschigner frontend senior",
+    "qaAutomationLead": "Manader d'automatisaziun QA",
+    "uiEngineer": "Inschigner UI",
+    "productDesigner": "Designer da product",
+    "engineeringManager": "Manader d'inschignaria",
+    "backendEngineer": "Inschigner backend",
+    "devopsEngineer": "Inschigner DevOps",
+    "fullStackDeveloper": "Sviluppader full-stack",
+    "dataEngineer": "Inschigner da datas",
+    "mobileEngineer": "Inschigner mobile",
+    "siteReliabilityEngineer": "Inschigner d'affidabladad dal sistem"
+  },
+  "export": {
+    "title": "Exportar candidats",
+    "csv": "CSV",
+    "json": "JSON",
+    "excel": "Excel",
+    "pdf": "PDF"
+  },
+  "newApplicant": {
+    "title": "Nov candidat",
+    "editTitle": "Guardar / modifitgar candidat",
+    "name": "Num",
+    "email": "Adressa e-mail",
+    "emailRequired": "E-mail obligatoric",
+    "emailInvalid": "Endatescha ina adressa e-mail valida",
+    "phone": "Numer da telefon",
+    "location": "Lieu",
+    "yearsOfExperience": "Onns d'experientscha",
+    "applicationStatus": "Status da candidatura",
+    "currentJobTitle": "Posiziun actuala",
+    "skills": "Abilitads",
+    "skillPlaceholder": "Agiuntar abilitad",
+    "availableFrom": "Disponibel a partir da",
+    "notes": "Remartgas",
+    "cancel": "Annullar",
+    "apply": "Applitgar",
+    "submit": "Trametter",
+    "save": "Actualisar"
+  }
+}
