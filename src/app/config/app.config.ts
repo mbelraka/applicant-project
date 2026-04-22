@@ -259,6 +259,19 @@ export const APP_CONFIG = {
     DATE_FORMAT_KEY: 'app_dateFormat',
   },
 
+  /**
+   * Free, public translation endpoint.
+   * Used for dynamic (user-entered) values like job titles.
+   *
+   * Notes:
+   * - Public instances are rate-limited; we cache results client-side.
+   * - Response quality varies; we always fall back to the original text.
+   */
+  TRANSLATION: {
+    MYMEMORY_URL: 'https://api.mymemory.translated.net/get',
+    REQUEST_TIMEOUT_MS: 8000,
+  } as const,
+
   getLocale: (language: Languages): string => {
     return (
       APP_CONFIG.LOCALIZATION.LOCALES[language] ||

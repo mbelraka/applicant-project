@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 
-import { APP_CONFIG } from '../../../config/app.config';
-import { FullState } from '../../../models/full-state.model';
 import { NavLink } from 'src/app/modules/main/models/nav-link.model';
+
+import { APP_CONFIG } from '../../../config/app.config';
+import { Languages } from '../../../enums/language.enum';
+import { FullState } from '../../../models/full-state.model';
 import { LocalizationService } from '../../../services/localization.service';
 import { selectAppLanguage } from '../../../state/app.selectors';
 import { isLanguage } from '../../../utilities/language.utils';
@@ -26,6 +29,18 @@ export class RootComponent implements OnInit {
   public readonly supportedLanguages =
     APP_CONFIG.LOCALIZATION.SUPPORTED_LANGUAGES;
 
+  public get sortedSupportedLanguages(): readonly Languages[] {
+    return [...this.supportedLanguages].sort((a, b) =>
+      this.getLanguageLabel(a).localeCompare(
+        this.getLanguageLabel(b),
+        undefined,
+        {
+          sensitivity: 'base',
+        }
+      )
+    );
+  }
+
   public currentRoute$!: Observable<NavLink | undefined>;
 
   public readonly language$ = this.store.select(selectAppLanguage);
@@ -33,7 +48,8 @@ export class RootComponent implements OnInit {
   public constructor(
     private readonly router: Router,
     private readonly store: Store<FullState>,
-    private readonly localization: LocalizationService
+    private readonly localization: LocalizationService,
+    private readonly translate: TranslateService
   ) {}
 
   public ngOnInit(): void {
@@ -48,6 +64,10 @@ export class RootComponent implements OnInit {
     if (isLanguage(value)) {
       this.localization.setLanguage(value);
     }
+  }
+
+  public getLanguageLabel(language: Languages): string {
+    return this.translate.instant(`language.names.${language}`);
   }
 
   private resolveNavForUrl(url: string): NavLink | undefined {

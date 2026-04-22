@@ -36,7 +36,7 @@
         <mat-icon class="applicant__contact-icon" aria-hidden="true"
           >work</mat-icon
         >
-        <span>{{ applicant.currentJobTitle | localizedJobTitle }}</span>
+        <span>{{ applicant.currentJobTitle | remoteTranslate }}</span>
       </div>
     }
     @if (

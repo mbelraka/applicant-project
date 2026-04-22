@@ -92,19 +92,6 @@
     "rejected": "Rifiutato",
     "withdrawn": "Ritirata"
   },
-  "jobTitles": {
-    "seniorFrontendEngineer": "Ingegnere frontend senior",
-    "qaAutomationLead": "Responsabile automazione QA",
-    "uiEngineer": "Ingegnere UI",
-    "productDesigner": "Product designer",
-    "engineeringManager": "Responsabile ingegneria",
-    "backendEngineer": "Ingegnere backend",
-    "devopsEngineer": "Ingegnere DevOps",
-    "fullStackDeveloper": "Sviluppatore full-stack",
-    "dataEngineer": "Ingegnere dei dati",
-    "mobileEngineer": "Ingegnere mobile",
-    "siteReliabilityEngineer": "Ingegnere affidabilita del sito"
-  },
   "export": {
     "title": "Esporta candidati",
     "csv": "CSV",

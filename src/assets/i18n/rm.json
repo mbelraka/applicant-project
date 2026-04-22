@@ -92,19 +92,6 @@
     "rejected": "Refusada",
     "withdrawn": "Retirada"
   },
-  "jobTitles": {
-    "seniorFrontendEngineer": "Inschigner frontend senior",
-    "qaAutomationLead": "Manader d'automatisaziun QA",
-    "uiEngineer": "Inschigner UI",
-    "productDesigner": "Designer da product",
-    "engineeringManager": "Manader d'inschignaria",
-    "backendEngineer": "Inschigner backend",
-    "devopsEngineer": "Inschigner DevOps",
-    "fullStackDeveloper": "Sviluppader full-stack",
-    "dataEngineer": "Inschigner da datas",
-    "mobileEngineer": "Inschigner mobile",
-    "siteReliabilityEngineer": "Inschigner d'affidabladad dal sistem"
-  },
   "export": {
     "title": "Exportar candidats",
     "csv": "CSV",

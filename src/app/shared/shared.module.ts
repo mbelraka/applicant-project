@@ -9,7 +9,8 @@ import { MatSharedModule } from 'src/app/shared/mat-shared/mat-shared.module';
 import { LocaleDatePipe } from './pipes/locale-date.pipe';
 import { LocaleLocationPipe } from './pipes/locale-location.pipe';
 import { LocaleNumberPipe } from './pipes/locale-number.pipe';
-import { LocalizedJobTitlePipe } from './pipes/localized-job-title.pipe';
+import { LocalizedTextPipe } from './pipes/localized-text.pipe';
+import { RemoteTranslatePipe } from './pipes/remote-translate.pipe';
 
 const SHARED_MODULES = [
   CommonModule,
@@ -25,7 +26,8 @@ const SHARED_PIPES = [
   LocaleDatePipe,
   LocaleNumberPipe,
   LocaleLocationPipe,
-  LocalizedJobTitlePipe,
+  LocalizedTextPipe,
+  RemoteTranslatePipe,
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const SHARED_PIPES = [
     LocaleDatePipe,
     LocaleNumberPipe,
     LocaleLocationPipe,
-    LocalizedJobTitlePipe,
+    LocalizedTextPipe,
+    RemoteTranslatePipe,
   ],
   imports: SHARED_MODULES,
   exports: [
@@ -41,7 +44,8 @@ const SHARED_PIPES = [
     LocaleDatePipe,
     LocaleNumberPipe,
     LocaleLocationPipe,
-    LocalizedJobTitlePipe,
+    LocalizedTextPipe,
+    RemoteTranslatePipe,
   ],
   providers: SHARED_PIPES,
 })

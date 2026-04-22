@@ -42,7 +42,7 @@
         >
           {{
             applicant.currentJobTitle
-              ? (applicant.currentJobTitle | localizedJobTitle)
+              ? (applicant.currentJobTitle | remoteTranslate)
               : '—'
           }}
         </td>
