@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Abbinamento candidati",
+    "panelTitle": "Matcher talenti con IA",
     "intro": "Trova e classifica i profili migliori per le posizioni aperte.",
-    "placeholder": "Gli strumenti di abbinamento appariranno qui."
+    "placeholder": "Gli strumenti di abbinamento appariranno qui.",
+    "pasteJobDescriptionHere": "Incolla qui la descrizione del lavoro",
+    "jobDescriptionLabel": "Descrizione del lavoro",
+    "analyzeAndMatch": "Analizza e abbina",
+    "evaluateButton": "Valuta candidati",
+    "loading": "Valutazione candidati in corso...",
+    "summary": "Valutati {{evaluated}} candidati su {{total}}. Mostrati i migliori {{top}}.",
+    "topCandidatesTitle": "Migliori candidati",
+    "allCandidatesTitle": "Tutti i candidati valutati",
+    "fields": {
+      "score": "Punteggio",
+      "reasoning": "Motivazione",
+      "currentJobTitle": "Ruolo attuale",
+      "yearsOfExperience": "Anni di esperienza",
+      "location": "Località",
+      "availableFrom": "Disponibile dal",
+      "email": "Email",
+      "phone": "Telefono",
+      "skills": "Competenze",
+      "matchingSkills": "Competenze corrispondenti",
+      "missingSkills": "Competenze mancanti",
+      "notes": "Note"
+    },
+    "scoreAriaLabel": "Punteggio: {{score}}"
   },
   "applicants": {
     "searchLabel": "Cerca candidati",

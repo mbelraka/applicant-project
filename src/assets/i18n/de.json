@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Kandidaten-Matching",
+    "panelTitle": "KI-Talent-Matcher",
     "intro": "Finden und bewerten Sie die besten Passungen für offene Rollen.",
-    "placeholder": "Matching-Funktionen werden hier angezeigt."
+    "placeholder": "Matching-Funktionen werden hier angezeigt.",
+    "pasteJobDescriptionHere": "Stellenbeschreibung hier einfugen",
+    "jobDescriptionLabel": "Stellenbeschreibung",
+    "analyzeAndMatch": "Analysieren und abgleichen",
+    "evaluateButton": "Kandidaten bewerten",
+    "loading": "Kandidaten werden bewertet...",
+    "summary": "{{evaluated}} von {{total}} Bewerbern bewertet. Top {{top}} werden angezeigt.",
+    "topCandidatesTitle": "Top-Kandidaten",
+    "allCandidatesTitle": "Alle bewerteten Kandidaten",
+    "fields": {
+      "score": "Punktzahl",
+      "reasoning": "Begründung",
+      "currentJobTitle": "Aktuelle Berufsbezeichnung",
+      "yearsOfExperience": "Berufserfahrung",
+      "location": "Standort",
+      "availableFrom": "Verfügbar ab",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "skills": "Fähigkeiten",
+      "matchingSkills": "Passende Fähigkeiten",
+      "missingSkills": "Fehlende Fähigkeiten",
+      "notes": "Notizen"
+    },
+    "scoreAriaLabel": "Punktzahl: {{score}}"
   },
   "applicants": {
     "searchLabel": "Bewerber suchen",

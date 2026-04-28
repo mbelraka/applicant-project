@@ -10,9 +10,7 @@ export class Applicant {
   public readonly email?: string;
   public readonly phone?: string;
   public readonly location?: string;
-  /** Whole years (or half steps), e.g. 3 or 3.5 */
   public readonly yearsOfExperience?: number;
-  /** One of `ApplicationStatus` string values */
   public readonly applicationStatus?: string;
   public readonly currentJobTitle?: string;
   public readonly availableFrom?: Date;

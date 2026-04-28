@@ -15,3 +15,7 @@ export const CSV_FIELD_NEEDS_QUOTING = /[",\n\r]/;
 
 /** Escape double quotes inside a CSV quoted field. */
 export const CSV_DOUBLE_QUOTE = /"/g;
+
+/** Strip leading "Match score ..." sentence from recommendation text. */
+export const MATCH_SCORE_PREFIX =
+  /^match\s*score\s*[:\-]?\s*\d+(?:\.\d+)?(?:\s*\/\s*100|\s*%)?\.?\s*/i;

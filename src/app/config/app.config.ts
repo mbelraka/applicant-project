@@ -227,6 +227,28 @@ export const APP_CONFIG = {
     }>,
   } as const,
 
+  MATCH: {
+    TOP_CANDIDATES_COUNT: 3,
+    REQUEST_TIMEOUT_MS: 30000,
+    SCORE: {
+      MIN: 0,
+      MAX: 100,
+    } as const,
+    GROQ: {
+      MATCH_ENDPOINT: '/api/match',
+      MODEL: 'llama-3.3-70b-versatile',
+      TEMPERATURE: 0,
+      DETERMINISTIC_SCORING: true,
+    } as const,
+    ERRORS: {
+      MISSING_JOB_DESCRIPTION: 'Please provide a job description.',
+      NO_APPLICANTS_AVAILABLE: 'No applicants available for matching.',
+      GROQ_REQUEST_TIMEOUT: 'The matching request timed out. Please try again.',
+      GROQ_PROXY_UNREACHABLE:
+        'Unable to reach the matching service. Please try again later.',
+    } as const,
+  } as const,
+
   // Localization and language settings
   LOCALIZATION: {
     DEFAULT_LANGUAGE: Languages.English,

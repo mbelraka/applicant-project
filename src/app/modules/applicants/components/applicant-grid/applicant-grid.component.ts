@@ -16,7 +16,6 @@ import { Store } from '@ngrx/store';
 
 import { APP_CONFIG } from '../../../../config/app.config';
 import { FullState } from '../../../../models/full-state.model';
-import { MATERIAL_SYMBOLS_OUTLINED_FONT_SET } from '../../../../utilities/initializers/material-symbols-outlined-font.initializer';
 import { Applicant } from '../../models/applicant.model';
 import {
   selectFilterByCountry,
@@ -95,8 +94,6 @@ export class ApplicantGridComponent implements AfterViewInit {
   public readonly pageNumbers = this._pagination.pageNumbers;
   public readonly pagedApplicants = this._pagination.pagedItems;
 
-  public readonly outlinedIconFontSet = MATERIAL_SYMBOLS_OUTLINED_FONT_SET;
-
   public constructor(private readonly _store: Store<FullState>) {
     effect(() => {
       this.globalFilter();
@@ -137,11 +134,7 @@ export class ApplicantGridComponent implements AfterViewInit {
     this.goToPage(this.pageIndex() + 1);
   }
 
-  public onCardClick(event: MouseEvent, applicant: Applicant): void {
-    const target = event.target as HTMLElement | null;
-    if (!target || target.closest('.applicant-grid__delete')) {
-      return;
-    }
+  public onCardClick(applicant: Applicant): void {
     this.editApplicant.emit(applicant);
   }
 
@@ -166,8 +159,7 @@ export class ApplicantGridComponent implements AfterViewInit {
     toggleSkillFilter(this._store, skill);
   }
 
-  public confirmRemoveApplicant(applicant: Applicant, event: Event): void {
-    event.stopPropagation();
+  public confirmRemoveApplicant(applicant: Applicant): void {
     confirmDeleteApplicant(this._dialog, this._store, applicant);
   }
 

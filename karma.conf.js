@@ -1,13 +1,13 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
-var existsSync = require('fs').existsSync;
-var chromeBinByPlatform = require('./karma.chrome.config.cjs').chromeBinByPlatform;
+var resolveChromeBin = require('./karma.chrome.config.cjs').resolveChromeBin;
 
-var configuredChromeBin = chromeBinByPlatform[process.platform];
-
-if (!process.env.CHROME_BIN && configuredChromeBin && existsSync(configuredChromeBin)) {
-  process.env.CHROME_BIN = configuredChromeBin;
+if (!process.env.CHROME_BIN) {
+  var resolvedChromeBin = resolveChromeBin(process.platform);
+  if (resolvedChromeBin) {
+    process.env.CHROME_BIN = resolvedChromeBin;
+  }
 }
 
 module.exports = function (config) {
@@ -19,7 +19,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
       jasmine: {
@@ -28,32 +28,33 @@ module.exports = function (config) {
         // for example, you can disable the random execution with `random: false`
         // or set a specific seed with `seed: 4321`
       },
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     jasmineHtmlReporter: {
-      suppressAll: true // removes the duplicated traces
+      suppressAll: true, // removes the duplicated traces
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/applicant-project'),
       subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'text' }
-      ],
+      reporters: [{ type: 'html' }, { type: 'text' }],
       check: {
         global: {
           statements: 80,
           branches: 80,
           functions: 80,
-          lines: 80
-        }
-      }
+          lines: 80,
+        },
+      },
     },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-      }
+        flags: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+        ],
+      },
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -62,6 +63,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
 };

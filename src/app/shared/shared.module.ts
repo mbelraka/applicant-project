@@ -5,7 +5,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MatSharedModule } from 'src/app/shared/mat-shared/mat-shared.module';
+import { ApplicantSkillsComponent } from 'src/app/modules/applicants/components/applicant-skills/applicant-skills.component';
+import { ApplicationStatusChipComponent } from 'src/app/modules/applicants/components/application-status-chip/application-status-chip.component';
 
+import { ApplicantGridCardComponent } from './components/applicant-grid-card/applicant-grid-card.component';
 import { LocaleDatePipe } from './pipes/locale-date.pipe';
 import { LocaleLocationPipe } from './pipes/locale-location.pipe';
 import { LocaleNumberPipe } from './pipes/locale-number.pipe';
@@ -32,6 +35,9 @@ const SHARED_PIPES = [
 
 @NgModule({
   declarations: [
+    ApplicantGridCardComponent,
+    ApplicantSkillsComponent,
+    ApplicationStatusChipComponent,
     LocaleDatePipe,
     LocaleNumberPipe,
     LocaleLocationPipe,
@@ -41,6 +47,9 @@ const SHARED_PIPES = [
   imports: SHARED_MODULES,
   exports: [
     ...SHARED_MODULES,
+    ApplicantGridCardComponent,
+    ApplicantSkillsComponent,
+    ApplicationStatusChipComponent,
     LocaleDatePipe,
     LocaleNumberPipe,
     LocaleLocationPipe,

@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Match Candidates",
+    "panelTitle": "AI Talent Matcher",
     "intro": "Find and rank the best fit for open roles.",
-    "placeholder": "Matching tools will appear here."
+    "placeholder": "Matching tools will appear here.",
+    "pasteJobDescriptionHere": "Paste job description here",
+    "jobDescriptionLabel": "Job description",
+    "analyzeAndMatch": "Analyze and Match",
+    "evaluateButton": "Evaluate candidates",
+    "loading": "Evaluating candidates...",
+    "summary": "Evaluated {{evaluated}} of {{total}} applicants. Showing top {{top}}.",
+    "topCandidatesTitle": "Top candidates",
+    "allCandidatesTitle": "All evaluated candidates",
+    "fields": {
+      "score": "Score",
+      "reasoning": "Reasoning",
+      "currentJobTitle": "Current job title",
+      "yearsOfExperience": "Years of experience",
+      "location": "Location",
+      "availableFrom": "Available from",
+      "email": "Email",
+      "phone": "Phone",
+      "skills": "Skills",
+      "matchingSkills": "Matching skills",
+      "missingSkills": "Missing skills",
+      "notes": "Notes"
+    },
+    "scoreAriaLabel": "Score: {{score}}"
   },
   "applicants": {
     "searchLabel": "Search applicants",

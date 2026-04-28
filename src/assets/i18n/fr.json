@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Correspondance des candidats",
+    "panelTitle": "Moteur IA de talents",
     "intro": "Trouvez et classez les profils les plus adaptés aux postes ouverts.",
-    "placeholder": "Les outils de correspondance apparaîtront ici."
+    "placeholder": "Les outils de correspondance apparaîtront ici.",
+    "pasteJobDescriptionHere": "Collez la description du poste ici",
+    "jobDescriptionLabel": "Description du poste",
+    "analyzeAndMatch": "Analyser et associer",
+    "evaluateButton": "Évaluer les candidats",
+    "loading": "Évaluation des candidats en cours...",
+    "summary": "{{evaluated}} candidats évalués sur {{total}}. Top {{top}} affichés.",
+    "topCandidatesTitle": "Meilleurs candidats",
+    "allCandidatesTitle": "Tous les candidats évalués",
+    "fields": {
+      "score": "Score",
+      "reasoning": "Justification",
+      "currentJobTitle": "Poste actuel",
+      "yearsOfExperience": "Années d'expérience",
+      "location": "Localisation",
+      "availableFrom": "Disponible à partir du",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "skills": "Compétences",
+      "matchingSkills": "Compétences correspondantes",
+      "missingSkills": "Compétences manquantes",
+      "notes": "Notes"
+    },
+    "scoreAriaLabel": "Score : {{score}}"
   },
   "applicants": {
     "searchLabel": "Rechercher des candidats",

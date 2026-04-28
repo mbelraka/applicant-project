@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Cumparegliaziun da candidats",
+    "panelTitle": "Matcher da talents cun IA",
     "intro": "Chattar e classar ils profils ils pli adattads per las plazzas avertas.",
-    "placeholder": "Ils utensils da matching cumparan qua."
+    "placeholder": "Ils utensils da matching cumparan qua.",
+    "pasteJobDescriptionHere": "Encolla qua la descripziun dal post",
+    "jobDescriptionLabel": "Descripziun dal post",
+    "analyzeAndMatch": "Analyser e cumparegliar",
+    "evaluateButton": "Valitar candidats",
+    "loading": "Valitaziun da candidats en curs...",
+    "summary": "Valitàs {{evaluated}} da {{total}} candidats. Top {{top}} mussads.",
+    "topCandidatesTitle": "Megliers candidats",
+    "allCandidatesTitle": "Tut ils candidats valitads",
+    "fields": {
+      "score": "Puncts",
+      "reasoning": "Motivaziun",
+      "currentJobTitle": "Posiziun actuala",
+      "yearsOfExperience": "Onns d'experientscha",
+      "location": "Lieu",
+      "availableFrom": "Disponibel a partir da",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "skills": "Abilitads",
+      "matchingSkills": "Abilitads correspundentas",
+      "missingSkills": "Abilitads mancantas",
+      "notes": "Remartgas"
+    },
+    "scoreAriaLabel": "Puncts: {{score}}"
   },
   "applicants": {
     "searchLabel": "Tschertgar candidats",

@@ -35,8 +35,32 @@
   },
   "match": {
     "pageTitle": "Coincidencia de candidatos",
+    "panelTitle": "Emparejador de talento con IA",
     "intro": "Encuentra y clasifica los mejores perfiles para puestos abiertos.",
-    "placeholder": "Las herramientas de coincidencia apareceran aqui."
+    "placeholder": "Las herramientas de coincidencia apareceran aqui.",
+    "pasteJobDescriptionHere": "Pega aqui la descripcion del puesto",
+    "jobDescriptionLabel": "Descripcion del puesto",
+    "analyzeAndMatch": "Analizar y emparejar",
+    "evaluateButton": "Evaluar candidatos",
+    "loading": "Evaluando candidatos...",
+    "summary": "Evaluados {{evaluated}} de {{total}} candidatos. Mostrando top {{top}}.",
+    "topCandidatesTitle": "Mejores candidatos",
+    "allCandidatesTitle": "Todos los candidatos evaluados",
+    "fields": {
+      "score": "Puntuacion",
+      "reasoning": "Justificacion",
+      "currentJobTitle": "Puesto actual",
+      "yearsOfExperience": "Anos de experiencia",
+      "location": "Ubicacion",
+      "availableFrom": "Disponible desde",
+      "email": "Correo",
+      "phone": "Telefono",
+      "skills": "Habilidades",
+      "matchingSkills": "Habilidades coincidentes",
+      "missingSkills": "Habilidades faltantes",
+      "notes": "Notas"
+    },
+    "scoreAriaLabel": "Puntuacion: {{score}}"
   },
   "applicants": {
     "searchLabel": "Buscar candidatos",

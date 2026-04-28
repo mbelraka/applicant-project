@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import { StateFeatures } from '../../../containers/root/enums/state-features.enum';
 import { ApplicationStatus } from '../enums/application-status.enum';
@@ -8,6 +8,18 @@ import { Applicant } from '../models/applicant.model';
 import { adapter } from './applicants.reducer';
 
 const APPLICATION_STATUS_ORDER = Object.values(ApplicationStatus);
+const EMPTY_APPLICANT_STATE: ApplicantState = adapter.getInitialState({
+  loading: false,
+  error: null,
+  filter: '',
+  sortBy: 'name',
+  sortDirection: 'asc',
+  filterBySkill: null,
+  filterByStatus: null,
+  filterByCountry: null,
+  viewType: ViewTypes.GRID,
+  locationSuggestions: [],
+});
 
 /** Country segment from `location` (last comma-separated part, or whole string). */
 export function countryFromLocation(
@@ -28,8 +40,12 @@ export function countryFromLocation(
 }
 
 // Feature Selector
-const selectApplicantState = createFeatureSelector<ApplicantState>(
-  StateFeatures.Applicants
+const selectApplicantState = (state: {
+  [StateFeatures.Applicants]?: ApplicantState;
+}): ApplicantState | undefined => state[StateFeatures.Applicants];
+const selectApplicantStateSafe = createSelector(
+  selectApplicantState,
+  (state): ApplicantState => state ?? EMPTY_APPLICANT_STATE
 );
 
 // Entity Adapter Selectors
@@ -37,40 +53,40 @@ const { selectAll } = adapter.getSelectors();
 
 // Select All Applicants
 export const selectAllApplicants = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   selectAll
 );
 
 // Select Loading State
 export const selectLoading = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): boolean => state.loading
 );
 
 // Select View Type
 export const selectViewType = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): ViewTypes => state.viewType
 );
 
 // Select Global Filter
 export const selectGlobalFilter = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): string => state.filter
 );
 
 export const selectFilterBySkill = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): string | null => state.filterBySkill
 );
 
 export const selectFilterByStatus = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): string | null => state.filterByStatus
 );
 
 export const selectFilterByCountry = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): string | null => state.filterByCountry
 );
 
@@ -114,17 +130,17 @@ export const selectUniqueCountries = createSelector(
 );
 
 export const selectLocationSuggestions = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): string[] => state.locationSuggestions ?? []
 );
 
 export const selectSortBy = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): keyof Applicant | null => state.sortBy
 );
 
 export const selectSortDirection = createSelector(
-  selectApplicantState,
+  selectApplicantStateSafe,
   (state): 'asc' | 'desc' => state.sortDirection ?? 'asc'
 );
 

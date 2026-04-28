@@ -58,7 +58,7 @@ $_card-ease: var(
   background-color: #fff !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  border: 1px solid var(--app-color-border-subtle, rgba(0, 0, 0, 0.12));
+  border: none;
   transition:
     box-shadow 0.22s $_card-ease,
     border-color 0.22s $_card-ease,

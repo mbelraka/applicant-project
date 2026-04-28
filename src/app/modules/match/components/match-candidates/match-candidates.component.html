@@ -1,18 +1,123 @@
 <div class="match-candidates-container flex min-h-0 flex-1 flex-col">
-  <header class="match-candidates__header flex flex-col gap-1">
-    <h1 class="match-candidates__title">
-      {{ 'match.pageTitle' | translate }}
-    </h1>
-    <p class="match-candidates__subtitle">
-      {{ 'match.intro' | translate }}
-    </p>
-  </header>
+  @let loading = loading$ | async;
+  @let error = error$ | async;
+  @let topCandidates = topResults$ | async;
+  @let allCandidates = results$ | async;
 
-  <div
-    class="match-candidates__content content flex min-h-0 flex-1 flex-col gap-6"
-  >
-    <p class="match-candidates__placeholder">
-      {{ 'match.placeholder' | translate }}
-    </p>
+  <div class="match-candidates__content content flex min-h-0 flex-1">
+    <section class="match-candidates__panel match-candidates__panel--job">
+      <mat-card class="match-candidates__job-card">
+        <mat-card-header class="match-candidates__job-card-header">
+          <mat-card-title class="match-candidates__job-card-title">
+            <mat-icon
+              class="match-candidates__job-card-title-icon material-symbols-outlined"
+              aria-hidden="true"
+              >psychology</mat-icon
+            >
+            <span>{{ 'match.panelTitle' | translate }}</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="match-candidates__job-card-content">
+          <label
+            class="match-candidates__job-field-label"
+            for="match-job-description"
+          >
+            {{ 'match.jobDescriptionLabel' | translate }}
+          </label>
+          <mat-form-field
+            appearance="fill"
+            class="form-field--filled-white form-field--multiline match-candidates__job-field"
+            subscriptSizing="dynamic"
+          >
+            <textarea
+              id="match-job-description"
+              matInput
+              [value]="jobDescriptionInput"
+              (input)="onJobDescriptionInput($any($event.target).value)"
+            ></textarea>
+          </mat-form-field>
+
+          <div class="match-candidates__actions">
+            <button
+              class="match-candidates__evaluate-button"
+              mat-flat-button
+              type="button"
+              [disabled]="!jobDescriptionInput.trim()"
+              (click)="evaluateCandidates()"
+            >
+              <span>{{ 'match.analyzeAndMatch' | translate }}</span>
+              <mat-icon
+                class="match-candidates__evaluate-button-icon"
+                aria-hidden="true"
+                >arrow_right_alt</mat-icon
+              >
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <section class="match-candidates__panel match-candidates__panel--results">
+      @if (error) {
+        <p class="match-candidates__error">{{ error }}</p>
+      }
+
+      @if (loading) {
+        <section class="match-candidates__loading flex flex-col gap-2">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <p class="match-candidates__loading-text">
+            {{ 'match.loading' | translate }}
+          </p>
+        </section>
+      }
+
+      @if (allCandidates?.length) {
+        <section class="match-candidates__section flex flex-col gap-3">
+          <h2 class="match-candidates__section-title">
+            {{ 'match.topCandidatesTitle' | translate }}
+          </h2>
+          <div class="match-candidates__cards-scroll">
+            <div class="match-candidates__cards-grid">
+              @for (
+                candidate of topCandidates ?? [];
+                track candidate.applicant.id;
+                let candidateIndex = $index
+              ) {
+                <app-applicant-grid-card
+                  class="match-candidates__card"
+                  [applicant]="candidate.applicant"
+                  [animationDelayMs]="candidateIndex * 70"
+                  [highlighted]="candidateIndex === 0"
+                  [showApplicationStatus]="false"
+                  [showMetaDetails]="false"
+                  [skillVariant]="'filter-chip'"
+                >
+                  <p
+                    class="match-candidates__score-top"
+                    [class.match-candidates__score-top--first]="
+                      candidateIndex === 0
+                    "
+                    [attr.aria-label]="
+                      'match.scoreAriaLabel'
+                        | translate
+                          : {
+                              score:
+                                (candidate.score | localeNumber: '1.0-0') + '%',
+                            }
+                    "
+                  >
+                    {{ candidate.score | localeNumber: '1.0-0' }}%
+                  </p>
+                  <p class="match-candidates__detail">
+                    <strong>{{ 'match.fields.reasoning' | translate }}:</strong>
+                    {{ candidate.reasoning }}
+                  </p>
+                </app-applicant-grid-card>
+              }
+            </div>
+          </div>
+        </section>
+      }
+    </section>
   </div>
 </div>

@@ -1,0 +1,53 @@
+import { expect, test } from '@playwright/test';
+
+test.describe('Match candidates flow', () => {
+  test('evaluates seeded applicants and marks top three', async ({ page }) => {
+    let candidatesCount = 0;
+
+    await page.route('**/api/match-job', async (route) => {
+      const payload = route.request().postDataJSON() as {
+        candidates?: Array<{ id: string }>;
+      };
+      const candidates = payload.candidates ?? [];
+      candidatesCount = candidates.length;
+
+      const scores = candidates.map((candidate, index) => ({
+        id: candidate.id,
+        score: Math.max(0, 100 - index * 7),
+        reasoning: `Deterministic match reasoning #${index + 1}`,
+      }));
+
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ scores }),
+      });
+    });
+
+    // Ensure applicants feature initializes and seeds demo rows.
+    await page.goto('/root/applicants');
+    await expect(page).toHaveURL(/\/root\/applicants/);
+
+    await page.goto('/root/match');
+    await expect(page).toHaveURL(/\/root\/match/);
+
+    const descriptionField = page.locator(
+      'textarea[matinput], textarea[matInput], textarea'
+    );
+    await descriptionField.fill(
+      'Senior Angular engineer with strong NgRx, TypeScript, and scalable UI architecture experience.'
+    );
+
+    await page.getByRole('button', { name: /evaluate candidates/i }).click();
+
+    await expect(page.getByText(/evaluating candidates/i)).toBeVisible();
+    await expect(page.getByText(/evaluating candidates/i)).toBeHidden();
+
+    await expect(page.locator('.match-candidates__card')).toHaveCount(
+      candidatesCount
+    );
+    await expect(page.locator('.match-candidates__card--top')).toHaveCount(3);
+    await expect(page.getByText(/Evaluated .* Top 3/i)).toBeVisible();
+  });
+});

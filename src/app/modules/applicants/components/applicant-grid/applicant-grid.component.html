@@ -10,117 +10,18 @@
         track applicant.id;
         let idx = $index
       ) {
-        <mat-card
+        <app-applicant-grid-card
           class="applicant-grid__card"
-          [style.animation-delay.ms]="cardEnterDelayMs(idx)"
-          (click)="onCardClick($event, applicant)"
+          [applicant]="applicant"
+          [clickable]="true"
+          [showDeleteAction]="true"
+          [animationDelayMs]="cardEnterDelayMs(idx)"
+          [skillVariant]="'filter-chip'"
+          (cardSelected)="onCardClick($event)"
+          (deleteRequested)="confirmRemoveApplicant($event)"
+          (skillSelected)="filterBySkill($event)"
         >
-          @if (applicant.applicationStatus) {
-            <app-application-status-chip
-              class="applicant-grid__application-status"
-              [status]="applicant.applicationStatus"
-            ></app-application-status-chip>
-          }
-          <mat-card-header class="applicant-grid__header">
-            <mat-card-title class="applicant-grid__name">{{
-              applicant.name
-            }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="applicant-grid__card-body">
-            @if (applicant.currentJobTitle?.trim()) {
-              <p
-                class="applicant-grid__meta applicant-grid__meta--current-job-title"
-              >
-                {{ applicant.currentJobTitle | remoteTranslate }}
-              </p>
-              <hr class="applicant-grid__divider" />
-            }
-            @if (
-              applicant.yearsOfExperience !== undefined &&
-              applicant.yearsOfExperience !== null
-            ) {
-              <p
-                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
-              >
-                <mat-icon
-                  class="applicant-grid__meta-icon"
-                  [fontSet]="outlinedIconFontSet"
-                  fontIcon="work"
-                  aria-hidden="true"
-                ></mat-icon>
-                <span
-                  class="applicant-grid__meta-inline flex flex-row gap-1 items-center"
-                >
-                  <span class="applicant-grid__years-value">{{
-                    applicant.yearsOfExperience
-                  }}</span>
-                  <span class="applicant-grid__years-suffix"
-                    >{{
-                      (applicant.yearsOfExperience === 1
-                        ? 'experienceDisplay.yearsSuffixOne'
-                        : 'experienceDisplay.yearsSuffixOther'
-                      ) | translate
-                    }}
-                  </span>
-                </span>
-              </p>
-            }
-            @if (applicant.location?.trim()) {
-              <p
-                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
-              >
-                <mat-icon
-                  class="applicant-grid__meta-icon"
-                  [fontSet]="outlinedIconFontSet"
-                  fontIcon="location_on"
-                  aria-hidden="true"
-                ></mat-icon>
-                <span>{{ applicant.location | localeLocation }}</span>
-              </p>
-            }
-            @if (applicant.availableFrom) {
-              <p
-                class="applicant-grid__meta applicant-grid__meta--with-leading-icon applicant-grid__meta--experience-location"
-                [attr.aria-label]="
-                  ('applicants.availableFrom' | translate) +
-                  ' ' +
-                  (applicant.availableFrom | localeDate)
-                "
-              >
-                <mat-icon
-                  class="applicant-grid__meta-icon"
-                  [fontSet]="outlinedIconFontSet"
-                  fontIcon="calendar_clock"
-                  aria-hidden="true"
-                ></mat-icon>
-                <span>
-                  {{ 'applicants.availableFrom' | translate }}
-                  {{ applicant.availableFrom | localeDate }}
-                </span>
-              </p>
-            }
-            <app-applicant-skills
-              class="applicant-grid__skills"
-              [skills]="applicant.skills"
-              variant="filter-chip"
-              (skillSelected)="filterBySkill($event)"
-            ></app-applicant-skills>
-          </mat-card-content>
-          <button
-            mat-icon-button
-            type="button"
-            color="primary"
-            class="applicant-grid__delete"
-            (click)="confirmRemoveApplicant(applicant, $event)"
-            [attr.aria-label]="'applicants.deleteApplicant' | translate"
-          >
-            <mat-icon
-              [fontSet]="outlinedIconFontSet"
-              fontIcon="delete"
-              aria-hidden="true"
-            ></mat-icon>
-          </button>
-        </mat-card>
+        </app-applicant-grid-card>
       }
     </div>
   </div>

@@ -73,22 +73,8 @@ describe('ApplicantGridComponent', () => {
   describe('Card Click and Emit', () => {
     it('should emit editApplicant when card is clicked', () => {
       spyOn(component.editApplicant, 'emit');
-      const event = {
-        target: document.createElement('div'),
-      } as unknown as MouseEvent;
-
-      component.onCardClick(event, mockApplicant);
+      component.onCardClick(mockApplicant);
       expect(component.editApplicant.emit).toHaveBeenCalledWith(mockApplicant);
-    });
-
-    it('should not emit if target is delete button', () => {
-      spyOn(component.editApplicant, 'emit');
-      const target = document.createElement('button');
-      target.classList.add('applicant-grid__delete');
-      const event = { target } as unknown as MouseEvent;
-
-      component.onCardClick(event, mockApplicant);
-      expect(component.editApplicant.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -104,12 +90,7 @@ describe('ApplicantGridComponent', () => {
     });
 
     it('should confirm remove applicant', () => {
-      const event = new Event('click');
-      spyOn(event, 'stopPropagation');
-
-      component.confirmRemoveApplicant(mockApplicant, event);
-
-      expect(event.stopPropagation).toHaveBeenCalled();
+      component.confirmRemoveApplicant(mockApplicant);
       expect(mockDialog.open).toHaveBeenCalled();
     });
   });

@@ -1,0 +1,119 @@
+<mat-card
+  class="applicant-shared-card"
+  [class.applicant-shared-card--top]="highlighted"
+  [class.applicant-shared-card--clickable]="clickable"
+  [style.animation-delay.ms]="animationDelayMs"
+  (click)="onCardClick($event)"
+>
+  @if (showApplicationStatus && applicant.applicationStatus) {
+    <app-application-status-chip
+      class="applicant-shared-card__application-status"
+      [status]="applicant.applicationStatus"
+    ></app-application-status-chip>
+  }
+  <mat-card-header class="applicant-shared-card__header">
+    <mat-card-title class="applicant-shared-card__name">
+      {{ applicant.name }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="applicant-shared-card__body">
+    @if (applicant.currentJobTitle?.trim()) {
+      <p
+        class="applicant-shared-card__meta applicant-shared-card__meta--current-job-title"
+      >
+        {{ applicant.currentJobTitle | remoteTranslate }}
+      </p>
+      <hr class="applicant-shared-card__divider" />
+    }
+    @if (
+      showMetaDetails &&
+      applicant.yearsOfExperience !== undefined &&
+      applicant.yearsOfExperience !== null
+    ) {
+      <p
+        class="applicant-shared-card__meta applicant-shared-card__meta--with-leading-icon applicant-shared-card__meta--experience-location"
+      >
+        <mat-icon
+          class="applicant-shared-card__meta-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="work"
+          aria-hidden="true"
+        ></mat-icon>
+        <span
+          class="applicant-shared-card__meta-inline flex flex-row gap-1 items-center"
+        >
+          <span class="applicant-shared-card__years-value">{{
+            applicant.yearsOfExperience
+          }}</span>
+          <span class="applicant-shared-card__years-suffix"
+            >{{
+              (applicant.yearsOfExperience === 1
+                ? 'experienceDisplay.yearsSuffixOne'
+                : 'experienceDisplay.yearsSuffixOther'
+              ) | translate
+            }}
+          </span>
+        </span>
+      </p>
+    }
+    @if (showMetaDetails && applicant.location?.trim()) {
+      <p
+        class="applicant-shared-card__meta applicant-shared-card__meta--with-leading-icon applicant-shared-card__meta--experience-location"
+      >
+        <mat-icon
+          class="applicant-shared-card__meta-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="location_on"
+          aria-hidden="true"
+        ></mat-icon>
+        <span>{{ applicant.location | localeLocation }}</span>
+      </p>
+    }
+    @if (showMetaDetails && applicant.availableFrom) {
+      <p
+        class="applicant-shared-card__meta applicant-shared-card__meta--with-leading-icon applicant-shared-card__meta--experience-location"
+        [attr.aria-label]="
+          ('applicants.availableFrom' | translate) +
+          ' ' +
+          (applicant.availableFrom | localeDate)
+        "
+      >
+        <mat-icon
+          class="applicant-shared-card__meta-icon"
+          [fontSet]="outlinedIconFontSet"
+          fontIcon="calendar_clock"
+          aria-hidden="true"
+        ></mat-icon>
+        <span>
+          {{ 'applicants.availableFrom' | translate }}
+          {{ applicant.availableFrom | localeDate }}
+        </span>
+      </p>
+    }
+    <app-applicant-skills
+      class="applicant-shared-card__skills"
+      [skills]="applicant.skills"
+      [variant]="skillVariant"
+      (skillSelected)="onSkillSelected($event)"
+    ></app-applicant-skills>
+
+    <ng-content></ng-content>
+  </mat-card-content>
+
+  @if (showDeleteAction) {
+    <button
+      mat-icon-button
+      type="button"
+      color="primary"
+      class="applicant-shared-card__delete"
+      (click)="onDeleteClick($event)"
+      [attr.aria-label]="'applicants.deleteApplicant' | translate"
+    >
+      <mat-icon
+        [fontSet]="outlinedIconFontSet"
+        fontIcon="delete"
+        aria-hidden="true"
+      ></mat-icon>
+    </button>
+  }
+</mat-card>
