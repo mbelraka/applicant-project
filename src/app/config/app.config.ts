@@ -59,6 +59,7 @@ export const APP_CONFIG = {
     EXCEL: {
       WORKSHEET_NAME: 'Applicants',
       COLUMNS: [
+        { header: '#', key: 'index', width: 8 },
         { header: 'Name', key: 'name', width: 28 },
         { header: 'Job title', key: 'currentJobTitle', width: 26 },
         { header: 'Location', key: 'location', width: 22 },

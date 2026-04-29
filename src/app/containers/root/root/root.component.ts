@@ -10,6 +10,10 @@ import { NavLink } from 'src/app/modules/main/models/nav-link.model';
 import { APP_CONFIG } from '../../../config/app.config';
 import { Languages } from '../../../enums/language.enum';
 import { FullState } from '../../../models/full-state.model';
+import {
+  loadApplicants,
+  seedApplicants,
+} from '../../../modules/applicants/state/applicants.actions';
 import { LocalizationService } from '../../../services/localization.service';
 import { selectAppLanguage } from '../../../state/app.selectors';
 import { isLanguage } from '../../../utilities/language.utils';
@@ -29,48 +33,59 @@ export class RootComponent implements OnInit {
   public readonly supportedLanguages =
     APP_CONFIG.LOCALIZATION.SUPPORTED_LANGUAGES;
 
+  public readonly language$ = this._store.select(selectAppLanguage);
+
+  public currentRoute$!: Observable<NavLink | undefined>;
+
   public get sortedSupportedLanguages(): readonly Languages[] {
     return [...this.supportedLanguages].sort((a, b) =>
-      this.getLanguageLabel(a).localeCompare(
-        this.getLanguageLabel(b),
-        undefined,
-        {
-          sensitivity: 'base',
-        }
+      this._languageLabelCollator.compare(
+        this.getLanguageLabel(a),
+        this.getLanguageLabel(b)
       )
     );
   }
 
-  public currentRoute$!: Observable<NavLink | undefined>;
-
-  public readonly language$ = this.store.select(selectAppLanguage);
+  private readonly _languageLabelCollator = new Intl.Collator(undefined, {
+    sensitivity: 'base',
+  });
 
   public constructor(
-    private readonly router: Router,
-    private readonly store: Store<FullState>,
-    private readonly localization: LocalizationService,
-    private readonly translate: TranslateService
+    private readonly _router: Router,
+    private readonly _store: Store<FullState>,
+    private readonly _localization: LocalizationService,
+    private readonly _translate: TranslateService
   ) {}
 
   public ngOnInit(): void {
-    this.currentRoute$ = this.router.events.pipe(
-      startWith(this.resolveNavForUrl(this.router.url)),
-      map(() => this.resolveNavForUrl(this.router.url)),
-      distinctUntilChanged()
-    );
+    this._initApplicantsState();
+    this._initCurrentRouteStream();
   }
 
   public onLanguageChange(value: unknown): void {
     if (isLanguage(value)) {
-      this.localization.setLanguage(value);
+      this._localization.setLanguage(value);
     }
   }
 
   public getLanguageLabel(language: Languages): string {
-    return this.translate.instant(`language.names.${language}`);
+    return this._translate.instant(`language.names.${language}`);
   }
 
-  private resolveNavForUrl(url: string): NavLink | undefined {
+  private _initApplicantsState(): void {
+    this._store.dispatch(loadApplicants());
+    this._store.dispatch(seedApplicants());
+  }
+
+  private _initCurrentRouteStream(): void {
+    this.currentRoute$ = this._router.events.pipe(
+      startWith(this._resolveNavForUrl(this._router.url)),
+      map(() => this._resolveNavForUrl(this._router.url)),
+      distinctUntilChanged()
+    );
+  }
+
+  private _resolveNavForUrl(url: string): NavLink | undefined {
     return this.navLinks.find((link) => link.link === url);
   }
 }

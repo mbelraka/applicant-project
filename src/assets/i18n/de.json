@@ -117,11 +117,20 @@
     "withdrawn": "Zurückgezogen"
   },
   "export": {
+    "generateExport": "Export generieren",
     "title": "Bewerber exportieren",
     "csv": "CSV",
     "json": "JSON",
     "excel": "Excel",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "jsonStructure": "JSON-Struktur",
+    "jsonStructureDescription": "Maschinenlesbare hierarchische Daten für tiefe Integration",
+    "csvTable": "CSV-Tabelle",
+    "csvTableDescription": "Optimiert für die Verarbeitung durch Analyse-Tools von Drittanbietern",
+    "pdfReport": "PDF-Bericht",
+    "pdfReportDescription": "Redaktionelles Layout für Stakeholder-Reviews und Präsentationen",
+    "excelWorkbook": "Excel-Arbeitsmappe",
+    "excelWorkbookDescription": "Formatiert mit nativer Pivot-Tabellen-Kompatibilität"
   },
   "newApplicant": {
     "title": "Neuer Bewerber",

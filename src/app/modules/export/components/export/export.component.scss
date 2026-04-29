@@ -1,0 +1,172 @@
+.export-container {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.export-actions-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  flex: 1 1 auto;
+  align-content: center;
+  overflow: auto;
+  min-height: 0;
+}
+
+@keyframes export-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.export-actions-grid > .export-action-card {
+  opacity: 0;
+  animation: export-card-enter 0.45s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
+  &:nth-child(4) {
+    animation-delay: 0.24s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .export-actions-grid > .export-action-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.export-action-card {
+  aspect-ratio: 1 / 1;
+  padding: 24px;
+  border-radius: 0;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.export-action-card__button {
+  width: 100%;
+
+  &.mat-mdc-unelevated-button {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-color: var(--app-color-secondary) !important;
+    color: var(--app-color-on-secondary-emphasis, #fff) !important;
+    --mat-button-filled-container-shape: 0;
+    --mat-button-filled-container-color: var(--app-color-secondary);
+    --mat-button-filled-label-text-color: var(
+      --app-color-on-secondary-emphasis,
+      #fff
+    );
+
+    .mdc-button {
+      border-radius: 0 !important;
+    }
+
+    .mdc-button__label {
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      background-color: var(--app-color-secondary-emphasis) !important;
+      --mat-button-filled-container-color: var(--app-color-secondary-emphasis);
+    }
+  }
+}
+
+.export-action-card__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.export-action-card--lead {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.export-action-card--lead .export-action-card__stack {
+  align-items: stretch;
+  gap: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.export-action-card--lead .export-action-card__lead-icon {
+  align-self: flex-start;
+}
+
+.export-action-card__lead-label {
+  align-self: flex-start;
+  margin-top: 24px;
+  color: var(--app-color-secondary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.export-action-card__lead-description {
+  align-self: flex-start;
+  margin: 16px 0 0;
+  color: var(--app-color-text-inner);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.export-action-card--lead .export-action-card__button {
+  margin-top: auto;
+}
+
+.export-action-card__lead-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  color: var(--app-color-secondary);
+}
+
+// Span + Material Symbols (global `_icons.scss` only wires this for `mat-icon`)
+.export-action-card__lead-icon.material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Material Symbols Outlined', sans-serif !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
+  letter-spacing: normal;
+  text-transform: none;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}

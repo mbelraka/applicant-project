@@ -117,11 +117,20 @@
     "withdrawn": "Retirada"
   },
   "export": {
+    "generateExport": "Generar export",
     "title": "Exportar candidats",
     "csv": "CSV",
     "json": "JSON",
     "excel": "Excel",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "jsonStructure": "Structura JSON",
+    "jsonStructureDescription": "Datas jerarchicas legiblas per maschinas per ina integraziun profunda",
+    "csvTable": "Tabella CSV",
+    "csvTableDescription": "Optimisà per l'integraziun cun utensils analitics da terzas partidas",
+    "pdfReport": "Rapport PDF",
+    "pdfReportDescription": "Layout editorial per revisiuns da stakeholders e preschentaziuns",
+    "excelWorkbook": "Cudesch da lavur Excel",
+    "excelWorkbookDescription": "Formatà cun cumpatibilitad nativa per tabellas pivot"
   },
   "newApplicant": {
     "title": "Nov candidat",

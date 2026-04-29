@@ -117,11 +117,20 @@
     "withdrawn": "Retirada"
   },
   "export": {
+    "generateExport": "Generar exportación",
     "title": "Exportar candidatos",
     "csv": "CSV",
     "json": "JSON",
     "excel": "Excel",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "jsonStructure": "Estructura JSON",
+    "jsonStructureDescription": "Datos jerárquicos legibles por máquina para una integración profunda",
+    "csvTable": "Tabla CSV",
+    "csvTableDescription": "Optimizado para la ingesta en herramientas analíticas de terceros",
+    "pdfReport": "Informe PDF",
+    "pdfReportDescription": "Diseño editorial para revisión de las partes interesadas y presentaciones",
+    "excelWorkbook": "Libro de Excel",
+    "excelWorkbookDescription": "Formateado con compatibilidad nativa de tablas dinámicas"
   },
   "newApplicant": {
     "title": "Nuevo candidato",

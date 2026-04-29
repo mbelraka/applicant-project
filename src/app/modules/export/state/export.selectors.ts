@@ -7,7 +7,12 @@ const selectExportState = createFeatureSelector<ExportFeatureState>(
   StateFeatures.Export
 );
 
+const initialExportState: ExportFeatureState = {
+  loading: false,
+  error: null,
+};
+
 export const selectExportLoading = createSelector(
   selectExportState,
-  (state): boolean => state.loading
+  (state): boolean => (state ?? initialExportState).loading
 );

@@ -117,11 +117,20 @@
     "withdrawn": "Withdrawn"
   },
   "export": {
+    "generateExport": "Generate Export",
     "title": "Export applicants",
     "csv": "CSV",
     "json": "JSON",
     "excel": "Excel",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "jsonStructure": "JSON Structure",
+    "jsonStructureDescription": "Machine-readable hierarchical data for deep integration",
+    "csvTable": "CSV Table",
+    "csvTableDescription": "Optimized for third-party analytical tool ingestion",
+    "pdfReport": "PDF Report",
+    "pdfReportDescription": "Editorial layout for stakeholder review and presentations",
+    "excelWorkbook": "Excel Workbook",
+    "excelWorkbookDescription": "Formatted with native pivot table compatibility"
   },
   "newApplicant": {
     "title": "New Applicant",

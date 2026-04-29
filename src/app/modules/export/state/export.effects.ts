@@ -18,7 +18,7 @@ export class ExportEffects {
     this.actions$.pipe(
       ofType(exportApplicants),
       switchMap(({ format }) =>
-        from(this.triggerExport(format)).pipe(
+        from(this._triggerExport(format)).pipe(
           // Convert Promise to Observable
           map(() => exportSuccess()),
           catchError((error: unknown) =>
@@ -34,18 +34,23 @@ export class ExportEffects {
     private readonly exportService: ExportService
   ) {}
 
-  private async triggerExport(format: ExportFormats): Promise<void> {
-    switch (format) {
-      case ExportFormats.CSV:
-        return this.exportService.exportAsCSV();
-      case ExportFormats.JSON:
-        return this.exportService.exportAsJSON();
-      case ExportFormats.EXCEL:
-        return this.exportService.exportAsExcel();
-      case ExportFormats.PDF:
-        return this.exportService.exportAsPDF();
-      default:
-        throw new Error('Unsupported export format');
+  private _getExportHandler(
+    format: ExportFormats
+  ): (() => Promise<void>) | null {
+    const handlers: Record<ExportFormats, () => Promise<void>> = {
+      [ExportFormats.CSV]: () => this.exportService.exportAsCSV(),
+      [ExportFormats.JSON]: () => this.exportService.exportAsJSON(),
+      [ExportFormats.EXCEL]: () => this.exportService.exportAsExcel(),
+      [ExportFormats.PDF]: () => this.exportService.exportAsPDF(),
+    };
+    return handlers[format] ?? null;
+  }
+
+  private async _triggerExport(format: ExportFormats): Promise<void> {
+    const handler = this._getExportHandler(format);
+    if (!handler) {
+      throw new Error('Unsupported export format');
     }
+    return handler();
   }
 }
