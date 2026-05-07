@@ -37,10 +37,17 @@
 .app-notification-snackbar--error {
   &.mat-mdc-snack-bar-container {
     --mdc-snackbar-container-color: var(--app-snackbar-error-surface);
+    --mat-snack-bar-container-color: var(--app-snackbar-error-surface);
     --mdc-snackbar-supporting-text-color: var(--app-snackbar-on-surface);
     --mat-snack-bar-supporting-text-color: var(--app-snackbar-on-surface);
     --mat-snack-bar-button-color: var(--app-snackbar-warn);
     border-left-color: var(--app-snackbar-warn);
+    background-color: var(--app-snackbar-error-surface);
+  }
+
+  .mdc-snackbar__surface.mat-mdc-snack-bar-surface,
+  .mdc-snackbar__surface.mat-mdc-snackbar-surface {
+    background-color: var(--app-snackbar-error-surface);
   }
 
   .app-notification-snack-bar__info-icon {
