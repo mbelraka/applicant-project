@@ -177,6 +177,11 @@
                   <mat-option [value]="option">{{ option }}</mat-option>
                 }
               </mat-autocomplete>
+              @if (!allowsLocationGeocode()) {
+                <mat-hint>{{
+                  'newApplicant.locationGeocodingHint' | translate
+                }}</mat-hint>
+              }
             </mat-form-field>
           </div>
 

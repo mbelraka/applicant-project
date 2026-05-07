@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PrivacyConsentService } from '../../../../services/privacy-consent.service';
 import { MatchCandidatesComponent } from './match-candidates.component';
 import {
   evaluateCandidates,
@@ -31,7 +32,13 @@ describe('MatchCandidatesComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
-      providers: [{ provide: Store, useValue: mockStore }],
+      providers: [
+        { provide: Store, useValue: mockStore },
+        {
+          provide: PrivacyConsentService,
+          useValue: { optionalAiMatching: () => true } as PrivacyConsentService,
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MatchCandidatesComponent);

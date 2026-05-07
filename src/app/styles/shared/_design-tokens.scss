@@ -4,7 +4,7 @@
 // ---------------------------------------------------------------------------
 // Typography — keep in sync with Figma text styles and theme/_theme.scss
 // ($_theme-typography brand-family / plain-family).
-// Load only Manrope in index.html (variable wght 200–800).
+// Manrope variable font: loaded via angular.json (`@fontsource-variable/manrope`).
 // ---------------------------------------------------------------------------
 :root {
   --app-font-family: 'Manrope', sans-serif;

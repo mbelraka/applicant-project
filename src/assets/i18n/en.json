@@ -23,7 +23,45 @@
     "unitYears": "Years"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Privacy"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Online translation for UI snippets (MyMemory API — content may leave your device)",
+      "geocoding": "Location autocomplete (Open‑Meteo geocoding API)",
+      "aiMatching": "AI candidate ranking (profile and job fields sent to the matching service)"
+    },
+    "dialog": {
+      "title": "Privacy & data choices",
+      "intro": "Applicant profiles you manage are saved in this browser (local storage). Optional features forward data to third-party services only if you explicitly enable them below.",
+      "necessaryNote": "Always on: storing your data locally, language and formatting preferences, and core app flows that keep applicant data inside the browser.",
+      "optionalHeading": "Optional integrations",
+      "privacyNoticeLink": "Privacy overview",
+      "necessaryOnly": "Necessary only",
+      "acceptAllOptional": "Enable all optional",
+      "saveSelection": "Save my choice"
+    },
+    "page": {
+      "backHome": "Back to main",
+      "title": "Privacy & your data",
+      "legalNotice": "This page explains how Recruita handles data in your browser. It supplements your organisation's policies and duties as data controller.",
+      "summaryTitle": "Summary",
+      "summaryBody": "This app runs mostly in your browser. Without optional features, resumes and profiles stay on your device. Enabling translation, lookup, or AI matching sends only the respective fields to external APIs as described.",
+      "processingTitle": "What we process here",
+      "procLocalStorage": "Local storage: applicant records, workspace snapshots, locale, and consent flags remain on device.",
+      "procTranslation": "Optional translation (off by default): short UI snippets may use the public MyMemory translation endpoint.",
+      "procGeocode": "Optional city lookup (off by default): what you type in the location field is sent to Open‑Meteo geocoding to suggest places.",
+      "procMatch": "Optional AI ranking (off by default): role text and applicant fields contained in scoring API payload are transmitted to your configured matching backend.",
+      "procFonts": "Icons/styles: Material Symbols may load from Google servers; Latin UI text fonts are bundled in the bundle (no CDN for Manrope body text).",
+      "rightsTitle": "Rights & controls",
+      "rightsBody": "Open consent anytime to revise optional processing, download a structured JSON snapshot of locally stored applicant data for portability, or erase everything in this browser (clears applicants, preferences and consent — the app reloads).",
+      "changeConsent": "Change consent choices",
+      "exportJson": "Download browser data (JSON)",
+      "eraseLocal": "Erase local data",
+      "eraseHint": "Erasing wipes this browser profile only — it cannot remove server‑side telemetry your hosting exposes.",
+      "eraseConfirm": "Delete all locally saved applicant data for this installation? Preferences and consent will reset and the page will reload."
+    }
   },
   "notifications": {
     "dismissAria": "Dismiss notification",
@@ -72,7 +110,11 @@
       "missingSkills": "Missing skills",
       "notes": "Notes"
     },
-    "scoreAriaLabel": "Score: {{score}}"
+    "scoreAriaLabel": "Score: {{score}}",
+    "privacyConsentHint": "AI matching requires consent under Privacy · enable optional matching or revisit the consent banner.",
+    "errors": {
+      "privacyAiDisabled": "Remote AI matching is turned off for this browser under Privacy settings. Enable optional matching there to continue."
+    }
   },
   "applicants": {
     "searchLabel": "Search applicants",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Add skill",
     "availableFrom": "Available from",
     "notes": "Notes",
+    "locationGeocodingHint": "Suggestions are paused: optional location lookups are off in Privacy settings (you can enter the city freely).",
     "cancel": "Cancel",
     "apply": "Apply",
     "submit": "Submit",

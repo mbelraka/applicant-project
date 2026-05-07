@@ -79,6 +79,17 @@
       color: var(--app-color-text-label);
       font-size: 0.75rem;
       font-weight: 500;
+
+      .footer__privacy {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+
+        &:focus-visible {
+          outline: var(--app-focus-ring-width) solid var(--app-color-primary);
+          outline-offset: var(--app-focus-ring-offset);
+        }
+      }
     }
 
     .full-container {

@@ -33,6 +33,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'privacy',
+        loadComponent: () =>
+          import('./privacy/privacy-page.component').then(
+            (m) => m.PrivacyPageComponent
+          ),
+      },
+      {
         path: '',
         redirectTo: 'main',
         pathMatch: 'full',

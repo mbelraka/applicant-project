@@ -23,7 +23,45 @@
     "unitYears": "Anni"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Privacy"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Traduzione online di brevi testi UI (API MyMemory — i dati possono lasciare il dispositivo)",
+      "geocoding": "Suggerimenti di località (geocoding Open‑Meteo)",
+      "aiMatching": "Match assistito da IA (profilo e dati offerta inviati al servizio di matching configurato)"
+    },
+    "dialog": {
+      "title": "Privacy e trattamento dati",
+      "intro": "I profili candidati restano in questo browser (archivio locale). Le funzioni opzionali inviano dati solo se le abiliti qui.",
+      "necessaryNote": "Sempre attivo: memorizzazione locale, preferenze lingua/formato e nucleo dell’app senza invio a API esterne se le opzioni restano disattivate.",
+      "optionalHeading": "Trattamenti facoltativi",
+      "privacyNoticeLink": "Informativa sintetica privacy",
+      "necessaryOnly": "Solo necessari",
+      "acceptAllOptional": "Accetta tutte le opzionali",
+      "saveSelection": "Salva scelta"
+    },
+    "page": {
+      "backHome": "Torna alla home",
+      "title": "Privacy e tuoi dati",
+      "legalNotice": "Questa vista descrive l’uso locale del client. Mantieni le analisi DPIA/co‑titolarità nella documentazione della tua organizzazione.",
+      "summaryTitle": "Sintesi",
+      "summaryBody": "Senza consensi extra i dati rimangono offline. Traduzione, geocoding e matching IA inviano unicamente gli attributi dichiarati all’endpoint corrispondente.",
+      "processingTitle": "Trattamenti in questa vista",
+      "procLocalStorage": "Locale: candidati, snapshot stato, lingua e consensi restano sulla macchina.",
+      "procTranslation": "Traduzione (default off): testi sintetizzati tramite endpoint pubblico MyMemory.",
+      "procGeocode": "Località intelligente (default off): ricerca tramite Open‑Meteo sulla stringa digitata.",
+      "procMatch": "Matching IA (default off): combinazione JD + curriculum secondo backend dedicato.",
+      "procFonts": "Icone Material possono provenire da Google Fonts; Manrope è incorporato nel bundle.",
+      "rightsTitle": "Diritti e comandi",
+      "rightsBody": "Modifica consenso, esporta JSON locale o cancella definitivamente i dati di questa installazione con ricarica pagina.",
+      "changeConsent": "Modifica consenso",
+      "exportJson": "Scarica dati locali (JSON)",
+      "eraseLocal": "Cancella dati locali",
+      "eraseHint": "La cancellazione locale non tocca i log eventualmente conservati dall’hosting.",
+      "eraseConfirm": "Eliminare tutti i candidati salvati qui? Verranno azzerate preferenze e consenso e la pagina si ricaricherà."
+    }
   },
   "notifications": {
     "dismissAria": "Chiudi notifica",
@@ -72,7 +110,11 @@
       "missingSkills": "Competenze mancanti",
       "notes": "Note"
     },
-    "scoreAriaLabel": "Punteggio: {{score}}"
+    "scoreAriaLabel": "Punteggio: {{score}}",
+    "privacyConsentHint": "Il matching IA richiede il consenso corrispondente in Privacy.",
+    "errors": {
+      "privacyAiDisabled": "Il matching IA remoto è disattivato nelle impostazioni Privacy per questo browser. Abilita l’opzione in Privacy per proseguire."
+    }
   },
   "applicants": {
     "searchLabel": "Cerca candidati",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Aggiungi competenza",
     "availableFrom": "Disponibile dal",
     "notes": "Note",
+    "locationGeocodingHint": "Suggerimenti disattivati: abilita il geocoding opzionale in Privacy (puoi comunque digitare la città).",
     "cancel": "Annulla",
     "apply": "Applica",
     "submit": "Invia",

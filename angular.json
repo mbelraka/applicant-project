@@ -33,6 +33,7 @@
             ],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "node_modules/@fontsource-variable/manrope/wght.css",
               "src/tailwind.css",
               "src/styles.scss"
             ],
@@ -141,6 +142,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "node_modules/@fontsource-variable/manrope/wght.css",
               "src/tailwind.css",
               "src/styles.scss"
             ],

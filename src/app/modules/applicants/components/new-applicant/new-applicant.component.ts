@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { APP_CONFIG } from '../../../../config/app.config';
 import { Languages } from '../../../../enums/language.enum';
 import { selectAppLanguage } from '../../../../state/app.selectors';
+import { PrivacyConsentService } from '../../../../services/privacy-consent.service';
 import { ApplicationStatus } from '../../enums/application-status.enum';
 import { Applicant } from '../../models/applicant.model';
 import {
@@ -96,6 +97,7 @@ export class NewApplicantComponent {
       NewApplicantDialogCloseResult | undefined
     >,
     private readonly _store: Store,
+    private readonly _privacy: PrivacyConsentService,
     @Optional()
     @Inject(MAT_DIALOG_DATA)
     dialogData: NewApplicantDialogData | null
@@ -204,5 +206,9 @@ export class NewApplicantComponent {
 
   public trackSkill(_index: number, skill: string): string {
     return skill;
+  }
+
+  protected allowsLocationGeocode(): boolean {
+    return this._privacy.optionalGeocoding();
   }
 }

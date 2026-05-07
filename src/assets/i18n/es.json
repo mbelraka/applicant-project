@@ -23,7 +23,45 @@
     "unitYears": "Anos"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Privacidad"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Traducción en línea para fragmentos de UI (API MyMemory — puede salir tu texto del dispositivo)",
+      "geocoding": "Sugerencias de ciudad (API de geocodificación Open‑Meteo)",
+      "aiMatching": "Matching con IA (perfil + oferta enviados al backend de matching configurado)"
+    },
+    "dialog": {
+      "title": "Privacidad y datos",
+      "intro": "Los candidatos se guardan en este navegador (almacenamiento local). Solo se comparten datos con terceros si activas opciones explícitas.",
+      "necessaryNote": "Imprescindible: guardar datos en local, preferencias de idioma/formato y el núcleo de la app cuando las APIs externas están apagadas.",
+      "optionalHeading": "Opcional",
+      "privacyNoticeLink": "Resumen de privacidad",
+      "necessaryOnly": "Solo necesario",
+      "acceptAllOptional": "Activar todas las opciones",
+      "saveSelection": "Guardar elección"
+    },
+    "page": {
+      "backHome": "Volver al inicio",
+      "title": "Privacidad y tus datos",
+      "legalNotice": "Descripción de procesamiento en este cliente complementa tus obligaciones legales como responsable europeo/global.",
+      "summaryTitle": "Resumen",
+      "summaryBody": "Sin opciones adicionales, los perfiles siguen locales. Habilitando traducción, geocodificación o IA se envían solo los campos descritos.",
+      "processingTitle": "Tratamientos relevantes",
+      "procLocalStorage": "Datos locales: candidatos, instantáneas del estado y preferencias en el equipo.",
+      "procTranslation": "Traducción (por defecto apagado): llamadas públicas MyMemory.",
+      "procGeocode": "Ayuda geográfica (por defecto apagado): Open‑Meteo con lo que escribes.",
+      "procMatch": "Matching IA (por defecto apagado): combinación trabajo + fichas contra tu backend configurado.",
+      "procFonts": "Iconos pueden cargarse de Google Fonts; Manrope está empaquetada en la app.",
+      "rightsTitle": "Controles del interesado",
+      "rightsBody": "Altera consentimientos cuando quieras, exporta JSON de portabilidad o borra la instalación y recarga.",
+      "changeConsent": "Cambiar consentimientos",
+      "exportJson": "Descargar datos locales (JSON)",
+      "eraseLocal": "Borrar datos locales",
+      "eraseHint": "El borrado local no alcanza registros del servidor de alojamiento.",
+      "eraseConfirm": "¿Eliminar todos los candidatos guardados aquí? Se reiniciarán preferencias y consentimiento y la página se recargará."
+    }
   },
   "notifications": {
     "dismissAria": "Cerrar notificación",
@@ -72,7 +110,11 @@
       "missingSkills": "Habilidades faltantes",
       "notes": "Notas"
     },
-    "scoreAriaLabel": "Puntuacion: {{score}}"
+    "scoreAriaLabel": "Puntuacion: {{score}}",
+    "privacyConsentHint": "La IA de matching necesita consentimiento opcional activo en Privacidad.",
+    "errors": {
+      "privacyAiDisabled": "Matching remoto IA desactivado en Privacidad. Actívalo en Privacidad para continuar."
+    }
   },
   "applicants": {
     "searchLabel": "Buscar candidatos",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Agregar habilidad",
     "availableFrom": "Disponible desde",
     "notes": "Notas",
+    "locationGeocodingHint": "Sugerencias desactivadas: habilita el geocodificado opcional en Privacidad o escribe la ciudad.",
     "cancel": "Cancelar",
     "apply": "Aplicar",
     "submit": "Enviar",

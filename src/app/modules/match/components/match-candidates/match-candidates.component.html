@@ -42,7 +42,7 @@
               class="match-candidates__evaluate-button"
               mat-flat-button
               type="button"
-              [disabled]="!jobDescriptionInput.trim()"
+              [disabled]="!jobDescriptionInput.trim() || !allowsAiMatching()"
               (click)="evaluateCandidates()"
             >
               <span>{{ 'match.analyzeAndMatch' | translate }}</span>
@@ -59,7 +59,13 @@
 
     <section class="match-candidates__panel match-candidates__panel--results">
       @if (error) {
-        <p class="match-candidates__error">{{ error }}</p>
+        <p class="match-candidates__error">
+          @if (error === privacyAiDisabledCode) {
+            {{ 'match.errors.privacyAiDisabled' | translate }}
+          } @else {
+            {{ error }}
+          }
+        </p>
       }
 
       @if (loading) {

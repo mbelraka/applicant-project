@@ -1,0 +1,54 @@
+<article
+  class="privacy-page flex min-h-0 flex-1 flex-col gap-6 overflow-auto px-6 py-4"
+>
+  <header class="privacy-page__header">
+    <a mat-button routerLink="/main">{{
+      'privacy.page.backHome' | translate
+    }}</a>
+    <h1 class="privacy-page__title">{{ 'privacy.page.title' | translate }}</h1>
+    <p class="privacy-page__legal">
+      {{ 'privacy.page.legalNotice' | translate }}
+    </p>
+  </header>
+
+  <section class="privacy-page__section" aria-labelledby="privacy-summary">
+    <h2 id="privacy-summary">{{ 'privacy.page.summaryTitle' | translate }}</h2>
+    <p>{{ 'privacy.page.summaryBody' | translate }}</p>
+  </section>
+
+  <section class="privacy-page__section" aria-labelledby="privacy-processing">
+    <h2 id="privacy-processing">
+      {{ 'privacy.page.processingTitle' | translate }}
+    </h2>
+    <ul class="privacy-page__bullets">
+      <li>{{ 'privacy.page.procLocalStorage' | translate }}</li>
+      <li>{{ 'privacy.page.procTranslation' | translate }}</li>
+      <li>{{ 'privacy.page.procGeocode' | translate }}</li>
+      <li>{{ 'privacy.page.procMatch' | translate }}</li>
+      <li>{{ 'privacy.page.procFonts' | translate }}</li>
+    </ul>
+  </section>
+
+  <section class="privacy-page__section" aria-labelledby="privacy-rights">
+    <h2 id="privacy-rights">{{ 'privacy.page.rightsTitle' | translate }}</h2>
+    <p>{{ 'privacy.page.rightsBody' | translate }}</p>
+
+    <div class="privacy-page__actions">
+      <button mat-stroked-button type="button" (click)="openConsentEditor()">
+        {{ 'privacy.page.changeConsent' | translate }}
+      </button>
+      <button mat-stroked-button type="button" (click)="exportLocalCopy()">
+        {{ 'privacy.page.exportJson' | translate }}
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        type="button"
+        (click)="eraseLocalData()"
+      >
+        {{ 'privacy.page.eraseLocal' | translate }}
+      </button>
+    </div>
+    <p class="privacy-page__hint">{{ 'privacy.page.eraseHint' | translate }}</p>
+  </section>
+</article>

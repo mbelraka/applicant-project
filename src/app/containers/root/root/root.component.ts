@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { afterNextRender, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import {
   seedApplicants,
 } from '../../../modules/applicants/state/applicants.actions';
 import { LocalizationService } from '../../../services/localization.service';
+import { PrivacyConsentDialogService } from '../privacy/privacy-consent-dialog.service';
 import { selectAppLanguage } from '../../../state/app.selectors';
 import { isLanguage } from '../../../utilities/language.utils';
 
@@ -54,8 +55,13 @@ export class RootComponent implements OnInit {
     private readonly _router: Router,
     private readonly _store: Store<FullState>,
     private readonly _localization: LocalizationService,
-    private readonly _translate: TranslateService
-  ) {}
+    private readonly _translate: TranslateService,
+    private readonly _privacyConsentDialog: PrivacyConsentDialogService
+  ) {
+    afterNextRender(() => {
+      this._privacyConsentDialog.openConsentDialogIfRequired();
+    });
+  }
 
   public ngOnInit(): void {
     this._initApplicantsState();

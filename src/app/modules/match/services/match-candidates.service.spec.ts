@@ -3,12 +3,17 @@ import { firstValueFrom, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { Languages } from '../../../enums/language.enum';
+import { PrivacyConsentService } from '../../../services/privacy-consent.service';
+import { MATCH_ERROR_PRIVACY_AI_DISABLED } from '../constants/match-error-codes';
 import { Applicant } from '../../applicants/models/applicant.model';
 import { MatchCandidatesService } from './match-candidates.service';
 
 describe('MatchCandidatesService', () => {
   let service: MatchCandidatesService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
+  let privacySpy: jasmine.SpyObj<
+    Pick<PrivacyConsentService, 'optionalAiMatching'>
+  >;
 
   const applicants: Applicant[] = [
     new Applicant({ id: 'a1', name: 'Alice', skills: ['Angular'] }),
@@ -17,7 +22,14 @@ describe('MatchCandidatesService', () => {
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj<HttpClient>('HttpClient', ['post']);
-    service = new MatchCandidatesService(httpClientSpy);
+    privacySpy = jasmine.createSpyObj('PrivacyConsentService', [
+      'optionalAiMatching',
+    ]);
+    privacySpy.optionalAiMatching.and.returnValue(true);
+    service = new MatchCandidatesService(
+      httpClientSpy,
+      privacySpy as unknown as PrivacyConsentService
+    );
   });
 
   it('should throw when job description is empty', async () => {
@@ -33,6 +45,15 @@ describe('MatchCandidatesService', () => {
         service.evaluate('Angular developer', [], 3, Languages.English)
       )
     ).toBeRejected();
+    expect(httpClientSpy.post).not.toHaveBeenCalled();
+  });
+
+  it('should reject when AI matching consent is disabled', async () => {
+    privacySpy.optionalAiMatching.and.returnValue(false);
+
+    await expectAsync(
+      firstValueFrom(service.evaluate('Role', applicants, 1, Languages.English))
+    ).toBeRejectedWithError(Error, MATCH_ERROR_PRIVACY_AI_DISABLED);
     expect(httpClientSpy.post).not.toHaveBeenCalled();
   });
 

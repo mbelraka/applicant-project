@@ -15,6 +15,7 @@ import {
 import { APP_CONFIG } from '../config/app.config';
 import { Languages } from '../enums/language.enum';
 import { MyMemoryResponse } from '../models/mymemory-translate-response.model';
+import { PrivacyConsentService } from './privacy-consent.service';
 
 /**
  * MyMemory’s public `get` API for short strings. Results are cached in memory;
@@ -25,7 +26,10 @@ export class RemoteTranslateService {
   private readonly _cache = new Map<string, string>();
   private readonly _inFlight = new Map<string, Observable<string>>();
 
-  public constructor(private readonly _http: HttpClient) {}
+  public constructor(
+    private readonly _http: HttpClient,
+    private readonly _privacy: PrivacyConsentService
+  ) {}
 
   /**
    * Synchronous read of a completed translation (see {@link translate}).
@@ -72,6 +76,9 @@ export class RemoteTranslateService {
       return of('');
     }
     if (from === to) {
+      return of(raw);
+    }
+    if (!this._privacy.optionalRemoteTranslation()) {
       return of(raw);
     }
 

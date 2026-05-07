@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>{{ 'privacy.dialog.title' | translate }}</h2>
+
+<mat-dialog-content class="privacy-consent-dialog__content">
+  <p>{{ 'privacy.dialog.intro' | translate }}</p>
+
+  <p class="privacy-consent-dialog__necessary">
+    {{ 'privacy.dialog.necessaryNote' | translate }}
+  </p>
+
+  <h3 class="privacy-consent-dialog__subheading">
+    {{ 'privacy.dialog.optionalHeading' | translate }}
+  </h3>
+  <ul class="privacy-consent-dialog__list">
+    <li>
+      <mat-checkbox
+        [checked]="optionalRemoteTranslation"
+        (change)="toggleTranslation($event)"
+        >{{ 'privacy.categories.translation' | translate }}</mat-checkbox
+      >
+    </li>
+    <li>
+      <mat-checkbox
+        [checked]="optionalGeocoding"
+        (change)="toggleGeocoding($event)"
+        >{{ 'privacy.categories.geocoding' | translate }}</mat-checkbox
+      >
+    </li>
+    <li>
+      <mat-checkbox
+        [checked]="optionalAiMatching"
+        (change)="toggleAiMatching($event)"
+        >{{ 'privacy.categories.aiMatching' | translate }}</mat-checkbox
+      >
+    </li>
+  </ul>
+
+  <p class="privacy-consent-dialog__more">
+    <a mat-button routerLink="/privacy" (click)="closeBeforePrivacyNav()">{{
+      'privacy.dialog.privacyNoticeLink' | translate
+    }}</a>
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="privacy-consent-dialog__actions">
+  <button mat-stroked-button type="button" (click)="selectNecessary()">
+    {{ 'privacy.dialog.necessaryOnly' | translate }}
+  </button>
+  <button mat-stroked-button type="button" (click)="selectAllOptional()">
+    {{ 'privacy.dialog.acceptAllOptional' | translate }}
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="saveSelection()"
+  >
+    {{ 'privacy.dialog.saveSelection' | translate }}
+  </button>
+</mat-dialog-actions>

@@ -12,8 +12,10 @@ import {
 
 import { APP_CONFIG } from '../../../config/app.config';
 import { Languages } from '../../../enums/language.enum';
+import { PrivacyConsentService } from '../../../services/privacy-consent.service';
 import { MATCH_SCORE_PREFIX } from '../../../utilities/RegEx';
 import { Applicant } from '../../applicants/models/applicant.model';
+import { MATCH_ERROR_PRIVACY_AI_DISABLED } from '../constants/match-error-codes';
 import { MatchApiResponse } from '../models/match-api-response.model';
 import { MatchCandidateResult } from '../models/match-candidate-result.model';
 import { MatchScoreItem } from '../models/match-score-item.model';
@@ -25,7 +27,10 @@ export class MatchCandidatesService {
     return APP_CONFIG.MATCH;
   }
 
-  public constructor(private readonly _http: HttpClient) {}
+  public constructor(
+    private readonly _http: HttpClient,
+    private readonly _privacy: PrivacyConsentService
+  ) {}
 
   public evaluate(
     jobDescription: string,
@@ -42,6 +47,9 @@ export class MatchCandidatesService {
       return throwError(
         () => new Error(this.config.ERRORS.NO_APPLICANTS_AVAILABLE)
       );
+    }
+    if (!this._privacy.optionalAiMatching()) {
+      return throwError(() => new Error(MATCH_ERROR_PRIVACY_AI_DISABLED));
     }
     const stableApplicants = this._sortApplicantsForMatching(applicants);
 

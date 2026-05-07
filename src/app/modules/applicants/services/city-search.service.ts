@@ -5,11 +5,15 @@ import { catchError, map } from 'rxjs/operators';
 
 import { APP_CONFIG } from '../../../config/app.config';
 import { Languages } from '../../../enums/language.enum';
+import { PrivacyConsentService } from '../../../services/privacy-consent.service';
 import { OpenMeteoGeocodeResponse } from '../models/open-meteo-geocode-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class CitySearchService {
-  public constructor(private readonly _http: HttpClient) {}
+  public constructor(
+    private readonly _http: HttpClient,
+    private readonly _privacy: PrivacyConsentService
+  ) {}
 
   /**
    * Returns distinct "City, Country" labels for autocomplete. Empty when the query is too short or the request fails.
@@ -20,6 +24,9 @@ export class CitySearchService {
   ): Observable<string[]> {
     const name = query.trim();
     if (name.length < 2) {
+      return of([]);
+    }
+    if (!this._privacy.optionalGeocoding()) {
       return of([]);
     }
 

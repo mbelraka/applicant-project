@@ -128,6 +128,8 @@
 
 .match-candidates__actions {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
   margin-top: auto;
 }
@@ -161,6 +163,13 @@
 .match-candidates__evaluate-button-icon {
   order: 2;
   transition: transform 0.2s ease;
+}
+
+.match-candidates__privacy-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--app-color-text-inner-label);
 }
 
 .match-candidates__placeholder {

@@ -23,7 +23,45 @@
     "unitYears": "Jahre"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Datenschutz"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Online-Übersetzung kurzer UI-Texte (MyMemory-API — Text kann Ihr Gerät verlassen)",
+      "geocoding": "Standort-Vorschläge (Open‑Meteo Geocoding-API)",
+      "aiMatching": "KI-basiertes Kandidaten-Matching (Profilerfassung/Stelle werden an den Matching-Service übermittelt)"
+    },
+    "dialog": {
+      "title": "Datenschutz & Datenverwendung",
+      "intro": "Bewerberdaten, die Sie eingeben, werden in diesem Browser (Local Storage) gespeichert. Optionale Funktionen übermitteln Daten nur nach Ihrer aktiven Auswahl.",
+      "necessaryNote": "Erforderlich: lokale Speicherung der Daten im Browser, Sprach- und Datums-/Formatwahl sowie Kernfunktionen ohne Datenweitergabe an externe APIs.",
+      "optionalHeading": "Optionale Verarbeitungen",
+      "privacyNoticeLink": "Datenschutzüberblick",
+      "necessaryOnly": "Nur Erforderliches",
+      "acceptAllOptional": "Alle optionalen erlauben",
+      "saveSelection": "Auswahl speichern"
+    },
+    "page": {
+      "backHome": "Zur Startseite",
+      "title": "Datenschutz & Ihre Daten",
+      "legalNotice": "Hinweise zu Verarbeitungen in dieser Installation. Für Rechtslage und Pflichtverletzungen im Verantwortungsbereich weiterhin Ihre dokumentierte Verantwortliche Stelle konsultieren.",
+      "summaryTitle": "Überblick",
+      "summaryBody": "Ohne gewählte Optionen bleiben Profile lokal auf Ihrem Rechner. Übersetzung, Ortssuche oder KI-Matching senden Ausschnitte erst nach Freigabe an Drittanbieter.",
+      "processingTitle": "Verarbeitungen in dieser Ansicht",
+      "procLocalStorage": "Local Storage: Bewerbungsdaten, Arbeitszustand, Lokalisierung und Zustimmung verbleiben auf dem Gerät.",
+      "procTranslation": "Optionale Übersetzung (Standard aus): gekürzte Texte können die öffentliche MyMemory-Schnittstelle nutzen.",
+      "procGeocode": "Optionale Ortswahl (Standard aus): Ihre Standorteingaben gelangen zur Open‑Meteo-Geokodierung.",
+      "procMatch": "Optionales KI-Ranking (Standard aus): Ausschnitte aus Ausschreibung und Profil gehen zur konfigurierten Matching-Backend-Instanz.",
+      "procFonts": "Darstellung: Material-Symbole können von Google Fonts geladen werden; Manrope-Fließtext kommt gebündelt im Build.",
+      "rightsTitle": "Ihre Kontrolle",
+      "rightsBody": "Öffnen Sie die Privatdialoge zur Anpassung, exportieren Sie ein JSON lokaler Daten (Portabilität), oder löschen Sie komplett Browserdaten dieser App samt Widerrufskennzeichen – danach Laden der Startseite.",
+      "changeConsent": "Auswahl zur Privatheit ändern",
+      "exportJson": "Lokaldaten laden (JSON)",
+      "eraseLocal": "Alle lokalen Daten löschen",
+      "eraseHint": "Lokal löschen entfernt nur diesen Browser; Server-Logs beim Hosting können davon nicht betroffen sein.",
+      "eraseConfirm": "Alle lokal gespeicherten Bewerberdaten in diesem Browser dauerhaft löschen und die Ansicht neu laden?"
+    }
   },
   "notifications": {
     "dismissAria": "Benachrichtigung schließen",
@@ -72,7 +110,11 @@
       "missingSkills": "Fehlende Fähigkeiten",
       "notes": "Notizen"
     },
-    "scoreAriaLabel": "Punktzahl: {{score}}"
+    "scoreAriaLabel": "Punktzahl: {{score}}",
+    "privacyConsentHint": "Für das KI-Matching ist unter Datenschutz die optionale Matching-Funktion zu aktivieren (oder Banner erneut anzeigen).",
+    "errors": {
+      "privacyAiDisabled": "Externes KI-Matching wurde in datenschützenden Einstellungen deaktiviert. Erlauben Sie die Option unter Datenschutz, fortzufahren."
+    }
   },
   "applicants": {
     "searchLabel": "Bewerber suchen",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Neues Skill",
     "availableFrom": "Verfügbar ab",
     "notes": "Notizen",
+    "locationGeocodingHint": "Standort-Vorschläge sind ausgeschaltet: optionaler Geocoding-Dienst kann unter Datenschutz aktiviert werden (freie Texteingabe bleibt möglich).",
     "cancel": "Abbrechen",
     "apply": "Wählen",
     "submit": "Einreichen",

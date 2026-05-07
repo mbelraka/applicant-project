@@ -23,7 +23,45 @@
     "unitYears": "ans"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Confidentialité"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Traduction en ligne pour des extraits d’interface (API MyMemory — le texte peut quitter votre appareil)",
+      "geocoding": "Suggestions de lieu (API de géocodage Open‑Meteo)",
+      "aiMatching": "Classement des candidats par IA (profil et fiche envoyés au service d’alignement configuré)"
+    },
+    "dialog": {
+      "title": "Données & confidentialité",
+      "intro": "Les dossiers sont enregistrés dans ce navigateur (stockage local). Les fonctionnalités optionnelles ne transmettent des données qu’avec votre consentement explicite.",
+      "necessaryNote": "Toujours actif : mémoire locale, préférences linguistiques/mise en forme et cœur de l’application qui conserve les dossiers hors services externes lorsque désactivée.",
+      "optionalHeading": "Traitements optionnels",
+      "privacyNoticeLink": "Voir la vue d’ensemble",
+      "necessaryOnly": "Indispensables uniquement",
+      "acceptAllOptional": "Tout accepter (optionnels)",
+      "saveSelection": "Enregistrer mon choix"
+    },
+    "page": {
+      "backHome": "Retour à l’accueil",
+      "title": "Vie privée & vos données",
+      "legalNotice": "Ce document résume cette application cliente. Respectez vos obligations légales en tant que responsable du traitement (RGPD, droit CH, directives internes, etc.).",
+      "summaryTitle": "Synthèse",
+      "summaryBody": "Sans options, les dossiers candidats restent sur l’ordinateur ; activation de la traduction, recherche géographique ou matching IA transfère uniquement les champs prévus aux API concernées.",
+      "processingTitle": "Traitements proposés ici",
+      "procLocalStorage": "Stockage local : dossiers candidats, instantanés d’état, préférences régionales, choix RGPD persistent sur l’appareil.",
+      "procTranslation": "Traduction en ligne désactivée par défaut : extraits envoyés au point de terminaison MyMemory public.",
+      "procGeocode": "Reconnaissance géographique désactivée par défaut : la saisie lieu transite vers Open‑Meteo pour proposer des résultats.",
+      "procMatch": "Ranking IA désactivé par défaut : champ offre/profil transmis selon votre backend configuré.",
+      "procFonts": "Typographies : symboles « Material Symbols » encore via Google Fonts ; corps Manrope inclus dans les assets du build.",
+      "rightsTitle": "Contrôles",
+      "rightsBody": "Rouvrez le dialogue RGPD pour réviser, exportez vos données locales en JSON portable ou purgez totalement cet espace navigateur puis rechargez.",
+      "changeConsent": "Modifier le consentement",
+      "exportJson": "Exporter les données locales (JSON)",
+      "eraseLocal": "Effacer données locales",
+      "eraseHint": "L’effacement local n’atteint pas d’éventuels journaux coté infrastructure hébergée.",
+      "eraseConfirm": "Supprimer toutes données candidats stockées ici ? Réinitialisation puis rechargement de la page."
+    }
   },
   "notifications": {
     "dismissAria": "Fermer la notification",
@@ -72,7 +110,11 @@
       "missingSkills": "Compétences manquantes",
       "notes": "Notes"
     },
-    "scoreAriaLabel": "Score : {{score}}"
+    "scoreAriaLabel": "Score : {{score}}",
+    "privacyConsentHint": "L’outil de matching nécessite l’activation du matching facultatif depuis Confidentialité.",
+    "errors": {
+      "privacyAiDisabled": "Matching IA désactivé par vos choix Confidentialité pour ce navigateur. Activez cette option sous Confidentialité pour continuer."
+    }
   },
   "applicants": {
     "searchLabel": "Rechercher des candidats",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Ajouter une compétence",
     "availableFrom": "Disponible à partir du",
     "notes": "Notes",
+    "locationGeocodingHint": "Les suggestions automatiques sont coupées : autorisez le géocodage optionnel dans Confidentialité ou saisissez la ville manuellement.",
     "cancel": "Annuler",
     "apply": "Valider",
     "submit": "Envoyer",

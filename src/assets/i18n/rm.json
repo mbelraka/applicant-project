@@ -23,7 +23,45 @@
     "unitYears": "Onns"
   },
   "footer": {
-    "copyright": "© 2026 Elrakaiby"
+    "copyright": "© 2026 Elrakaiby",
+    "privacy": "Protecziun da datas"
+  },
+  "privacy": {
+    "categories": {
+      "translation": "Translaziun online per text da UI curt (API MyMemory — ils datas pon bandunar il apparatus)",
+      "geocoding": "Proposta da lieus (Geocoding Open‑Meteo)",
+      "aiMatching": "Ranking cun IA (datas da profil/job al servetsch da matching configurà)"
+    },
+    "dialog": {
+      "title": "Datas & prot.da datas",
+      "intro": "Ils profils pon vegnir memorisads mo en quest browser (stor local). Las funcziuns facultativas tramettan datas mo cun tia selecziun.",
+      "necessaryNote": "Davosvart: stor local, lingua/data & il core-app senza API extern orda las opziuns chantadas.",
+      "optionalHeading": "Opziunal",
+      "privacyNoticeLink": "Survista da protecziun da datas",
+      "necessaryOnly": "Mo il necessari",
+      "acceptAllOptional": "Acceptar tut opziuns",
+      "saveSelection": "Arcunar"
+    },
+    "page": {
+      "backHome": "Enavos a l’emprims",
+      "title": "Protecziun da datas & tias datas",
+      "legalNotice": "Questa survista descrive questa app en il browser. Il responsabel da la protecziun da datas resta tia organisaziun.",
+      "summaryTitle": "Resumaziun",
+      "summaryBody": "Senza opziuns restan las datas localas. Opziuns per translaziun, geocoding u matching IA tramettan mo ils champs descrits.",
+      "processingTitle": "Tractament",
+      "procLocalStorage": "Stor local: candidats, instant da status, preferenzas e consent restan sin l’apparat.",
+      "procTranslation": "Translaziun (standard deactivada): MyMemory public.",
+      "procGeocode": "Geocoding (standard deactivada): Open‑Meteo cun input da text.",
+      "procMatch": "Matching IA (standard deactivada): backend configurà.",
+      "procFonts": "Simbols Material eventualmain da Google Fonts; Manrope integrada en il bundle.",
+      "rightsTitle": "Controlla",
+      "rightsBody": "Midar consent, exportar JSON local u stizzar tut e rechargiar la pagina.",
+      "changeConsent": "Midar consent",
+      "exportJson": "Telechargiar JSON local",
+      "eraseLocal": "Stizzar datas localas",
+      "eraseHint": "Stizzar local na stizza betg logs da server.",
+      "eraseConfirm": "Stizzar tut ils candidats memorisads qua? La pagina vegn rechargiada."
+    }
   },
   "notifications": {
     "dismissAria": "Stizzar communicaziun",
@@ -72,7 +110,11 @@
       "missingSkills": "Abilitads mancantas",
       "notes": "Remartgas"
     },
-    "scoreAriaLabel": "Puncts: {{score}}"
+    "scoreAriaLabel": "Puncts: {{score}}",
+    "privacyConsentHint": "Il matching IA basegna l’opziun activada sut Protecziun da datas.",
+    "errors": {
+      "privacyAiDisabled": "Matching IA è deactivà en la protecziun da datas. Activescha l’opziun per cuntinuar."
+    }
   },
   "applicants": {
     "searchLabel": "Tschertgar candidats",
@@ -160,6 +202,7 @@
     "skillPlaceholder": "Agiuntar abilitad",
     "availableFrom": "Disponibel a partir da",
     "notes": "Remartgas",
+    "locationGeocodingHint": "Propostas deactivadas: activa geocoding opziunal en Protecziun da datas u scriva il lieu manualmain.",
     "cancel": "Annullar",
     "apply": "Applitgar",
     "submit": "Trametter",

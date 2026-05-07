@@ -9,6 +9,7 @@ import {
 } from '@ngx-translate/core';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PrivacyConsentService } from '../../../../services/privacy-consent.service';
 import { NewApplicantComponent } from './new-applicant.component';
 
 describe('NewApplicantComponent', () => {
@@ -35,6 +36,10 @@ describe('NewApplicantComponent', () => {
         { provide: Store, useValue: mockStore },
         { provide: MatDialogRef, useValue: mockDialogRef },
         { provide: MAT_DIALOG_DATA, useValue: null },
+        {
+          provide: PrivacyConsentService,
+          useValue: { optionalGeocoding: () => true } as PrivacyConsentService,
+        },
       ],
     }).compileComponents();
 
@@ -156,6 +161,12 @@ describe('NewApplicantComponent', () => {
           { provide: Store, useValue: mockStore },
           { provide: MatDialogRef, useValue: mockDialogRef },
           { provide: MAT_DIALOG_DATA, useValue: { applicant: mockApplicant } },
+          {
+            provide: PrivacyConsentService,
+            useValue: {
+              optionalGeocoding: () => true,
+            } as PrivacyConsentService,
+          },
         ],
       }).compileComponents();
 

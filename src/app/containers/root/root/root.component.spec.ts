@@ -23,6 +23,7 @@ import { APP_CONFIG } from '../../../config/app.config';
 import { Languages } from '../../../enums/language.enum';
 import { NavLink } from 'src/app/modules/main/models/nav-link.model';
 import { LocalizationService } from '../../../services/localization.service';
+import { PrivacyConsentDialogService } from '../privacy/privacy-consent-dialog.service';
 import { RootComponent } from './root.component';
 
 @Component({ template: '', standalone: false })
@@ -63,6 +64,13 @@ describe('RootComponent', () => {
           },
         }),
         { provide: LocalizationService, useValue: localization },
+        {
+          provide: PrivacyConsentDialogService,
+          useValue: jasmine.createSpyObj<PrivacyConsentDialogService>(
+            'PrivacyConsentDialogService',
+            ['openConsentDialogIfRequired']
+          ),
+        },
       ],
     }).compileComponents();
 

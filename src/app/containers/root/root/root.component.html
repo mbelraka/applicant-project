@@ -66,9 +66,12 @@
     <footer
       animate.enter="fade-shell-enter"
       animate.leave="fade-shell-leave"
-      class="footer flex flex-row flex-nowrap items-center justify-center"
+      class="footer flex flex-row flex-nowrap items-center justify-center gap-3"
     >
-      {{ 'footer.copyright' | translate }}
+      <span>{{ 'footer.copyright' | translate }}</span>
+      <a class="footer__privacy" routerLink="/privacy">{{
+        'footer.privacy' | translate
+      }}</a>
     </footer>
   </div>
 </div>

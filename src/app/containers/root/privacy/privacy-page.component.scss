@@ -1,0 +1,48 @@
+.privacy-page {
+  max-width: 52rem;
+  padding-bottom: var(--app-space-xl, 1.5rem);
+}
+
+.privacy-page__title {
+  margin: 0.75rem 0 0;
+  font-size: 1.5rem;
+}
+
+.privacy-page__legal {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  opacity: 0.85;
+}
+
+.privacy-page__section h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.privacy-page__section p {
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.privacy-page__bullets {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.5;
+
+  li + li {
+    margin-top: 0.35rem;
+  }
+}
+
+.privacy-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.privacy-page__hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.8125rem;
+  opacity: 0.88;
+}
