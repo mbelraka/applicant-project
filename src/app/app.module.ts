@@ -1,4 +1,3 @@
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -103,7 +102,6 @@ function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       useFactory: matDateLocaleFactory,
       deps: [LocalStorageService],
     },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
     provideAppInitializer(() => {
       registerMaterialSymbolsOutlinedFont(inject(MatIconRegistry))();
     }),

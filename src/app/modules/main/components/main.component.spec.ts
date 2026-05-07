@@ -100,7 +100,7 @@ describe('MainComponent', () => {
     const router = TestBed.inject(Router);
 
     expect(routerLink.urlTree).not.toBeNull();
-    expect(router.serializeUrl(routerLink.urlTree!)).toBe('/root/applicants');
+    expect(router.serializeUrl(routerLink.urlTree!)).toBe('/applicants');
   });
 
   it('should render hero image asset', () => {

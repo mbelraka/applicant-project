@@ -26,11 +26,11 @@ test.describe('Match candidates flow', () => {
     });
 
     // Ensure applicants feature initializes and seeds demo rows.
-    await page.goto('/root/applicants');
-    await expect(page).toHaveURL(/\/root\/applicants/);
+    await page.goto('/applicants');
+    await expect(page).toHaveURL(/\/applicants(\/|$)/);
 
-    await page.goto('/root/match');
-    await expect(page).toHaveURL(/\/root\/match/);
+    await page.goto('/match');
+    await expect(page).toHaveURL(/\/match(\/|$)/);
 
     const descriptionField = page.locator(
       'textarea[matinput], textarea[matInput], textarea'

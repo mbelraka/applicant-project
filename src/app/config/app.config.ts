@@ -126,20 +126,20 @@ export const APP_CONFIG = {
 
   // Navigation links for the app
   NAV_LINKS: [
-    { translationKey: 'nav.main', link: '/root/main', showHeader: false },
+    { translationKey: 'nav.main', link: '/main', showHeader: false },
     {
       translationKey: 'nav.applicants',
-      link: '/root/applicants',
+      link: '/applicants',
       showHeader: true,
     },
     {
       translationKey: 'nav.matchCandidates',
-      link: '/root/match',
+      link: '/match',
       showHeader: true,
     },
     {
       translationKey: 'nav.export',
-      link: '/root/export',
+      link: '/export',
       showHeader: true,
     },
   ] as const satisfies readonly NavLink[],

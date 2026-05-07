@@ -85,7 +85,8 @@ export class RootComponent implements OnInit {
     );
   }
 
-  private _resolveNavForUrl(url: string): NavLink | undefined {
-    return this.navLinks.find((link) => link.link === url);
+  private _resolveNavForUrl(rawUrl: string): NavLink | undefined {
+    const path = rawUrl.replace(/[#?].*$/, '');
+    return this.navLinks.find((link) => link.link === path);
   }
 }

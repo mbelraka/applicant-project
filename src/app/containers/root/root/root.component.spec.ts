@@ -43,10 +43,10 @@ describe('RootComponent', () => {
       declarations: [RootComponent, RouteStubComponent],
       imports: [
         RouterModule.forRoot([
-          { path: 'root/main', component: RouteStubComponent },
-          { path: 'root/applicants', component: RouteStubComponent },
-          { path: 'root/match', component: RouteStubComponent },
-          { path: 'root/export', component: RouteStubComponent },
+          { path: 'main', component: RouteStubComponent },
+          { path: 'applicants', component: RouteStubComponent },
+          { path: 'match', component: RouteStubComponent },
+          { path: 'export', component: RouteStubComponent },
         ]),
         MatFormFieldModule,
         MatIconModule,
@@ -117,11 +117,11 @@ describe('RootComponent', () => {
       last = v;
     });
 
-    router.navigateByUrl('/root/applicants');
+    router.navigateByUrl('/applicants');
     tick();
     fixture.detectChanges();
 
-    expect(last?.link).toBe('/root/applicants');
+    expect(last?.link).toBe('/applicants');
     expect(last?.translationKey).toBe('nav.applicants');
     sub.unsubscribe();
   }));
