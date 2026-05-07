@@ -1,0 +1,37 @@
+<div class="app-notification-snack-bar flex items-center justify-between">
+  <div class="app-notification-snack-bar__body">
+    <mat-icon
+      class="material-symbols-outlined"
+      [class.app-notification-snack-bar__success-icon]="
+        data.type === AppNotificationType.Success
+      "
+      [class.app-notification-snack-bar__info-icon]="
+        data.type !== AppNotificationType.Success
+      "
+      aria-hidden="true"
+      >{{
+        data.type === AppNotificationType.Success ? 'check_circle' : 'info'
+      }}</mat-icon
+    >
+    <p class="app-notification-snack-bar__message">
+      @if (data.messageKey) {
+        {{ data.messageKey | translate: data.messageParams ?? {} }}
+      } @else if (data.message) {
+        {{ data.message }}
+      }
+    </p>
+  </div>
+  <button
+    type="button"
+    mat-icon-button
+    class="app-notification-snack-bar__close"
+    (click)="dismiss()"
+    [attr.aria-label]="dismissAriaKey | translate"
+  >
+    <mat-icon
+      class="material-symbols-outlined app-notification-snack-bar__close-icon"
+      aria-hidden="true"
+      >close</mat-icon
+    >
+  </button>
+</div>

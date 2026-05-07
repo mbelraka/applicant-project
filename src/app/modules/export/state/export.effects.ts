@@ -1,47 +1,63 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, from, map, of, switchMap } from 'rxjs';
+import { from } from 'rxjs';
+import { catchError, mergeMap, switchMap } from 'rxjs/operators';
 
+import { NOTIFICATION_MESSAGE_KEYS } from '../../../constants/notification-message-keys';
+import { AppNotificationType } from '../../../enums/app-notification-type.enum';
 import { ExportService } from '../services/export.service';
+import {
+  concatWithErrorNotification,
+  concatWithNotification,
+} from '../../../utilities/notification.utils';
+import { getErrorMessage } from '../../../utilities/error.utils';
 import {
   exportApplicants,
   exportFailure,
   exportSuccess,
 } from './export.actions';
 import { ExportFormats } from '../enums/export-formats.enum';
-import { getErrorMessage } from '../../../utilities/error.utils';
 
 @Injectable()
 export class ExportEffects {
   public exportApplicants$ = createEffect(() =>
-    this.actions$.pipe(
+    this._actions$.pipe(
       ofType(exportApplicants),
       switchMap(({ format }) =>
         from(this._triggerExport(format)).pipe(
-          // Convert Promise to Observable
-          map(() => exportSuccess()),
-          catchError((error: unknown) =>
-            of(exportFailure({ error: getErrorMessage(error) }))
-          )
+          mergeMap(() =>
+            concatWithNotification(exportSuccess(), {
+              type: AppNotificationType.Success,
+              messageKey: NOTIFICATION_MESSAGE_KEYS.exportSuccess,
+            })
+          ),
+          catchError((error: unknown) => {
+            const errMsg = getErrorMessage(error);
+            return concatWithErrorNotification(
+              exportFailure({ error: errMsg }),
+              errMsg,
+              NOTIFICATION_MESSAGE_KEYS.exportFailed
+            );
+          })
         )
       )
     )
   );
 
   public constructor(
-    private readonly actions$: Actions,
-    private readonly exportService: ExportService
+    private readonly _actions$: Actions,
+    private readonly _exportService: ExportService
   ) {}
 
   private _getExportHandler(
     format: ExportFormats
   ): (() => Promise<void>) | null {
     const handlers: Record<ExportFormats, () => Promise<void>> = {
-      [ExportFormats.CSV]: () => this.exportService.exportAsCSV(),
-      [ExportFormats.JSON]: () => this.exportService.exportAsJSON(),
-      [ExportFormats.EXCEL]: () => this.exportService.exportAsExcel(),
-      [ExportFormats.PDF]: () => this.exportService.exportAsPDF(),
+      [ExportFormats.CSV]: () => this._exportService.exportAsCSV(),
+      [ExportFormats.JSON]: () => this._exportService.exportAsJSON(),
+      [ExportFormats.EXCEL]: () => this._exportService.exportAsExcel(),
+      [ExportFormats.PDF]: () => this._exportService.exportAsPDF(),
     };
     return handlers[format] ?? null;
   }

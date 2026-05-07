@@ -25,6 +25,18 @@
   "footer": {
     "copyright": "© 2026 Elrakaiby"
   },
+  "notifications": {
+    "dismissAria": "Stizzar communicaziun",
+    "applicantCreatedSuccess": "Candidat creà cun success",
+    "applicantUpdatedSuccess": "Candidat actualisà cun success",
+    "applicantDeletedSuccess": "Candidat stizzà cun success",
+    "applicantTransactionFailed": "Operaziun cun il candidat betg reussida",
+    "applicantNotFound": "Candidat betg chattà",
+    "exportSuccess": "Export da candidats reussì",
+    "exportFailed": "Betg reussì d'exportar",
+    "matchEvaluationFailed": "Evalua-candidats betg reussida",
+    "matchCompleted": "Cumparegliaziun terminada — {{count}} candidates evaluids"
+  },
   "main": {
     "headline": "Recrutaziun globala senza sforz",
     "subHeadline": "Scuvrir talents senza cunfins",

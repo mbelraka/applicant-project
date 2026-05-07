@@ -4,8 +4,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, from, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 
+import { NOTIFICATION_MESSAGE_KEYS } from '../../../constants/notification-message-keys';
+import { AppNotificationType } from '../../../enums/app-notification-type.enum';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { getErrorMessage } from '../../../utilities/error.utils';
+import {
+  concatWithErrorNotification,
+  concatWithNotification,
+} from '../../../utilities/notification.utils';
 import {
   buildDemoApplicants,
   normalizeApplicantsAgainstSeed,
@@ -95,9 +101,16 @@ export class ApplicantsEffects {
           const applicants = this._readApplicants();
           applicants.push(applicant);
           this._writeApplicants(applicants);
-          return of(addApplicantSuccess({ applicants }));
+          return concatWithNotification(addApplicantSuccess({ applicants }), {
+            type: AppNotificationType.Success,
+            messageKey: NOTIFICATION_MESSAGE_KEYS.applicantCreatedSuccess,
+          });
         } catch (error: unknown) {
-          return of(addApplicantFailure({ error: getErrorMessage(error) }));
+          const errMsg = getErrorMessage(error);
+          return concatWithErrorNotification(
+            addApplicantFailure({ error: errMsg }),
+            errMsg
+          );
         }
       })
     )
@@ -112,14 +125,29 @@ export class ApplicantsEffects {
           const applicants = this._readApplicants();
           const idx = applicants.findIndex((a) => a.id === applicant.id);
           if (idx < 0) {
-            return of(updateApplicantFailure({ error: 'Applicant not found' }));
+            const errMsg = 'Applicant not found';
+            return concatWithErrorNotification(
+              updateApplicantFailure({ error: errMsg }),
+              undefined,
+              NOTIFICATION_MESSAGE_KEYS.applicantNotFound
+            );
           }
           const next = [...applicants];
           next[idx] = applicant;
           this._writeApplicants(next);
-          return of(updateApplicantSuccess({ applicants: next }));
+          return concatWithNotification(
+            updateApplicantSuccess({ applicants: next }),
+            {
+              type: AppNotificationType.Success,
+              messageKey: NOTIFICATION_MESSAGE_KEYS.applicantUpdatedSuccess,
+            }
+          );
         } catch (error: unknown) {
-          return of(updateApplicantFailure({ error: getErrorMessage(error) }));
+          const errMsg = getErrorMessage(error);
+          return concatWithErrorNotification(
+            updateApplicantFailure({ error: errMsg }),
+            errMsg
+          );
         }
       })
     )
@@ -136,9 +164,19 @@ export class ApplicantsEffects {
             (applicant: Applicant): boolean => applicant.id !== id
           );
           this._writeApplicants(updatedApplicants);
-          return of(deleteApplicantSuccess({ applicants: updatedApplicants }));
+          return concatWithNotification(
+            deleteApplicantSuccess({ applicants: updatedApplicants }),
+            {
+              type: AppNotificationType.Info,
+              messageKey: NOTIFICATION_MESSAGE_KEYS.applicantDeletedSuccess,
+            }
+          );
         } catch (error: unknown) {
-          return of(deleteApplicantFailure({ error: getErrorMessage(error) }));
+          const errMsg = getErrorMessage(error);
+          return concatWithErrorNotification(
+            deleteApplicantFailure({ error: errMsg }),
+            errMsg
+          );
         }
       })
     )

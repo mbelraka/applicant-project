@@ -1,9 +1,9 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { Languages } from '../enums/language.enum';
+import { Applicant } from '../modules/applicants/models/applicant.model';
 import { ExportFormats } from '../modules/export/enums/export-formats.enum';
 import { NavLink } from '../modules/main/models/nav-link.model';
-import { Applicant } from '../modules/applicants/models/applicant.model';
 
 export const APP_CONFIG = {
   /** `provideHttpClient` + `withXsrfConfiguration` (Angular CSRF defaults match common backends). */
@@ -16,6 +16,23 @@ export const APP_CONFIG = {
   NGRX_DEVTOOLS: {
     /** Retain the last N states in the extension time-travel history. */
     MAX_STATE_HISTORY: 25,
+  } as const,
+
+  /**
+   * In-app transactional feedback (NgRx `showNotification` + Material snackbar).
+   * Copy lives in `assets/i18n` under `notifications.*` — see `notification-message-keys.ts`.
+   * Panel base class must stay aligned with `styles/overrides/_snack-bar.scss`.
+   */
+  NOTIFICATION: {
+    SNACKBAR: {
+      /** Default auto-dismiss for success / info (ms). */
+      DEFAULT_DURATION_MS: 4000,
+      /** Longer auto-dismiss for error toasts (ms). */
+      ERROR_DURATION_MS: 7000,
+      HORIZONTAL_POSITION: 'right' as const,
+      VERTICAL_POSITION: 'top' as const,
+      PANEL_CLASS_BASE: 'app-notification-snackbar',
+    } as const,
   } as const,
 
   EXPORT: {

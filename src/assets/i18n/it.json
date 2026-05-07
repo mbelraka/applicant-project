@@ -25,6 +25,18 @@
   "footer": {
     "copyright": "© 2026 Elrakaiby"
   },
+  "notifications": {
+    "dismissAria": "Chiudi notifica",
+    "applicantCreatedSuccess": "Candidato creato correttamente",
+    "applicantUpdatedSuccess": "Candidato aggiornato correttamente",
+    "applicantDeletedSuccess": "Candidato eliminato correttamente",
+    "applicantTransactionFailed": "Operazione sul candidato non riuscita",
+    "applicantNotFound": "Candidato non trovato",
+    "exportSuccess": "Candidati esportati correttamente",
+    "exportFailed": "Esportazione non riuscita",
+    "matchEvaluationFailed": "Valutazione candidati non riuscita",
+    "matchCompleted": "Abbinamento completato — {{count}} candidati valutati"
+  },
   "main": {
     "headline": "Recruiting globale senza sforzo",
     "subHeadline": "Sbloccare i talenti, senza confini",

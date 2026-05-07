@@ -6,6 +6,36 @@ $_mat-system: map.get($light-theme, _mat-system);
 
 html {
   --color-surface-container-low: #{map.get($_mat-system, surface-container-low)};
+  // App snackbar panels (overrides/_snack-bar.scss) — values from Material theme system map.
+  --app-snackbar-surface: #{map.get($_mat-system, surface-container-lowest)};
+  --app-snackbar-on-surface: #{map.get($_mat-system, on-surface)};
+  --app-snackbar-primary: #{map.get($_mat-system, primary)};
+  --app-snackbar-outline: #{map.get($_mat-system, outline-variant)};
+  --app-snackbar-radius: #{map.get($_mat-system, corner-none)};
+  --app-snackbar-accent-width: #{map.get($_mat-system, corner-extra-small)};
+  --app-snackbar-secondary: #{map.get($_mat-system, secondary)};
+  --app-snackbar-secondary-container: #{map.get(
+      $_mat-system,
+      secondary-container
+    )};
+  --app-snackbar-error: #{map.get($_mat-system, error)};
+  --app-snackbar-error-container: #{map.get($_mat-system, error-container)};
+  /** Snackbar error variant: icon + accent border (Material “warn” / error tone). */
+  --app-snackbar-warn: #{map.get($_mat-system, error)};
+  --app-snackbar-error-surface: #fff;
+  /** Info snackbar (custom brand panel). */
+  --app-snackbar-info-surface: #23323a;
+  --app-snackbar-info-accent: #516169;
+  --app-snackbar-info-on-surface: #fff;
+  /* Success: solid secondary surface, white copy, light “success” icon, primary accent border. */
+  --app-snackbar-success-surface: #{map.get($_mat-system, secondary)};
+  --app-snackbar-success-icon: #{map.get($_mat-system, secondary-container)};
+  --app-snackbar-on-success: #{map.get($_mat-system, on-secondary)};
+  /* Snackbar motion — consumed by utilities/snack-bar-motion.ts (keyframes load after Material). */
+  --app-snackbar-enter-duration: 220ms;
+  --app-snackbar-exit-duration: 180ms;
+  --app-snackbar-enter-easing: cubic-bezier(0, 0, 0.2, 1);
+  --app-snackbar-exit-easing: cubic-bezier(0.4, 0, 1, 1);
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   --default-transition-duration: 150ms;
 

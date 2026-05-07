@@ -25,6 +25,18 @@
   "footer": {
     "copyright": "© 2026 Elrakaiby"
   },
+  "notifications": {
+    "dismissAria": "Cerrar notificación",
+    "applicantCreatedSuccess": "Candidato creado correctamente",
+    "applicantUpdatedSuccess": "Candidato actualizado correctamente",
+    "applicantDeletedSuccess": "Candidato eliminado correctamente",
+    "applicantTransactionFailed": "Error en la operación del candidato",
+    "applicantNotFound": "No se encontró el candidato",
+    "exportSuccess": "Candidatos exportados correctamente",
+    "exportFailed": "Error al exportar",
+    "matchEvaluationFailed": "Error al evaluar candidatos",
+    "matchCompleted": "Coincidencia completada — {{count}} candidatos evaluados"
+  },
   "main": {
     "headline": "Contratacion global sin esfuerzo",
     "subHeadline": "Descubriendo talento, sin fronteras",

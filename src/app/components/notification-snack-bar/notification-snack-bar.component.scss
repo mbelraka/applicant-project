@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.app-notification-snack-bar {
+  position: relative;
+  box-sizing: border-box;
+  padding: var(--app-space-xs);
+}
+
+.app-notification-snack-bar__body {
+  display: flex;
+  padding-left: var(--app-space-xs);
+  align-items: flex-start;
+  column-gap: var(--app-space-xs);
+  line-height: 20px;
+  min-width: 0;
+}
+
+.app-notification-snack-bar__close-icon,
+.app-notification-snack-bar__success-icon,
+.app-notification-snack-bar__info-icon {
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.app-notification-snack-bar__close-icon {
+  font-size: 1rem;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.app-notification-snack-bar__success-icon,
+.app-notification-snack-bar__info-icon {
+  flex: none;
+  line-height: 22px;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24 !important;
+}
+
+.app-notification-snack-bar__success-icon {
+  color: var(--app-snackbar-success-icon);
+}
+
+.app-notification-snack-bar__message {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+}

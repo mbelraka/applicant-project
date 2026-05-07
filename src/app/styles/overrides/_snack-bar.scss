@@ -1,0 +1,91 @@
+.app-notification-snackbar {
+  &.mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: var(--app-snackbar-surface);
+    --mdc-snackbar-supporting-text-color: var(--app-snackbar-on-surface);
+    --mat-snack-bar-button-color: var(--app-snackbar-primary);
+    --mat-snack-bar-container-shape: var(--app-snackbar-radius);
+    border: thin solid var(--app-snackbar-outline);
+    border-left: var(--app-snackbar-accent-width) solid
+      var(--app-snackbar-secondary);
+    border-radius: var(--app-snackbar-radius);
+  }
+
+  .mat-mdc-snack-bar-label.mdc-snackbar__label {
+    padding: 0;
+  }
+
+  .mdc-snackbar__surface.mat-mdc-snack-bar-surface,
+  .mdc-snackbar__surface.mat-mdc-snackbar-surface {
+    padding: 0;
+  }
+}
+
+.app-notification-snackbar--success {
+  &.mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: var(--app-snackbar-success-surface);
+    --mdc-snackbar-supporting-text-color: var(--app-snackbar-on-success);
+    --mat-snack-bar-supporting-text-color: var(--app-snackbar-on-success);
+    --mat-snack-bar-button-color: var(--app-snackbar-on-success);
+    border-left-color: var(--app-snackbar-primary);
+  }
+
+  .app-notification-snack-bar__close {
+    color: var(--app-snackbar-on-success);
+  }
+}
+
+.app-notification-snackbar--error {
+  &.mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: var(--app-snackbar-error-surface);
+    --mdc-snackbar-supporting-text-color: var(--app-snackbar-on-surface);
+    --mat-snack-bar-supporting-text-color: var(--app-snackbar-on-surface);
+    --mat-snack-bar-button-color: var(--app-snackbar-warn);
+    border-left-color: var(--app-snackbar-warn);
+  }
+
+  .app-notification-snack-bar__info-icon {
+    color: var(--app-snackbar-warn);
+  }
+
+  .app-notification-snack-bar__message {
+    color: var(--mdc-snackbar-supporting-text-color);
+  }
+
+  .app-notification-snack-bar__close.mat-mdc-icon-button {
+    --mat-snack-bar-button-color: var(--mdc-snackbar-supporting-text-color);
+    --mat-icon-button-icon-color: var(--mdc-snackbar-supporting-text-color);
+    color: var(--mdc-snackbar-supporting-text-color);
+
+    .mat-icon {
+      color: inherit;
+    }
+  }
+}
+
+.app-notification-snackbar--info {
+  &.mat-mdc-snack-bar-container {
+    --mdc-snackbar-container-color: var(--app-snackbar-info-surface);
+    --mdc-snackbar-supporting-text-color: var(--app-snackbar-info-on-surface);
+    --mat-snack-bar-supporting-text-color: var(--app-snackbar-info-on-surface);
+    --mat-snack-bar-button-color: var(--app-snackbar-info-on-surface);
+    border-left-color: var(--app-snackbar-info-accent);
+  }
+
+  .app-notification-snack-bar__info-icon {
+    color: var(--app-snackbar-info-accent);
+  }
+
+  .app-notification-snack-bar__message {
+    color: var(--mdc-snackbar-supporting-text-color);
+  }
+
+  .app-notification-snack-bar__close.mat-mdc-icon-button {
+    --mat-snack-bar-button-color: var(--mdc-snackbar-supporting-text-color);
+    --mat-icon-button-icon-color: var(--mdc-snackbar-supporting-text-color);
+    color: var(--mdc-snackbar-supporting-text-color);
+
+    .mat-icon {
+      color: inherit;
+    }
+  }
+}

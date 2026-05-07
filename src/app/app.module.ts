@@ -32,6 +32,7 @@ import { Languages } from './enums/language.enum';
 import { appReducer } from './state/app.reducer';
 import { metaReducerLocalStorage } from './state/meta-reducers';
 import { AppEffects } from './state/app.effects';
+import { NotificationSnackBarComponent } from './components/notification-snack-bar/notification-snack-bar.component';
 import { localeIdFactory } from './utilities/factories/locale-id.factory';
 import { matDateLocaleFactory } from './utilities/factories/mat-date-locale.factory';
 import { AuthInterceptor } from './core/http/auth.interceptor';
@@ -55,6 +56,7 @@ function translateHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
+    NotificationSnackBarComponent,
     SharedModule,
     AppRoutingModule,
     // Configure the NgRx Store

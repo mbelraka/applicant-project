@@ -25,6 +25,18 @@
   "footer": {
     "copyright": "© 2026 Elrakaiby"
   },
+  "notifications": {
+    "dismissAria": "Dismiss notification",
+    "applicantCreatedSuccess": "Applicant created successfully",
+    "applicantUpdatedSuccess": "Applicant updated successfully",
+    "applicantDeletedSuccess": "Applicant deleted successfully",
+    "applicantTransactionFailed": "Applicant transaction failed",
+    "applicantNotFound": "Applicant not found",
+    "exportSuccess": "Applicants exported successfully",
+    "exportFailed": "Export failed",
+    "matchEvaluationFailed": "Candidate evaluation failed",
+    "matchCompleted": "Matching completed — {{count}} candidates evaluated"
+  },
   "main": {
     "headline": "Effortless global recruitment",
     "subHeadline": "Unlocking talent, without boundaries",

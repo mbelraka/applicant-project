@@ -47,6 +47,9 @@ angular-doctor-report.md
 testem.log
 /typings
 
+# Local secrets (keep `server/.env.example` committed)
+server/.env
+
 # System files
 .DS_Store
 Thumbs.db
