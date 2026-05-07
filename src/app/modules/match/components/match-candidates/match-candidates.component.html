@@ -116,7 +116,11 @@
                   </p>
                   <p class="match-candidates__detail">
                     <strong>{{ 'match.fields.reasoning' | translate }}:</strong>
-                    {{ candidate.reasoning }}
+                    {{
+                      candidate.reasoning?.trim()
+                        ? (candidate.reasoning | remoteTranslate)
+                        : '—'
+                    }}
                   </p>
                 </app-applicant-grid-card>
               }
