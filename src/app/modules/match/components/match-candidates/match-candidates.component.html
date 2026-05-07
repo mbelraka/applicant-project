@@ -117,7 +117,7 @@
                   <p class="match-candidates__detail">
                     <strong>{{ 'match.fields.reasoning' | translate }}:</strong>
                     {{
-                      candidate.reasoning?.trim()
+                      candidate.reasoning.trim()
                         ? (candidate.reasoning | remoteTranslate)
                         : '—'
                     }}
