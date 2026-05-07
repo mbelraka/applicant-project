@@ -1,4 +1,5 @@
 # Auto-fix staged files, then mirror GitHub Actions: lockfile check + validate:ci.
+# Do not bypass with git commit --no-verify; resolve failures locally so this pipeline stays authoritative.
 # npm 11+ warns on IDE-injected NPM_CONFIG_DEVDIR (e.g. Cursor "devdir"); drop before npm/npx.
 unset NPM_CONFIG_DEVDIR npm_config_devdir 2>/dev/null || true
 npx lint-staged
