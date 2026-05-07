@@ -32,9 +32,10 @@ $_tertiary: map.merge(
 );
 
 // Font stack: same as :root typography in shared/_design-tokens.scss (Sass cannot read CSS vars).
+// Must match `@fontsource/manrope` @font-face (family name "Manrope").
 $_theme-typography: (
-  brand-family: 'Manrope, sans-serif',
-  plain-family: 'Manrope, sans-serif',
+  brand-family: '"Manrope", sans-serif',
+  plain-family: '"Manrope", sans-serif',
 );
 
 $light-theme: mat.define-theme(

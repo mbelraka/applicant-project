@@ -10,7 +10,7 @@
   }
 }
 
-// KEYFRAME_NAME — keep in sync with APP_CONFIG.MAIN_COPY_LANG_REFRESH.KEYFRAME_NAME
+// KEYFRAME animation name — `MAIN_COPY_LANG_REFRESH_KEYFRAME_NAME` in `constants/main-lang-refresh.constants.ts`
 @keyframes main-copy-lang-refresh {
   0% {
     opacity: 1;

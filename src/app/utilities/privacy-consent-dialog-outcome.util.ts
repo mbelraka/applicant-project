@@ -1,7 +1,5 @@
-import {
-  PrivacyConsentDialogCloseResult,
-  PrivacyConsentFormState,
-} from '../models/privacy-consent.model';
+import type { PrivacyConsentDialogCloseResult } from '../models/privacy-consent-dialog-close-result.model';
+import type { PrivacyConsentFormState } from '../models/privacy-consent-form-state.model';
 import { PrivacyConsentService } from '../services/privacy-consent.service';
 
 function isPrivacyConsentFormState(

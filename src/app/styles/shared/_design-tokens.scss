@@ -4,7 +4,9 @@
 // ---------------------------------------------------------------------------
 // Typography — keep in sync with Figma text styles and theme/_theme.scss
 // ($_theme-typography brand-family / plain-family).
-// Manrope variable font: loaded via angular.json (`@fontsource-variable/manrope`).
+// Manrope (static woff2): npm package `@fontsource/manrope`, imported from
+// `shared/_fonts.scss` (global styles in angular.json). No variable-font /
+// `woff2-variations`; keep `optimization.fonts: false` to avoid flaky inlining.
 // ---------------------------------------------------------------------------
 :root {
   --app-font-family: 'Manrope', sans-serif;

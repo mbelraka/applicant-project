@@ -9,5 +9,3 @@ export interface AppNotification {
   /** Raw toast text (for example API errors); not localized */
   readonly message?: string;
 }
-
-export type NotificationSnackBarData = Omit<AppNotification, 'durationMs'>;

@@ -21,7 +21,7 @@
   "dataGroups": [
     {
       "name": "api-data",
-      "urls": ["/api/**"],
+      "urls": ["/api/health"],
       "cacheConfig": {
         "maxSize": 100,
         "maxAge": "1d",

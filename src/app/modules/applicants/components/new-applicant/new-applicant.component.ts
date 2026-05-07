@@ -12,6 +12,8 @@ import { selectAppLanguage } from '../../../../state/app.selectors';
 import { PrivacyConsentService } from '../../../../services/privacy-consent.service';
 import { ApplicationStatus } from '../../enums/application-status.enum';
 import { Applicant } from '../../models/applicant.model';
+import { NewApplicantDialogData } from '../../models/new-applicant-dialog-data.model';
+import type { NewApplicantDialogCloseResult } from '../../models/new-applicant-dialog-close-result.model';
 import {
   clearLocationSuggestions,
   searchLocationSuggestions,
@@ -20,15 +22,6 @@ import { selectLocationSuggestions } from '../../state/applicants.selectors';
 import { applicantPhonePatternValidator } from '../../../../utilities/validators/applicant-phone-pattern.validator';
 import { applicantYearsOfExperienceValidator } from '../../../../utilities/validators/applicant-years-of-experience.validators';
 import { emailFieldValidator } from '../../../../utilities/validators/email-field.validator';
-
-/** Passed when opening the dialog to view or edit an existing applicant. */
-export interface NewApplicantDialogData {
-  applicant: Applicant;
-}
-
-export type NewApplicantDialogCloseResult =
-  | Applicant
-  | { applicant: Applicant; isUpdate: true };
 
 @Component({
   selector: 'app-new-applicant',

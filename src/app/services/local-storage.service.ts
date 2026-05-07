@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * JSON read/write for browser `localStorage` (same-origin; not a secret store—XSS can read it).
+ */
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
   public setItem<T>(key: string, value: T): void {

@@ -1,9 +1,9 @@
 import { APP_CONFIG } from '../config/app.config';
-import { PRIVACY_CONSENT_STORAGE_KEY } from '../config/privacy.constants';
 import {
+  PRIVACY_CONSENT_STORAGE_KEY,
   PRIVACY_CONSENT_VERSION,
-  StoredPrivacyConsent,
-} from '../models/privacy-consent.model';
+} from '../constants/privacy.constants';
+import type { StoredPrivacyConsent } from '../models/stored-privacy-consent.model';
 
 import { LocalStorageService } from './local-storage.service';
 import { PrivacyConsentService } from './privacy-consent.service';

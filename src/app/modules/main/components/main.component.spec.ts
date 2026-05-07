@@ -17,10 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Languages } from 'src/app/enums/language.enum';
 import { MainComponent } from 'src/app/modules/main/components/main.component';
 import { MainLangRefreshHostDirective } from 'src/app/modules/main/directives/main-lang-refresh-host.directive';
-import {
-  MAIN_LANG_REFRESH_ZONE,
-  MainLangRefreshZone,
-} from 'src/app/modules/main/models/main-lang-refresh-zone.model';
+import { MAIN_LANG_REFRESH_ZONE } from 'src/app/modules/main/constants/main-lang-refresh.constants';
+import type { MainLangRefreshZone } from 'src/app/modules/main/models/main-lang-refresh-zone.model';
 
 type MainComponentPrivate = {
   _restartTranslatedLangRefresh(): void;

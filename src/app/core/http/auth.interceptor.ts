@@ -8,9 +8,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 /**
- * Central hook for attaching credentials (e.g. Bearer tokens) and handling
- * auth failures (401/403). Wire token storage and navigation here when the
- * app talks to a secured API.
+ * Placeholder for bearer tokens, `withCredentials`, and `401` handling.
+ * Prefer same-origin APIs and short-lived cookies over shipping long-lived secrets to the browser bundle.
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

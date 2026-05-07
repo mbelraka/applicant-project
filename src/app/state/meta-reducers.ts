@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 
-import { FULL_STATE_STORAGE_KEY } from '../config/persistence.constants';
+import { FULL_STATE_STORAGE_KEY } from '../constants/persistence.constants';
 import { FullState } from '../models/full-state.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { isLanguage } from '../utilities/language.utils';

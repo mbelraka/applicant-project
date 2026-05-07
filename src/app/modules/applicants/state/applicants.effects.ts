@@ -5,7 +5,7 @@ import { concatMap, from, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 
 import { NOTIFICATION_MESSAGE_KEYS } from '../../../constants/notification-message-keys';
-import { APPLICANTS_STORAGE_KEY } from '../../../config/persistence.constants';
+import { APPLICANTS_STORAGE_KEY } from '../../../constants/persistence.constants';
 import { AppNotificationType } from '../../../enums/app-notification-type.enum';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { getErrorMessage } from '../../../utilities/error.utils';

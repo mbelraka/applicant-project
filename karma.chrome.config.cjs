@@ -62,6 +62,5 @@ function resolveChromeBin(platform = process.platform) {
 }
 
 module.exports = {
-  chromeBinByPlatform,
   resolveChromeBin,
 };

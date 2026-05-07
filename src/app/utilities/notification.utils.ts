@@ -5,6 +5,7 @@ import { APP_CONFIG } from '../config/app.config';
 import { NOTIFICATION_MESSAGE_KEYS } from '../constants/notification-message-keys';
 import { AppNotificationType } from '../enums/app-notification-type.enum';
 import { AppNotification } from '../models/app-notification.model';
+import { NotifyPayload } from '../models/notify-payload.model';
 import { showNotification } from '../state/app.actions';
 
 const { SNACKBAR } = APP_CONFIG.NOTIFICATION;
@@ -16,14 +17,6 @@ function stripTrailingPeriod(text: string): string {
 export function notificationPanelClasses(type: AppNotificationType): string[] {
   const base = SNACKBAR.PANEL_CLASS_BASE;
   return [base, `${base}--${type}`];
-}
-
-export interface NotifyPayload {
-  readonly type: AppNotificationType;
-  readonly messageKey?: string;
-  readonly messageParams?: Readonly<Record<string, string | number>>;
-  readonly message?: string;
-  readonly useErrorDuration?: boolean;
 }
 
 function toAppNotification(payload: NotifyPayload): AppNotification {

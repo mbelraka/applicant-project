@@ -1,9 +1,3 @@
-/** Legacy shape from persisted data before full-name merge. */
-type ApplicantInit = Partial<Applicant> & {
-  firstName?: string;
-  lastName?: string;
-};
-
 export class Applicant {
   public readonly id!: string;
   public readonly name?: string;
@@ -17,7 +11,9 @@ export class Applicant {
   public readonly skills?: string[];
   public readonly notes?: string;
 
-  public constructor(init?: ApplicantInit) {
+  public constructor(
+    init?: Partial<Applicant> & { firstName?: string; lastName?: string }
+  ) {
     if (!init) {
       return;
     }

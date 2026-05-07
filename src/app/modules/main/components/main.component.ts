@@ -9,14 +9,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 
-import { APP_CONFIG } from 'src/app/config/app.config';
 import { FullState } from 'src/app/models/full-state.model';
-import { MainLangRefreshHostDirective } from 'src/app/modules/main/directives/main-lang-refresh-host.directive';
 import {
+  MAIN_COPY_LANG_REFRESH_KEYFRAME_NAME,
   MAIN_LANG_REFRESH_ZONE,
-  MainLangRefreshZone,
-  createMainLangRefreshZoneFlags,
-} from 'src/app/modules/main/models/main-lang-refresh-zone.model';
+} from 'src/app/modules/main/constants/main-lang-refresh.constants';
+import { MainLangRefreshHostDirective } from 'src/app/modules/main/directives/main-lang-refresh-host.directive';
+import type { MainLangRefreshZone } from 'src/app/modules/main/models/main-lang-refresh-zone.model';
+import { createMainLangRefreshZoneFlags } from 'src/app/modules/main/utilities/main-lang-refresh-zone.util';
 import { selectAppLanguage } from 'src/app/state/app.selectors';
 
 @Component({
@@ -91,7 +91,7 @@ export class MainComponent {
     if (event.target !== event.currentTarget) {
       return false;
     }
-    const keyframe = APP_CONFIG.MAIN_COPY_LANG_REFRESH.KEYFRAME_NAME;
+    const keyframe = MAIN_COPY_LANG_REFRESH_KEYFRAME_NAME;
     const name = event.animationName;
     return name === keyframe || name.includes(keyframe);
   }

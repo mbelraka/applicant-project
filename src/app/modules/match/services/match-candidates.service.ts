@@ -16,10 +16,24 @@ import { PrivacyConsentService } from '../../../services/privacy-consent.service
 import { MATCH_SCORE_PREFIX } from '../../../utilities/RegEx';
 import { Applicant } from '../../applicants/models/applicant.model';
 import { MATCH_ERROR_PRIVACY_AI_DISABLED } from '../constants/match-error-codes';
+import {
+  MATCH_API_SCORE_COLLECTION_KEYS,
+  MATCH_PROXY_RESPONSE_ERROR_PROPERTY,
+  MATCH_SCORE_CORRELATION_ID_KEYS,
+  MATCH_SCORE_NAME_KEYS,
+  MATCH_SCORE_NESTED_NUMERIC_KEYS,
+  MATCH_SCORE_PRIMARY_VALUE_KEYS,
+  MATCH_SCORE_RECOMMENDATION_TEXT_KEYS,
+} from '../constants/match-response-keys.const';
 import { MatchApiResponse } from '../models/match-api-response.model';
+import { MatchProxyRequestBody } from '../models/match-proxy-request-body.model';
 import { MatchCandidateResult } from '../models/match-candidate-result.model';
 import { MatchScoreItem } from '../models/match-score-item.model';
 import { ParsedMatchScoreItem } from '../models/parsed-match-score-item.model';
+import {
+  createMatchLlmCorrelationId,
+  toPrivacyPreservingCandidatePayload,
+} from '../utilities/match-candidate-privacy.util';
 
 @Injectable({ providedIn: 'root' })
 export class MatchCandidatesService {
@@ -52,23 +66,24 @@ export class MatchCandidatesService {
       return throwError(() => new Error(MATCH_ERROR_PRIVACY_AI_DISABLED));
     }
     const stableApplicants = this._sortApplicantsForMatching(applicants);
+    const { requestBody, llmTempIdToInternalId } =
+      this._buildGroqMatchRequestBody(
+        jobDescription,
+        stableApplicants,
+        language
+      );
 
     return this._http
-      .post<MatchApiResponse>(
-        this._buildGroqMatchUrl(),
-        this._buildGroqMatchRequestBody(
-          jobDescription,
-          stableApplicants,
-          language
-        )
-      )
+      .post<MatchApiResponse>(this.config.GROQ.MATCH_ENDPOINT, requestBody)
       .pipe(
         timeout({ first: this.config.REQUEST_TIMEOUT_MS }),
-        map((response) => this._parseGroqScores(response)),
-        map((parsedScores) =>
+        map((response) =>
           this._mergeAndRankResults(
             stableApplicants,
-            parsedScores,
+            this._remapLlmCorrelationIdsToInternal(
+              this._parseGroqScores(response),
+              llmTempIdToInternalId
+            ),
             topCandidatesCount
           )
         ),
@@ -94,15 +109,14 @@ export class MatchCandidatesService {
       if (typeof payload === 'string' && payload.trim()) {
         return payload.trim();
       }
-      if (
-        payload &&
-        typeof payload === 'object' &&
-        'error' in payload &&
-        typeof (payload as { error?: unknown }).error === 'string'
-      ) {
-        const message = (payload as { error: string }).error.trim();
-        if (message) {
-          return message;
+      if (payload && typeof payload === 'object') {
+        const errText = (
+          payload as Partial<
+            Record<typeof MATCH_PROXY_RESPONSE_ERROR_PROPERTY, unknown>
+          >
+        )[MATCH_PROXY_RESPONSE_ERROR_PROPERTY];
+        if (typeof errText === 'string' && errText.trim()) {
+          return errText.trim();
         }
       }
     }
@@ -112,26 +126,47 @@ export class MatchCandidatesService {
     return null;
   }
 
-  private _buildGroqMatchUrl(): string {
-    return this.config.GROQ.MATCH_ENDPOINT;
-  }
-
   private _buildGroqMatchRequestBody(
     jobDescription: string,
     applicants: Applicant[],
     language: Languages
-  ) {
+  ): {
+    requestBody: MatchProxyRequestBody;
+    llmTempIdToInternalId: Map<string, string>;
+  } {
+    const llmTempIdToInternalId = new Map<string, string>();
+    const candidates = applicants.map((applicant) => {
+      const tempId = createMatchLlmCorrelationId();
+      llmTempIdToInternalId.set(tempId, applicant.id);
+      return toPrivacyPreservingCandidatePayload(applicant, tempId);
+    });
+
     return {
-      model: this.config.GROQ.MODEL,
-      temperature: this.config.GROQ.TEMPERATURE,
-      deterministic: this.config.GROQ.DETERMINISTIC_SCORING,
-      language,
-      locale: APP_CONFIG.getLocale(language),
-      jobDescription: jobDescription.trim(),
-      candidates: applicants.map((applicant) =>
-        this._toGroqCandidatePayload(applicant)
-      ),
+      requestBody: {
+        model: this.config.GROQ.MODEL,
+        temperature: this.config.GROQ.TEMPERATURE,
+        deterministic: this.config.GROQ.DETERMINISTIC_SCORING,
+        language,
+        locale: APP_CONFIG.getLocale(language),
+        jobDescription: jobDescription.trim(),
+        candidates,
+      },
+      llmTempIdToInternalId,
     };
+  }
+
+  private _remapLlmCorrelationIdsToInternal(
+    scores: ParsedMatchScoreItem[],
+    llmTempIdToInternalId: Map<string, string>
+  ): ParsedMatchScoreItem[] {
+    return scores.map((item) => {
+      const key = item.id.trim();
+      const internal = llmTempIdToInternalId.get(key);
+      if (!internal) {
+        return item;
+      }
+      return { ...item, id: internal };
+    });
   }
 
   private _parseGroqScores(response: MatchApiResponse): ParsedMatchScoreItem[] {
@@ -144,22 +179,38 @@ export class MatchCandidatesService {
     return text.replace(MATCH_SCORE_PREFIX, '').trim();
   }
 
-  private _extractId(item: MatchScoreItem): string | null {
-    const raw = item.id ?? item.candidateId ?? item.applicantId;
-    if (raw === null || raw === undefined) {
-      return null;
+  private _primaryRecommendationPlainText(item: MatchScoreItem): string {
+    for (const key of MATCH_SCORE_RECOMMENDATION_TEXT_KEYS) {
+      const value = item[key];
+      if (value !== undefined && value !== null) {
+        return String(value).trim();
+      }
     }
-    const normalized = String(raw).trim();
-    return normalized || null;
+    return '';
+  }
+
+  private _extractId(item: MatchScoreItem): string | null {
+    for (const key of MATCH_SCORE_CORRELATION_ID_KEYS) {
+      const raw = item[key];
+      if (raw === undefined || raw === null) {
+        continue;
+      }
+      const normalized = String(raw).trim();
+      return normalized || null;
+    }
+    return null;
   }
 
   private _extractName(item: MatchScoreItem): string | undefined {
-    const raw = item.name ?? item.candidateName ?? item.applicantName;
-    if (!raw) {
-      return undefined;
+    for (const key of MATCH_SCORE_NAME_KEYS) {
+      const raw = item[key];
+      if (raw === undefined || raw === null) {
+        continue;
+      }
+      const normalized = String(raw).trim();
+      return normalized || undefined;
     }
-    const normalized = raw.trim();
-    return normalized || undefined;
+    return undefined;
   }
 
   private _normalizeName(value: string | undefined): string {
@@ -169,14 +220,14 @@ export class MatchCandidatesService {
   private _parseScore(
     item: Omit<MatchScoreItem, 'id'> & { id?: string | number | null }
   ): number {
-    const raw =
-      item.matchScore ??
-      item.score ??
-      item.overallScore ??
-      item.totalScore ??
-      item.matchingScore ??
-      0;
-
+    let raw: unknown = this.config.SCORE.MIN;
+    for (const key of MATCH_SCORE_PRIMARY_VALUE_KEYS) {
+      const v = item[key];
+      if (v !== undefined && v !== null) {
+        raw = v;
+        break;
+      }
+    }
     return this._parseNumericScore(raw);
   }
 
@@ -186,8 +237,11 @@ export class MatchCandidatesService {
       return this.config.SCORE.MIN;
     }
 
-    // Some models return confidence in 0..1 range. Normalize to percentage.
-    const normalized = parsed > 0 && parsed <= 1 ? parsed * 100 : parsed;
+    const { MIN, MAX, NORMALIZE_TO_PERCENT_MAX_INCLUSIVE } = this.config.SCORE;
+    const normalized =
+      parsed > MIN && parsed <= NORMALIZE_TO_PERCENT_MAX_INCLUSIVE
+        ? parsed * MAX
+        : parsed;
     return this._clampScore(normalized);
   }
 
@@ -214,17 +268,7 @@ export class MatchCandidatesService {
 
     if (value && typeof value === 'object') {
       const candidate = value as Record<string, unknown>;
-      const knownKeys = [
-        'value',
-        'score',
-        'matchScore',
-        'overallScore',
-        'totalScore',
-        'matchingScore',
-        'percent',
-        'percentage',
-      ] as const;
-      for (const key of knownKeys) {
+      for (const key of MATCH_SCORE_NESTED_NUMERIC_KEYS) {
         if (key in candidate) {
           const nested = this._extractNumber(candidate[key]);
           if (Number.isFinite(nested)) {
@@ -259,11 +303,6 @@ export class MatchCandidatesService {
         .filter((item) => item.id.trim().length > 0)
         .map((item) => [item.id, item] as const)
     );
-    const scoreByName = new Map(
-      scores
-        .filter((s) => this._normalizeName(s.name).length > 0)
-        .map((s) => [this._normalizeName(s.name), s] as const)
-    );
     const scoreByIndex = new Map(
       scores.map((item) => [item.sourceIndex, item])
     );
@@ -271,14 +310,12 @@ export class MatchCandidatesService {
 
     const merged = applicants.map((applicant, applicantIndex) => {
       const idCandidate = scoreById.get(applicant.id);
-      const nameCandidate = scoreByName.get(
-        this._normalizeName(applicant.name)
-      );
       const indexCandidate =
         applicants.length === scores.length
           ? scoreByIndex.get(applicantIndex)
           : undefined;
-      const scoreItem = [idCandidate, nameCandidate, indexCandidate].find(
+      /** Prefer surrogate id — never correlate by LLM-returned names (privacy + wrong-name risk). */
+      const scoreItem = [idCandidate, indexCandidate].find(
         (candidate) => candidate && !consumed.has(candidate)
       );
       if (scoreItem) {
@@ -320,21 +357,14 @@ export class MatchCandidatesService {
     return new Error(message);
   }
 
-  private _toGroqCandidatePayload(applicant: Applicant) {
-    return {
-      id: applicant.id,
-      name: applicant.name ?? '',
-      skills: applicant.skills ?? [],
-      yearsOfExperience: applicant.yearsOfExperience ?? null,
-      currentJobTitle: applicant.currentJobTitle ?? '',
-      applicationStatus: applicant.applicationStatus ?? '',
-      location: applicant.location ?? '',
-      notes: applicant.notes ?? '',
-    };
-  }
-
   private _getRawScores(response: MatchApiResponse): MatchScoreItem[] {
-    return response.scores ?? response.results ?? response.candidates ?? [];
+    for (const key of MATCH_API_SCORE_COLLECTION_KEYS) {
+      const list = response[key];
+      if (list !== undefined && list !== null) {
+        return Array.isArray(list) ? list : [];
+      }
+    }
+    return [];
   }
 
   private _toParsedScoreItem(
@@ -364,7 +394,7 @@ export class MatchCandidatesService {
         education: item.candidateProfile?.education ?? '',
       },
       recommendation: this._sanitizeRecommendationText(
-        item.recommendation?.trim() ?? item.reasoning?.trim() ?? ''
+        this._primaryRecommendationPlainText(item)
       ),
     };
   }

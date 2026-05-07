@@ -6,10 +6,14 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  font-family: var(--app-font-family) !important;
+}
+
 html {
   height: 100%;
   overflow: hidden;
-  font-family: var(--app-font-family) !important;
   font-size: var(--app-font-size-root);
   letter-spacing: var(--app-letter-spacing-normal);
   text-rendering: optimizeLegibility;

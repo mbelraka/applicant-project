@@ -1,4 +1,4 @@
-import { PrivacyConsentFormState } from '../models/privacy-consent.model';
+import type { PrivacyConsentFormState } from '../models/privacy-consent-form-state.model';
 import { PrivacyConsentService } from '../services/privacy-consent.service';
 import { LocalStorageService } from '../services/local-storage.service';
 

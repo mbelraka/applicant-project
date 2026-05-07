@@ -12,11 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { filter, tap } from 'rxjs';
 
-import {
-  NewApplicantComponent,
-  NewApplicantDialogCloseResult,
-  NewApplicantDialogData,
-} from '../new-applicant/new-applicant.component';
+import { NewApplicantComponent } from '../new-applicant/new-applicant.component';
+import { NewApplicantDialogCloseResult } from '../../models/new-applicant-dialog-close-result.model';
+import { NewApplicantDialogData } from '../../models/new-applicant-dialog-data.model';
 import {
   FADE_IN_OUT_BASE_CLASS,
   FADE_IN_OUT_ENTER_CLASS,

@@ -2,12 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { MATERIAL_SYMBOLS_OUTLINED_FONT_SET } from '../../../../utilities/initializers/material-symbols-outlined-font.initializer';
-
-export interface ConfirmDeleteApplicantDialogData {
-  candidateName: string;
-  /** Displayed under the name when present (e.g. `Applicant.currentJobTitle`). */
-  jobTitle?: string;
-}
+import { ConfirmDeleteApplicantDialogData } from '../../models/confirm-delete-applicant-dialog-data.model';
 
 @Component({
   selector: 'app-confirm-delete-applicant-dialog',

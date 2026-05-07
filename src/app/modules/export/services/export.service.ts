@@ -19,11 +19,7 @@ import { selectAllApplicants } from '../../applicants/state/applicants.selectors
 import { Applicant } from '../../applicants/models/applicant.model';
 import { ExportFormats } from '../enums/export-formats.enum';
 import { selectAppLanguage } from '../../../state/app.selectors';
-
-interface ExportContext {
-  applicants: Applicant[];
-  language: Languages;
-}
+import { ExportContext } from '../models/export-context.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExportService {

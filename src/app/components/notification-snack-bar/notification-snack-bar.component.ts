@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NOTIFICATION_MESSAGE_KEYS } from '../../constants/notification-message-keys';
 import { AppNotificationType } from '../../enums/app-notification-type.enum';
-import { NotificationSnackBarData } from './notification-snack-bar-data.model';
+import { NotificationSnackBarData } from './models/notification-snack-bar-data.model';
 
 @Component({
   selector: 'app-notification-snack-bar',

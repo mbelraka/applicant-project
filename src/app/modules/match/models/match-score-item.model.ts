@@ -1,3 +1,5 @@
+import { MatchScoreCandidateProfile } from './match-score-candidate-profile.model';
+
 export interface MatchScoreItem {
   id?: string | number;
   candidateId?: string | number;
@@ -12,12 +14,7 @@ export interface MatchScoreItem {
   matchingScore?: number | string;
   matchingSkills?: string[];
   missingSkills?: string[];
-  candidateProfile?: {
-    skills?: string[];
-    yearsExperience?: number;
-    topJobTitles?: string[];
-    education?: string;
-  };
+  candidateProfile?: MatchScoreCandidateProfile;
   recommendation?: string;
   reasoning?: string;
 }

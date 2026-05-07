@@ -4,7 +4,7 @@
  * snack-bar sources). Material ships those keyframes inside the JS bundle, which loads after
  * global SCSS, so we append this stylesheet after bootstrap so our motion wins in the cascade.
  */
-export const SNACK_BAR_MOTION_STYLE_TEXT = `
+const SNACK_BAR_MOTION_STYLE_TEXT = `
 @media (prefers-reduced-motion: no-preference) {
   @keyframes _mat-snack-bar-enter {
     from {

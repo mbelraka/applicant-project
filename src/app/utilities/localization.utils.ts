@@ -6,7 +6,7 @@ import {
   WHITESPACE_RUN,
 } from './RegEx';
 
-export function toLocalizationKeySegment(value: string): string {
+function toLocalizationKeySegment(value: string): string {
   const normalized = value
     .normalize('NFKD')
     .replace(UNICODE_COMBINING_MARKS, '')

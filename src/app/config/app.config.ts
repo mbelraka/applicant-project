@@ -49,6 +49,7 @@ export const APP_CONFIG = {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       [ExportFormats.PDF]: 'application/pdf',
     } as const,
+    /** Also used by privacy “download my data” JSON (`PrivacyConsentService`). */
     JSON_INDENT_SPACES: 2,
     DEFAULT_EMPTY_VALUE: '',
     DEFAULT_MISSING_VALUE: '-',
@@ -143,10 +144,6 @@ export const APP_CONFIG = {
       showHeader: true,
     },
   ] as const satisfies readonly NavLink[],
-
-  MAIN_COPY_LANG_REFRESH: {
-    KEYFRAME_NAME: 'main-copy-lang-refresh',
-  } as const,
 
   // Dialog configuration for modals
   DIALOG_CONFIG: {
@@ -251,6 +248,8 @@ export const APP_CONFIG = {
     SCORE: {
       MIN: 0,
       MAX: 100,
+      /** Model outputs strictly between MIN and this (inclusive) are treated as fractional 0–1 scores. */
+      NORMALIZE_TO_PERCENT_MAX_INCLUSIVE: 1,
     } as const,
     GROQ: {
       MATCH_ENDPOINT: '/api/match',

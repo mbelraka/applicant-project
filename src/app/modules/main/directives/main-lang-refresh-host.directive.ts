@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { MainComponent } from 'src/app/modules/main/components/main.component';
-import { MainLangRefreshZone } from 'src/app/modules/main/models/main-lang-refresh-zone.model';
+import type { MainLangRefreshZone } from 'src/app/modules/main/models/main-lang-refresh-zone.model';
 
 /**
  * Marks an element as a language-refresh animation host: applies the refresh

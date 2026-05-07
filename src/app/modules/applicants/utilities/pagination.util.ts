@@ -1,18 +1,6 @@
-import {
-  computed,
-  effect,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { computed, effect, Signal, signal } from '@angular/core';
 
-export interface PaginatedViewState<T> {
-  readonly pageIndex: WritableSignal<number>;
-  readonly pageCount: Signal<number>;
-  readonly pageNumbers: Signal<number[]>;
-  readonly pagedItems: Signal<T[]>;
-  goToPage(index: number): void;
-}
+import { PaginatedViewState } from '../models/paginated-view-state.model';
 
 export function createPaginatedViewState<T>(
   items: Signal<T[]>,

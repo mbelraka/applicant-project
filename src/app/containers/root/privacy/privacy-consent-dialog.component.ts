@@ -13,10 +13,8 @@ import {
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import type {
-  PrivacyConsentDialogCloseResult,
-  PrivacyConsentDialogData,
-} from '../../../models/privacy-consent.model';
+import type { PrivacyConsentDialogCloseResult } from '../../../models/privacy-consent-dialog-close-result.model';
+import type { PrivacyConsentDialogData } from '../../../models/privacy-consent-dialog-data.model';
 
 @Component({
   selector: 'app-privacy-consent-dialog',

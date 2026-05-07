@@ -7,14 +7,17 @@ import {
   LOCAL_USER_DATA_STORAGE_KEYS,
   FULL_STATE_STORAGE_KEY,
   APPLICANTS_STORAGE_KEY,
-} from '../config/persistence.constants';
-import { PRIVACY_CONSENT_STORAGE_KEY } from '../config/privacy.constants';
-import { LocalStorageService } from './local-storage.service';
+} from '../constants/persistence.constants';
 import {
+  PRIVACY_CONSENT_STORAGE_KEY,
   PRIVACY_CONSENT_VERSION,
-  PrivacyConsentFormState,
-  StoredPrivacyConsent,
-} from '../models/privacy-consent.model';
+  PRIVACY_LOCAL_EXPORT_NOTE,
+  PRIVACY_POST_ERASE_APP_PATH,
+} from '../constants/privacy.constants';
+
+import { LocalStorageService } from './local-storage.service';
+import type { PrivacyConsentFormState } from '../models/privacy-consent-form-state.model';
+import type { StoredPrivacyConsent } from '../models/stored-privacy-consent.model';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyConsentService {
@@ -101,7 +104,7 @@ export class PrivacyConsentService {
     this._storage.removeItem(APP_CONFIG.LOCALIZATION.DATE_FORMAT_KEY);
     this._storage.removeItem(PRIVACY_CONSENT_STORAGE_KEY);
     if (typeof window !== 'undefined') {
-      window.location.assign('/');
+      window.location.assign(PRIVACY_POST_ERASE_APP_PATH);
     }
   }
 
@@ -110,7 +113,7 @@ export class PrivacyConsentService {
     return JSON.stringify(
       {
         exportedAt: new Date().toISOString(),
-        note: 'JSON export of data stored in this browser only. Does not include server logs.',
+        note: PRIVACY_LOCAL_EXPORT_NOTE,
         applicants: this._storage.getItem(APPLICANTS_STORAGE_KEY),
         fullState: this._storage.getItem(FULL_STATE_STORAGE_KEY),
         language: this._storage.getItem(loc.LANGUAGE_KEY),
@@ -118,7 +121,7 @@ export class PrivacyConsentService {
         privacyConsentVersion: this.snapshot()?.version ?? null,
       },
       null,
-      2
+      APP_CONFIG.EXPORT.JSON_INDENT_SPACES
     );
   }
 

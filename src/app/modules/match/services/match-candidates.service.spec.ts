@@ -21,6 +21,12 @@ describe('MatchCandidatesService', () => {
   ];
 
   beforeEach(() => {
+    let correlationSeq = 0;
+    spyOn(globalThis.crypto, 'randomUUID').and.callFake(() => {
+      correlationSeq += 1;
+      return `llm-temp-${correlationSeq}` as ReturnType<Crypto['randomUUID']>;
+    });
+
     httpClientSpy = jasmine.createSpyObj<HttpClient>('HttpClient', ['post']);
     privacySpy = jasmine.createSpyObj('PrivacyConsentService', [
       'optionalAiMatching',
@@ -57,12 +63,65 @@ describe('MatchCandidatesService', () => {
     expect(httpClientSpy.post).not.toHaveBeenCalled();
   });
 
+  it('sends anonymized candidates without personal fields to the proxy', async () => {
+    const rich = [
+      new Applicant({
+        id: 'a1',
+        name: 'Alice Example',
+        email: 'alice@example.com',
+        phone: '+1-555',
+        location: 'Zurich',
+        skills: ['Angular'],
+        notes: 'Internal HR note',
+        applicationStatus: 'screening',
+        yearsOfExperience: 4,
+        currentJobTitle: 'Frontend developer',
+      }),
+    ];
+
+    httpClientSpy.post.and.returnValue(
+      of({
+        scores: [
+          {
+            id: 'llm-temp-1',
+            matchScore: 80,
+            recommendation: 'ok',
+            candidateProfile: {},
+          },
+        ],
+      })
+    );
+
+    await firstValueFrom(
+      service.evaluate('Senior dev', rich, 1, Languages.English)
+    );
+
+    const body = httpClientSpy.post.calls.mostRecent().args[1] as {
+      candidates: Array<Record<string, unknown>>;
+    };
+    expect(body.candidates.length).toBe(1);
+    const c = body.candidates[0];
+    expect(c).toEqual({
+      id: 'llm-temp-1',
+      skills: ['Angular'],
+      yearsOfExperience: 4,
+      currentJobTitle: 'Frontend developer',
+    });
+    expect(c['id']).not.toBe(rich[0].id);
+    expect('name' in c).toBeFalse();
+    expect('email' in c).toBeFalse();
+    expect('phone' in c).toBeFalse();
+    expect('location' in c).toBeFalse();
+    expect('notes' in c).toBeFalse();
+    expect('applicationStatus' in c).toBeFalse();
+  });
+
   it('should map and rank candidates with top-n flags', async () => {
     httpClientSpy.post.and.returnValue(
       of({
         scores: [
           {
-            id: 'a2',
+            id: 'llm-temp-2',
             matchScore: 95,
             recommendation: 'Great fit',
             matchingSkills: ['React'],
@@ -75,7 +134,7 @@ describe('MatchCandidatesService', () => {
             },
           },
           {
-            id: 'a1',
+            id: 'llm-temp-1',
             matchScore: 80,
             recommendation: 'Good fit',
             matchingSkills: ['Angular'],
@@ -106,13 +165,13 @@ describe('MatchCandidatesService', () => {
       of({
         scores: [
           {
-            id: 'a1',
+            id: 'llm-temp-1',
             matchScore: 999,
             recommendation: 'x',
             candidateProfile: {},
           },
           {
-            id: 'a2',
+            id: 'llm-temp-2',
             matchScore: Number.NaN,
             recommendation: 'y',
             candidateProfile: {},
@@ -133,13 +192,13 @@ describe('MatchCandidatesService', () => {
       of({
         scores: [
           {
-            id: 'a1',
+            id: 'llm-temp-1',
             score: '85%',
             recommendation: 'Strong fit',
             candidateProfile: {},
           },
           {
-            id: 'a2',
+            id: 'llm-temp-2',
             overallScore: '72',
             recommendation: 'Moderate fit',
             candidateProfile: {},
@@ -160,12 +219,12 @@ describe('MatchCandidatesService', () => {
       of({
         results: [
           {
-            candidateId: 'a1',
+            candidateId: 'llm-temp-1',
             totalScore: '91',
             recommendation: 'Great',
           },
           {
-            applicantId: 'a2',
+            applicantId: 'llm-temp-2',
             score: '67',
             recommendation: 'Okay',
           },
@@ -180,7 +239,7 @@ describe('MatchCandidatesService', () => {
     expect(result.find((r) => r.applicant.id === 'a2')?.score).toBe(67);
   });
 
-  it('should match scores by candidate name when ids do not align', async () => {
+  it('should match scores by response order when model ids are opaque (index fallback)', async () => {
     httpClientSpy.post.and.returnValue(
       of({
         scores: [
@@ -210,12 +269,12 @@ describe('MatchCandidatesService', () => {
       of({
         scores: [
           {
-            id: 'a1',
+            id: 'llm-temp-1',
             matchScore: { value: 0.91 },
             recommendation: 'Great fit',
           },
           {
-            id: 'a2',
+            id: 'llm-temp-2',
             matchScore: { score: '0.73' },
             recommendation: 'Good fit',
           },
@@ -270,7 +329,7 @@ describe('MatchCandidatesService', () => {
       of({
         scores: [
           {
-            id: 'a1',
+            id: 'llm-temp-1',
             matchScore: { unsupported: 'value' },
             recommendation: 'No usable score',
           },
