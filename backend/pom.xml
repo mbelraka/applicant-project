@@ -27,7 +27,7 @@
     <dependency-check-maven.version>12.1.0</dependency-check-maven.version>
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-    <archunit.version>1.4.0</archunit.version>
+    <archunit.version>1.4.2</archunit.version>
     <jacoco.coverage.minimum>0.80</jacoco.coverage.minimum>
   </properties>
 
