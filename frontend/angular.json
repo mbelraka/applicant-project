@@ -7,7 +7,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "applicant-project": {
+    "recruita": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,7 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/applicant-project",
+            "outputPath": "dist/recruita",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -120,10 +120,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "applicant-project:build:production"
+              "buildTarget": "recruita:build:production"
             },
             "development": {
-              "buildTarget": "applicant-project:build:development",
+              "buildTarget": "recruita:build:development",
               "hmr": false,
               "liveReload": true
             }
@@ -133,7 +133,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "applicant-project:build",
+            "buildTarget": "recruita:build",
             "outputPath": "src/assets/i18n"
           }
         },

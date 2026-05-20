@@ -253,7 +253,7 @@ If `ng serve` fails with missing modules, run `npm ci` again. Use `sh scripts/ru
 
 ```bash
 npm run build:prod
-# Output: frontend/dist/applicant-project/
+# Output: frontend/dist/recruita/
 ```
 
 Serve the static bundle behind HTTPS with the Spring API configured per [SECURITY.md](./SECURITY.md).
