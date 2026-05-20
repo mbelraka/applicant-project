@@ -1,13 +1,16 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+dist/
+tmp/
+out-tsc/
+bazel-out/
+frontend/dist/
+frontend/tmp/
+frontend/out-tsc/
 
 # Node
-/node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -32,23 +35,28 @@ yarn-error.log
 .history/*
 
 # Playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
 
 # Miscellaneous
 angular-doctor-report.md
-/.angular/cache
+.angular/
+frontend/.angular/
 .sass-cache/
 /connect.lock
-/coverage
-/libpeerconnection.log
+coverage/
+frontend/coverage/
+libpeerconnection.log
 testem.log
 /typings
 
-# Local secrets (keep `server/.env.example` committed)
-server/.env
+# Local secrets (keep `backend/.env.example` committed)
+backend/.env
 
 # System files
 .DS_Store

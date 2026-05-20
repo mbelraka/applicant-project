@@ -1,7 +1,7 @@
 import type { MatchApiResponse } from '../models/match-api-response.model';
 import type { MatchScoreItem } from '../models/match-score-item.model';
 
-/** Match proxy `{ error: string }` body field (mirror `server/server-config.cjs` messages). */
+/** Match proxy `{ error: string }` body field (mirror `backend/server-config.cjs` messages). */
 export const MATCH_PROXY_RESPONSE_ERROR_PROPERTY = 'error' as const;
 
 /** Order matters: provider JSON collection names carrying score rows */

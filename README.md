@@ -4,7 +4,7 @@
 
 The codebase is structured for long-term growth: lazy-loaded feature modules, centralized configuration, NgRx state per domain, and quality gates that mirror CI on every commit.
 
-> **Repository name:** The npm package is still `applicant-project`; the product name shown in the UI is **Recruita**.
+> **Monorepo:** npm workspaces at the repository root — `frontend/` (Angular) and `backend/` (server; Java Spring target). The UI product name is **Recruita**.
 
 ---
 
@@ -20,7 +20,7 @@ The codebase is structured for long-term growth: lazy-loaded feature modules, ce
 
 **Cross-cutting behavior**
 
-- **i18n** — UI copy in `assets/i18n` (English, German, French, Italian, Romansh, Spanish); locale-aware dates and numbers via shared pipes
+- **i18n** — UI copy in `frontend/src/assets/i18n` (English, German, French, Italian, Romansh, Spanish); locale-aware dates and numbers via shared pipes
 - **Notifications** — Transactional Material snackbars driven by NgRx (`showNotification`) with themed success / info / error panels
 - **Persistence** — Applicant list and app preferences (language, privacy consent) rehydrate from `localStorage` via NgRx meta-reducers
 - **PWA** — Production builds enable the Angular service worker (`ngsw-config.json`)
@@ -76,7 +76,7 @@ Users can choose **necessary only**, **enable all optional**, or **custom** togg
 
 ### Browser hardening
 
-Defined in `src/index.html`:
+Defined in `frontend/src/index.html`:
 
 - **Trusted Types** with Angular bundler policy — reduces DOM XSS risk for script injection
 - **CSP** fragments: `base-uri 'self'`, `frame-ancestors 'none'`, `object-src 'none'`
@@ -97,8 +97,8 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 ```
 
 - Client: `match-candidate-privacy.util.ts` replaces applicant ids with **one-time correlation UUIDs** per request.
-- Server: `server-config.cjs` enforces allowlists, size limits, and field stripping before any model call.
-- **Never** commit `server/.env` or put match-provider secrets in the Angular bundle or this README.
+- Server: `backend/server-config.cjs` enforces allowlists, size limits, and field stripping before any model call.
+- **Never** commit `backend/.env` or put match-provider secrets in the Angular bundle or this README.
 
 ### Production deployment checklist
 
@@ -106,7 +106,7 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 2. `CORS_ORIGIN` — comma-separated **https://** SPA origin(s); no `*` in production.
 3. **TLS** — terminate at ingress or enable Node TLS; enable HSTS when responses are always HTTPS.
 4. `TRUST_PROXY=1` when behind a load balancer so rate limits use real client IPs.
-5. Rotate match-provider credentials if exposure is suspected (see `server/.env.example` for variable names).
+5. Rotate match-provider credentials if exposure is suspected (see `backend/.env.example` for variable names).
 
 ---
 
@@ -116,7 +116,7 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 |-------|----------------|
 | **Frontend** | Angular 20, Angular Material, Tailwind CSS, RxJS, NgRx (Store, Effects, Entity patterns per module) |
 | **i18n** | `@ngx-translate` with HTTP-loaded JSON bundles |
-| **Backend (match only)** | Express 5, `groq-sdk`, Helmet, CORS, rate limiting |
+| **Backend** | `backend/` — Express match proxy today; **Java Spring Boot** planned |
 | **Export** | ExcelJS, pdf-lib, file-saver (client-side generation) |
 | **Tooling** | ESLint, Prettier, Husky, lint-staged, Karma, Playwright, angular-doctor, ngx-security-audit, letify |
 | **Runtime** | Node ≥ 18, npm 10.9.2 (see `packageManager` in `package.json`) |
@@ -128,18 +128,18 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 ### SOLID-oriented Angular structure
 
 - **Single responsibility** — Templates, styles, and TypeScript live in separate files. Business logic stays out of templates; shared behavior uses pipes, utilities, and services.
-- **Open / closed** — Behavior is driven by **`APP_CONFIG`** (`src/app/config/app.config.ts`): navigation, dialog sizes, match timeouts, export filenames, notification durations, and localization defaults.
+- **Open / closed** — Behavior is driven by **`APP_CONFIG`** (`frontend/src/app/config/app.config.ts`): navigation, dialog sizes, match timeouts, export filenames, notification durations, and localization defaults.
 - **Liskov substitution** — Domain models (e.g. `Applicant`) expose consistent validation and helpers.
 - **Interface segregation** — Small models and enums per concern.
 - **Dependency injection** — Services use `providedIn: 'root'`; HTTP cross-cutting via interceptors (`AuthInterceptor`, XSRF).
 
 ### Atomic design (component layering)
 
-Reusable atoms (chips, pipes, grid cards) compose feature containers (`ApplicantsComponent`, `MatchCandidatesComponent`). Shared UI: `src/app/shared/`; shell: `src/app/containers/root/`.
+Reusable atoms (chips, pipes, grid cards) compose feature containers (`ApplicantsComponent`, `MatchCandidatesComponent`). Shared UI: `frontend/src/app/shared/`; shell: `frontend/src/app/containers/root/`.
 
 ### Material Design
 
-Angular Material for forms, tables, dialogs, snackbars, and navigation. Theme and overrides: `src/app/styles/theme/`, `src/app/styles/overrides/`.
+Angular Material for forms, tables, dialogs, snackbars, and navigation. Theme and overrides: `frontend/src/app/styles/theme/`, `frontend/src/app/styles/overrides/`.
 
 ### Feature modules and lazy loading
 
@@ -150,7 +150,7 @@ match         → proxy client + match state
 export        → format selection + download effects
 ```
 
-Routes: `src/app/containers/root/root-routing.module.ts`. `RootComponent` owns nav, language, applicant seed/load, and the privacy consent gate.
+Routes: `frontend/src/app/containers/root/root-routing.module.ts`. `RootComponent` owns nav, language, applicant seed/load, and the privacy consent gate.
 
 ### State management
 
@@ -172,23 +172,19 @@ Responsive layouts; `prefers-reduced-motion` respected on the main landing langu
 ## Project structure
 
 ```
-applicant-project/          # npm package root (product: Recruita)
-├── src/app/
-│   ├── components/          # App-wide UI (e.g. notification snackbar)
-│   ├── config/              # APP_CONFIG
-│   ├── constants/           # Privacy, persistence, notification keys
-│   ├── containers/root/     # Shell, routing, privacy page & consent dialog
-│   ├── core/http/           # HTTP interceptors
-│   ├── modules/             # Lazy features (applicants, match, export, main)
-│   ├── services/            # Localization, localStorage, privacy, remote translate
-│   ├── shared/              # Pipes, animations, mat-shared, grid card
-│   ├── state/               # Root reducer, effects, meta-reducers
-│   ├── styles/              # Theme, overrides, shared SCSS
-│   └── utilities/           # Validators, factories, pure helpers
-├── server/                  # Express match proxy (Groq)
-├── e2e/                     # Playwright specs
-├── src/assets/i18n/         # en, de, fr, it, rm, es
-├── SECURITY.md              # OWASP control matrix (authoritative detail)
+recruita/                   # Monorepo root (npm workspaces)
+├── frontend/               # Angular 20 SPA (@recruita/frontend)
+│   ├── src/app/            # Application source
+│   ├── e2e/                # Playwright specs
+│   ├── angular.json
+│   └── proxy.conf.json     # Dev proxy → backend :3000
+├── backend/                # Server (@recruita/backend)
+│   ├── server.cjs          # Match proxy entry (Groq)
+│   ├── server-config.cjs
+│   ├── constants/
+│   └── README.md           # Backend layout; Spring Boot planned
+├── package.json            # Workspace scripts (start, validate:ci, …)
+├── SECURITY.md             # OWASP control matrix
 └── .github/workflows/ci.yml
 ```
 
@@ -210,10 +206,10 @@ npm ci
 ### Configure the match proxy
 
 ```bash
-cp server/.env.example server/.env
+cp backend/.env.example backend/.env
 ```
 
-Add required values in `server/.env` locally (never commit that file). Variable names and comments are documented in `server/.env.example` (match API credentials, `CORS_ORIGIN`, TLS paths, `TRUST_PROXY`, rate limits).
+Add required values in `backend/.env` locally (never commit that file). Variable names and comments are documented in `backend/.env.example` (match API credentials, `CORS_ORIGIN`, TLS paths, `TRUST_PROXY`, rate limits).
 
 ### Run locally
 
@@ -224,13 +220,13 @@ npm start            # Frontend only
 npm run start:server # Match proxy — POST /api/match
 ```
 
-`ng serve` proxies `/api` to port 3000 via `proxy.conf.json`.
+`ng serve` (in `frontend/`) proxies `/api` to port 3000 via `frontend/proxy.conf.json`.
 
 ### Production build
 
 ```bash
 npm run build:prod
-# Output: dist/applicant-project/
+# Output: frontend/dist/applicant-project/
 ```
 
 Serve the static bundle behind HTTPS with the match proxy configured per [SECURITY.md](./SECURITY.md).
@@ -247,7 +243,7 @@ Serve the static bundle behind HTTPS with the match proxy configured per [SECURI
 | `npm run build` / `build:prod` | Development / production build |
 | `npm test` | Karma unit tests (watch) |
 | `npm run test:ci` | Headless unit tests + coverage |
-| `npm run test:server` | Node tests for `server/` |
+| `npm run test:server` | Node tests for `backend/` |
 | `npm run e2e` | Playwright end-to-end tests |
 | `npm run quality` | Prettier check + ESLint |
 | `npm run validate` | Quality + doctor + security audit + letify + prod build + `test:ci` |
@@ -262,8 +258,8 @@ Pre-commit (Husky): **lint-staged**, **lockfile:check**, **validate:ci**. Do not
 ## Testing and CI
 
 - **Unit tests** — Jasmine + Karma across reducers, effects, services, and components.
-- **Server tests** — Node test runner for `server/**/*.test.cjs`.
-- **E2E** — Playwright (`e2e/smoke.spec.ts`, `e2e/match-candidates.spec.ts`).
+- **Server tests** — Node test runner for `backend/**/*.test.cjs`.
+- **E2E** — Playwright (`frontend/e2e/smoke.spec.ts`, `frontend/e2e/match-candidates.spec.ts`).
 
 GitHub Actions on push/PR to `master` / `main`: lockfile verify → `npm ci` → `npm run validate:ci`.
 
@@ -271,14 +267,14 @@ GitHub Actions on push/PR to `master` / `main`: lockfile verify → `npm ci` →
 
 ## Configuration reference
 
-**`src/app/config/app.config.ts`** — navigation, dialogs, applicant UI, match endpoint/model/timeouts, export formats, languages, snackbar timing.
+**`frontend/src/app/config/app.config.ts`** — navigation, dialogs, applicant UI, match endpoint/model/timeouts, export formats, languages, snackbar timing.
 
-**Environments:** `src/environments/environment.ts`, `environment.prod.ts`.
+**Environments:** `frontend/src/environments/environment.ts`, `environment.prod.ts`.
 
 ---
 
 ## Internationalization
 
-`src/assets/i18n/{en,de,fr,it,rm,es}.json` — includes `privacy.*` and `notifications.*` keys aligned with consent and snackbar behavior.
+`frontend/src/assets/i18n/{en,de,fr,it,rm,es}.json` — includes `privacy.*` and `notifications.*` keys aligned with consent and snackbar behavior.
 
 Language persists via `LocalizationService` / NgRx. Optional `RemoteTranslateService` (MyMemory) respects the translation consent flag.

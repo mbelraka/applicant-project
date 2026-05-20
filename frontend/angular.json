@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "../node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
     "schematicCollections": ["@angular-eslint/schematics"]
@@ -33,13 +33,18 @@
             ],
             "styles": [
               "src/app/styles/shared/_fonts.scss",
-              "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "../node_modules/@mdi/font/css/materialdesignicons.min.css",
               "src/tailwind.css",
               "src/styles.scss"
             ],
             "allowedCommonJsDependencies": ["exceljs", "file-saver", "pako"],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/app/styles", "src/app", "node_modules"]
+              "includePaths": [
+                "src/app/styles",
+                "src/app",
+                "node_modules",
+                "../node_modules"
+              ]
             },
             "scripts": [],
             "aot": true,
@@ -142,12 +147,17 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/app/styles/shared/_fonts.scss",
-              "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "../node_modules/@mdi/font/css/materialdesignicons.min.css",
               "src/tailwind.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/app/styles", "src/app", "node_modules"]
+              "includePaths": [
+                "src/app/styles",
+                "src/app",
+                "node_modules",
+                "../node_modules"
+              ]
             },
             "scripts": []
           }
