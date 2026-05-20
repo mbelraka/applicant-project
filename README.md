@@ -306,7 +306,7 @@ Pre-commit (`scripts/pre-commit.sh`): **lint-staged** (ESLint/Prettier on fronte
 - **frontend** — `validate:ci:frontend` when frontend (or lockfile) changes; always on push to `main` / `master`
 - **backend** — `validate:ci:backend` when `backend/` changes; always on push to `main` / `master`
 
-Scheduled **backend-security-audit** runs OWASP Dependency-Check weekly. Dependabot updates npm and Maven dependencies.
+Scheduled **backend-security-audit** runs OWASP Dependency-Check weekly.
 
 ---
 
