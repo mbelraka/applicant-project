@@ -5,6 +5,7 @@ server:
     include-stacktrace: never
   tomcat:
     max-http-form-post-size: 524288
+    server-header: ''
 
 spring:
   application:
@@ -67,6 +68,7 @@ recruita:
     rate-limit:
       max-requests: ${MATCH_RATE_LIMIT_MAX:100}
       max-requests-ceiling: 10000
+      max-distinct-clients: 10000
       window-minutes: 15
       exceeded-message: Too many match requests from this IP, please try again later.
       header-limit: RateLimit-Limit
@@ -74,6 +76,14 @@ recruita:
       header-reset: RateLimit-Reset
     headers:
       frame-deny: true
+      content-type-options: true
+      content-security-policy-enabled: true
+      content-security-policy: "default-src 'none'; frame-ancestors 'none'"
+      cache-control-no-store: true
+      cross-origin-opener-policy-enabled: true
+      cross-origin-opener-policy: same-origin
+      cross-origin-resource-policy-enabled: true
+      cross-origin-resource-policy: same-origin
       referrer-policy: strict-origin-when-cross-origin
       permissions-policy-enabled: true
       permissions-policy: 'camera=(), microphone=(), geolocation=(), payment=()'

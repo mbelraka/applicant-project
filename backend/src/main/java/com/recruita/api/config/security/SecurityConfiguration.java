@@ -6,12 +6,15 @@ import java.util.Locale;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.CrossOriginOpenerPolicyHeaderWriter.CrossOriginOpenerPolicy;
+import org.springframework.security.web.header.writers.CrossOriginResourcePolicyHeaderWriter.CrossOriginResourcePolicy;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -61,6 +64,30 @@ public class SecurityConfiguration {
               if (headerProps.isFrameDeny()) {
                 headers.frameOptions(frame -> frame.deny());
               }
+              if (headerProps.isContentTypeOptions()) {
+                headers.contentTypeOptions(Customizer.withDefaults());
+              }
+              if (headerProps.isContentSecurityPolicyEnabled()) {
+                headers.contentSecurityPolicy(
+                    csp -> csp.policyDirectives(headerProps.getContentSecurityPolicy()));
+              }
+              if (headerProps.isCacheControlNoStore()) {
+                headers.cacheControl(Customizer.withDefaults());
+              }
+              if (headerProps.isCrossOriginOpenerPolicyEnabled()) {
+                headers.crossOriginOpenerPolicy(
+                    coop ->
+                        coop.policy(
+                            parseCrossOriginOpenerPolicy(
+                                headerProps.getCrossOriginOpenerPolicy())));
+              }
+              if (headerProps.isCrossOriginResourcePolicyEnabled()) {
+                headers.crossOriginResourcePolicy(
+                    corp ->
+                        corp.policy(
+                            parseCrossOriginResourcePolicy(
+                                headerProps.getCrossOriginResourcePolicy())));
+              }
               headers.referrerPolicy(referrer -> referrer.policy(referrerPolicy));
               if (hsts.isEnabled()) {
                 headers.httpStrictTransportSecurity(
@@ -85,5 +112,15 @@ public class SecurityConfiguration {
   private static ReferrerPolicyHeaderWriter.ReferrerPolicy parseReferrerPolicy(String raw) {
     String normalized = raw.trim().toUpperCase(Locale.ROOT).replace('-', '_');
     return ReferrerPolicyHeaderWriter.ReferrerPolicy.valueOf(normalized);
+  }
+
+  private static CrossOriginOpenerPolicy parseCrossOriginOpenerPolicy(String raw) {
+    String normalized = raw.trim().toUpperCase(Locale.ROOT).replace('-', '_');
+    return CrossOriginOpenerPolicy.valueOf(normalized);
+  }
+
+  private static CrossOriginResourcePolicy parseCrossOriginResourcePolicy(String raw) {
+    String normalized = raw.trim().toUpperCase(Locale.ROOT).replace('-', '_');
+    return CrossOriginResourcePolicy.valueOf(normalized);
   }
 }

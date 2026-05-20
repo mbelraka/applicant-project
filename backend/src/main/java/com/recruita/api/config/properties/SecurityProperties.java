@@ -249,6 +249,7 @@ public class SecurityProperties {
   public static class RateLimitProperties {
     @Positive private int maxRequests = 100;
     @Positive private int maxRequestsCeiling = 10_000;
+    @Positive private int maxDistinctClients = 10_000;
     @Positive private int windowMinutes = 15;
     private String exceededMessage =
         "Too many match requests from this IP, please try again later.";
@@ -278,6 +279,18 @@ public class SecurityProperties {
 
     public void setMaxRequestsCeiling(int maxRequestsCeiling) {
       this.maxRequestsCeiling = maxRequestsCeiling;
+    }
+
+    public int resolvedMaxDistinctClients() {
+      return Math.min(Math.max(maxDistinctClients, 1), maxRequestsCeiling);
+    }
+
+    public int getMaxDistinctClients() {
+      return maxDistinctClients;
+    }
+
+    public void setMaxDistinctClients(int maxDistinctClients) {
+      this.maxDistinctClients = maxDistinctClients;
     }
 
     public int getWindowMinutes() {
@@ -323,6 +336,14 @@ public class SecurityProperties {
 
   public static class HeaderProperties {
     private boolean frameDeny = true;
+    private boolean contentTypeOptions = true;
+    private boolean contentSecurityPolicyEnabled = true;
+    @NotBlank private String contentSecurityPolicy = "default-src 'none'; frame-ancestors 'none'";
+    private boolean cacheControlNoStore = true;
+    private boolean crossOriginOpenerPolicyEnabled = true;
+    @NotBlank private String crossOriginOpenerPolicy = "same-origin";
+    private boolean crossOriginResourcePolicyEnabled = true;
+    @NotBlank private String crossOriginResourcePolicy = "same-origin";
     private String referrerPolicy = "strict-origin-when-cross-origin";
     private boolean permissionsPolicyEnabled = true;
     private String permissionsPolicy = "camera=(), microphone=(), geolocation=(), payment=()";
@@ -334,6 +355,70 @@ public class SecurityProperties {
 
     public void setFrameDeny(boolean frameDeny) {
       this.frameDeny = frameDeny;
+    }
+
+    public boolean isContentTypeOptions() {
+      return contentTypeOptions;
+    }
+
+    public void setContentTypeOptions(boolean contentTypeOptions) {
+      this.contentTypeOptions = contentTypeOptions;
+    }
+
+    public boolean isContentSecurityPolicyEnabled() {
+      return contentSecurityPolicyEnabled;
+    }
+
+    public void setContentSecurityPolicyEnabled(boolean contentSecurityPolicyEnabled) {
+      this.contentSecurityPolicyEnabled = contentSecurityPolicyEnabled;
+    }
+
+    public String getContentSecurityPolicy() {
+      return contentSecurityPolicy;
+    }
+
+    public void setContentSecurityPolicy(String contentSecurityPolicy) {
+      this.contentSecurityPolicy = contentSecurityPolicy;
+    }
+
+    public boolean isCacheControlNoStore() {
+      return cacheControlNoStore;
+    }
+
+    public void setCacheControlNoStore(boolean cacheControlNoStore) {
+      this.cacheControlNoStore = cacheControlNoStore;
+    }
+
+    public boolean isCrossOriginOpenerPolicyEnabled() {
+      return crossOriginOpenerPolicyEnabled;
+    }
+
+    public void setCrossOriginOpenerPolicyEnabled(boolean crossOriginOpenerPolicyEnabled) {
+      this.crossOriginOpenerPolicyEnabled = crossOriginOpenerPolicyEnabled;
+    }
+
+    public String getCrossOriginOpenerPolicy() {
+      return crossOriginOpenerPolicy;
+    }
+
+    public void setCrossOriginOpenerPolicy(String crossOriginOpenerPolicy) {
+      this.crossOriginOpenerPolicy = crossOriginOpenerPolicy;
+    }
+
+    public boolean isCrossOriginResourcePolicyEnabled() {
+      return crossOriginResourcePolicyEnabled;
+    }
+
+    public void setCrossOriginResourcePolicyEnabled(boolean crossOriginResourcePolicyEnabled) {
+      this.crossOriginResourcePolicyEnabled = crossOriginResourcePolicyEnabled;
+    }
+
+    public String getCrossOriginResourcePolicy() {
+      return crossOriginResourcePolicy;
+    }
+
+    public void setCrossOriginResourcePolicy(String crossOriginResourcePolicy) {
+      this.crossOriginResourcePolicy = crossOriginResourcePolicy;
     }
 
     public String getReferrerPolicy() {

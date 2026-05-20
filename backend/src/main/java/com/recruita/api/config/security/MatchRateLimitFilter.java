@@ -50,6 +50,12 @@ public class MatchRateLimitFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     String clientKey = resolveClientKey(request);
+    if (!counters.containsKey(clientKey)
+        && counters.size() >= rateLimit.resolvedMaxDistinctClients()) {
+      rejectRateLimited(response, rateLimit.getExceededMessage());
+      return;
+    }
+
     WindowCounter counter =
         counters.compute(
             clientKey, (key, existing) -> WindowCounter.rotate(existing, rateLimit.windowMillis()));
@@ -60,23 +66,20 @@ public class MatchRateLimitFilter extends OncePerRequestFilter {
         response, maxRequests, Math.max(0, maxRequests - count), counter.windowStartEpochMs);
 
     if (count > maxRequests) {
-      response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-      response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-      objectMapper.writeValue(
-          response.getOutputStream(), new ErrorResponse(rateLimit.getExceededMessage()));
+      rejectRateLimited(response, rateLimit.getExceededMessage());
       return;
     }
 
     filterChain.doFilter(request, response);
   }
 
+  private void rejectRateLimited(HttpServletResponse response, String message) throws IOException {
+    response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    objectMapper.writeValue(response.getOutputStream(), new ErrorResponse(message));
+  }
+
   private String resolveClientKey(HttpServletRequest request) {
-    if (http.isTrustProxy()) {
-      String forwarded = request.getHeader(http.getForwardedForHeader());
-      if (forwarded != null && !forwarded.isBlank()) {
-        return forwarded.split(http.getForwardedForClientSeparator())[0].trim();
-      }
-    }
     return request.getRemoteAddr();
   }
 

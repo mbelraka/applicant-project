@@ -88,5 +88,15 @@ jobs:
           corepack enable
           corepack prepare npm@10.9.2 --activate
       - run: npm ci
+      - name: Cache OWASP NVD data
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: owasp-nvd-${{ runner.os }}-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: owasp-nvd-${{ runner.os }}-
       - name: Backend CI
         run: npm run validate:ci:backend
+      - name: OWASP dependency check
+        run: npm run security:audit:backend
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
