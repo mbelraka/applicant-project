@@ -42,7 +42,7 @@
     "@angular/service-worker": "^20.3.18",
     "@fontsource/manrope": "^5.2.8",
     "@mdi/font": "^7.4.47",
-    "@ngrx/effects": "^20.0.0",
+    "@ngrx/effects": "^21.1.0",
     "@ngrx/entity": "^20.0.0",
     "@ngrx/store": "^20.0.0",
     "@ngrx/store-devtools": "^20.0.0",
