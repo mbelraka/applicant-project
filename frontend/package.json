@@ -96,5 +96,10 @@
     "tailwindcss": "^3.4.19",
     "typescript": "5.9.3",
     "webpack": "^5.96.1"
+  },
+  "optionalDependencies": {
+    "@oxc-resolver/binding-darwin-arm64": "11.19.1",
+    "@oxc-resolver/binding-darwin-x64": "11.19.1",
+    "@oxc-resolver/binding-linux-x64-gnu": "11.19.1"
   }
 }
