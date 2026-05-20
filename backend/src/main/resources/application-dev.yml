@@ -1,0 +1,9 @@
+# Shared secrets: backend/.env (see backend/.env.example).
+spring:
+  config:
+    import: optional:file:.env
+
+recruita:
+  runtime:
+    production-mode: ${NODE_ENV:development}
+    suppress-error-detail: false

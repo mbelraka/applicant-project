@@ -57,6 +57,9 @@ testem.log
 
 # Local secrets (keep `backend/.env.example` committed)
 backend/.env
+# Java / Maven
+backend/target/
+backend/recruita-api/
 
 # System files
 .DS_Store

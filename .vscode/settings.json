@@ -1,17 +1,4 @@
 {
-  "terminal.integrated.env.osx": {
-    "NPM_CONFIG_DEVDIR": null,
-    "npm_config_devdir": null
-  },
-  "terminal.integrated.env.linux": {
-    "NPM_CONFIG_DEVDIR": null,
-    "npm_config_devdir": null
-  },
-  "terminal.integrated.env.windows": {
-    "NPM_CONFIG_DEVDIR": null,
-    "npm_config_devdir": null
-  },
-
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
 

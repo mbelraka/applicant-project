@@ -1,0 +1,42 @@
+name: Backend dependency audit
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  owasp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version-file: backend/.java-version
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Use npm from packageManager (npm@10.9.2)
+        run: |
+          corepack enable
+          corepack prepare npm@10.9.2 --activate
+
+      - run: npm ci
+
+      - name: Cache OWASP NVD data
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: owasp-nvd-${{ runner.os }}-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: owasp-nvd-${{ runner.os }}-
+
+      - name: OWASP dependency check
+        run: npm run security:audit:backend
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}

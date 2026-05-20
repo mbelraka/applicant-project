@@ -2,9 +2,9 @@
 
 **Talent without boundaries** — a full-stack recruitment workspace for managing applicants locally, ranking candidates with AI-assisted matching, exporting hiring data, and giving users explicit control over privacy and third-party processing.
 
-The codebase is structured for long-term growth: lazy-loaded feature modules, centralized configuration, NgRx state per domain, and quality gates that mirror CI on every commit.
+The codebase is structured for long-term growth: lazy-loaded feature modules, centralized configuration, NgRx state per domain, a Spring match API with strict validation and test coverage, and quality gates that mirror CI on every commit.
 
-> **Monorepo:** npm workspaces at the repository root — `frontend/` (Angular) and `backend/` (server; Java Spring target). The UI product name is **Recruita**.
+> **Monorepo:** npm workspace **`frontend/`** (`@recruita/frontend`, Angular 20) + Maven **`backend/`** (Spring Boot 3, Java 21). The match API is **Spring only** — there is no Node/Express server. Root `package.json` orchestrates dev, CI, and Husky; see [CONTRIBUTING.md](./CONTRIBUTING.md) and [AGENTS.md](./AGENTS.md).
 
 ---
 
@@ -25,13 +25,13 @@ The codebase is structured for long-term growth: lazy-loaded feature modules, ce
 - **Persistence** — Applicant list and app preferences (language, privacy consent) rehydrate from `localStorage` via NgRx meta-reducers
 - **PWA** — Production builds enable the Angular service worker (`ngsw-config.json`)
 
-Applicant data is stored **in the browser** unless you integrate an external backend. AI matching requires the **Node match proxy** so match-provider credentials never reach the client.
+Applicant data is stored **in the browser** unless you integrate an external backend. AI matching requires the **Spring match API** so match-provider credentials never reach the client.
 
 ---
 
 ## Security and data privacy
 
-Recruita is designed around **privacy by default**, **consent-gated optional processing**, and **defense in depth** on the match proxy. Controls are mapped to [OWASP Top 10 (2021)](https://owasp.org/Top10/) themes and typical [OWASP ASVS](https://github.com/OWASP/ASVS) expectations. This is engineering documentation, not a certification or legal opinion.
+Recruita is designed around **privacy by default**, **consent-gated optional processing**, and **defense in depth** on the match API. Controls are mapped to [OWASP Top 10 (2021)](https://owasp.org/Top10/) themes and typical [OWASP ASVS](https://github.com/OWASP/ASVS) expectations. This is engineering documentation, not a certification or legal opinion.
 
 Full control matrix and deployment checklist: **[SECURITY.md](./SECURITY.md)**.
 
@@ -55,7 +55,7 @@ On first visit (or when consent is incomplete / outdated), a **non-dismissible**
 |------------------|--------------|---------------------|
 | **Remote translation** | Dynamic text (e.g. job titles) may call MyMemory | `api.mymemory.translated.net` |
 | **Geocoding** | Location field autocomplete | Open-Meteo geocoding API |
-| **AI matching** | Job description + anonymized candidates sent to match proxy | Your Express proxy → Groq |
+| **AI matching** | Job description + anonymized candidates sent to match API | Spring API → Groq |
 
 Users can choose **necessary only**, **enable all optional**, or **custom** toggles. Implementation: `PrivacyConsentService`, `PrivacyConsentDialogService`, `/privacy` page.
 
@@ -63,16 +63,16 @@ Users can choose **necessary only**, **enable all optional**, or **custom** togg
 
 | OWASP theme | Recruita controls |
 |-------------|-------------------|
-| **A01 Broken access control** | Match-provider credentials stay server-side only; the browser never receives them. Production `CORS_ORIGIN` must list real front-end origins (wildcard `*` refused when `NODE_ENV=production`). |
-| **A02 Cryptographic failures** | Prefer TLS at the reverse proxy or Node (`TLS_CERT_PATH` / `TLS_KEY_PATH`). HSTS when served over HTTPS (`ENABLE_HSTS` or automatic with Node TLS). |
+| **A01 Broken access control** | Match-provider credentials stay server-side only; the browser never receives them. Production `CORS_ORIGIN` must list real front-end origins (wildcard `*` refused at Spring startup in production). |
+| **A02 Cryptographic failures** | Prefer TLS at the reverse proxy or ingress. HSTS when served over HTTPS (`ENABLE_HSTS=1`). |
 | **A03 Injection** | Match `POST` body capped at **512 KB**; allowlisted top-level keys only; per-candidate fields reduced to `id`, `skills`, `yearsOfExperience`, `currentJobTitle`; `model` name pattern whitelist; LLM output parsed as JSON only (no `eval`). |
 | **A04 Insecure design** | Rate limiting on match routes; deterministic scoring path without external calls; privacy consent gates before third-party calls; generic client errors in production. |
-| **A05 Security misconfiguration** | Helmet (referrer policy, framing, Permissions-Policy, optional HSTS); `X-Powered-By` disabled; `TRUST_PROXY` for correct client IPs behind reverse proxies. |
-| **A06 Vulnerable components** | Lockfile committed; `npm run security:audit` in validate pipeline; keep dependencies updated. |
+| **A05 Security misconfiguration** | Spring security headers (referrer policy, framing, Permissions-Policy, optional HSTS); production refuses `CORS_ORIGIN=*` at startup; `TRUST_PROXY` for correct client IPs behind reverse proxies. |
+| **A06 Vulnerable components** | `package-lock.json` + Maven lock via CI; `npm run security:audit` (frontend) and OWASP Dependency-Check on backend (`security:audit:backend`, weekly workflow). |
 | **A07 Identification & auth** | `AuthInterceptor` and XSRF configuration ready for your IdP; session handling per your policy (no credentials documented here). |
 | **A08 Software & data integrity** | `package-lock.json` verified in CI and pre-commit; Angular bundles third-party scripts (no ad-hoc script tags). |
-| **A09 Logging & monitoring** | Proxy logs Groq failures as `[match-proxy]`; production masks internal error strings; malformed JSON returns stable JSON without stack traces. |
-| **A10 SSRF** | Server outbound calls limited to the configured Groq client; match proxy does not fetch user-supplied URLs. |
+| **A09 Logging & monitoring** | API logs Groq failures; production masks internal error strings; malformed JSON returns stable JSON without stack traces. |
+| **A10 SSRF** | Server outbound calls limited to the configured Groq client; match API does not fetch user-supplied URLs. |
 
 ### Browser hardening
 
@@ -85,10 +85,10 @@ Defined in `frontend/src/index.html`:
 
 Stricter CSP (`default-src`, `script-src` with nonces) should be set on your **hosting reverse proxy or CDN** so production hashes are not fighting `ng serve`.
 
-### Match proxy and LLM privacy
+### Match API and LLM privacy
 
 ```
-Browser (Recruita)          Match proxy (Node)              Groq API
+Browser (Recruita)          Spring API (backend/)           Groq API
      │                              │                            │
      │  anonymized candidates       │  validate + strip again      │
      │  + job description           │  deterministic score path    │
@@ -97,16 +97,16 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 ```
 
 - Client: `match-candidate-privacy.util.ts` replaces applicant ids with **one-time correlation UUIDs** per request.
-- Server: `backend/server-config.cjs` enforces allowlists, size limits, and field stripping before any model call.
+- Server: Spring match layer enforces allowlists, size limits, and field stripping before any model call.
 - **Never** commit `backend/.env` or put match-provider secrets in the Angular bundle or this README.
 
 ### Production deployment checklist
 
-1. `NODE_ENV=production` — generic error messages to clients.
+1. Spring **prod** profile (or production runtime mode) — generic error messages to clients.
 2. `CORS_ORIGIN` — comma-separated **https://** SPA origin(s); no `*` in production.
-3. **TLS** — terminate at ingress or enable Node TLS; enable HSTS when responses are always HTTPS.
+3. **TLS** — terminate at ingress; enable HSTS when responses are always HTTPS (`ENABLE_HSTS=1` in `backend/.env` when appropriate).
 4. `TRUST_PROXY=1` when behind a load balancer so rate limits use real client IPs.
-5. Rotate match-provider credentials if exposure is suspected (see `backend/.env.example` for variable names).
+5. Rotate `GROQ_API_KEY` if exposure is suspected (see `backend/.env.example`).
 
 ---
 
@@ -116,10 +116,11 @@ Browser (Recruita)          Match proxy (Node)              Groq API
 |-------|----------------|
 | **Frontend** | Angular 20, Angular Material, Tailwind CSS, RxJS, NgRx (Store, Effects, Entity patterns per module) |
 | **i18n** | `@ngx-translate` with HTTP-loaded JSON bundles |
-| **Backend** | `backend/` — Express match proxy today; **Java Spring Boot** planned |
+| **Backend** | `backend/` — Spring Boot 3 (Java 21), Groq match API |
 | **Export** | ExcelJS, pdf-lib, file-saver (client-side generation) |
-| **Tooling** | ESLint, Prettier, Husky, lint-staged, Karma, Playwright, angular-doctor, ngx-security-audit, letify |
-| **Runtime** | Node ≥ 18, npm 10.9.2 (see `packageManager` in `package.json`) |
+| **Backend QA** | Spotless, Checkstyle, SpotBugs, ArchUnit, JaCoCo (≥ 80% branch coverage on verify) |
+| **Tooling** | ESLint, Prettier, Husky, lint-staged, Karma, Playwright, angular-doctor, ngx-security-audit, letify, patch-package |
+| **Runtime** | Node **20** (`.nvmrc`), npm **10.9.2** (`packageManager`); Java **21** (`backend/.java-version`) |
 
 ---
 
@@ -163,6 +164,13 @@ Routes: `frontend/src/app/containers/root/root-routing.module.ts`. `RootComponen
 
 Effects for side effects; meta-reducers persist `FullState` to `localStorage` with validation on rehydrate.
 
+### Spring backend (`backend/`)
+
+- **Entry:** `com.recruita.api.RecruitaApiApplication` — REST match API, health, validation, Groq client.
+- **Config:** `application.yml` + profiles (`dev`, `prod`, `test`); secrets via `backend/.env` (imported in dev/prod).
+- **Design:** Configuration properties (no magic strings in Java), sealed match evaluation results, request policy validation, rate limiting, structured error handling.
+- **Build:** `./mvnw verify` from `backend/` or `npm run verify:backend` from the repo root.
+
 ### Responsiveness and accessibility
 
 Responsive layouts; `prefers-reduced-motion` respected on the main landing language refresh animation.
@@ -172,55 +180,74 @@ Responsive layouts; `prefers-reduced-motion` respected on the main landing langu
 ## Project structure
 
 ```
-recruita/                   # Monorepo root (npm workspaces)
-├── frontend/               # Angular 20 SPA (@recruita/frontend)
-│   ├── src/app/            # Application source
-│   ├── e2e/                # Playwright specs
+recruita/                          # Monorepo root
+├── frontend/                      # @recruita/frontend — Angular 20 SPA
+│   ├── src/app/                   # Feature modules, NgRx, shared UI
+│   ├── e2e/                       # Playwright specs
 │   ├── angular.json
-│   └── proxy.conf.json     # Dev proxy → backend :3000
-├── backend/                # Server (@recruita/backend)
-│   ├── server.cjs          # Match proxy entry (Groq)
-│   ├── server-config.cjs
-│   ├── constants/
-│   └── README.md           # Backend layout; Spring Boot planned
-├── package.json            # Workspace scripts (start, validate:ci, …)
-├── SECURITY.md             # OWASP control matrix
-└── .github/workflows/ci.yml
+│   └── proxy.conf.json            # Dev: /api → http://localhost:3001
+├── backend/                       # Spring Boot 3 (Java 21), not an npm workspace
+│   ├── src/main/java|resources/
+│   ├── src/test/java/
+│   ├── config/                    # Checkstyle, SpotBugs
+│   ├── pom.xml, mvnw
+│   ├── .env.example → .env        # GROQ_API_KEY, CORS, PORT (gitignored)
+│   └── README.md
+├── scripts/                       # run-dev.sh, start-backend.sh, pre-commit helpers
+├── patches/                       # patch-package (e.g. http-proxy)
+├── package.json                   # Orchestration: dev, validate:ci, lint-staged
+├── CONTRIBUTING.md                # Monorepo conventions, Corepack, pre-commit
+├── AGENTS.md                      # Agent / automation guide
+├── SECURITY.md
+└── .github/workflows/
+    ├── ci.yml                     # Path-scoped frontend / backend / lockfile jobs
+    └── backend-security-audit.yml # Weekly OWASP Dependency-Check
 ```
 
 ---
 
 ## Getting started
 
+See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for monorepo conventions, pre-commit behavior, and PR expectations.
+
 ### Prerequisites
 
-- Node.js **≥ 18**
-- npm **10.9.2** (recommended: `corepack enable && corepack prepare npm@10.9.2 --activate`)
+- Node.js **20** (see `.nvmrc`)
+- npm **10.9.2** (`corepack enable && corepack prepare npm@10.9.2 --activate`)
+- Java **21** (see `backend/.java-version`)
 
 ### Install
 
+Use **npm 10.9.2** (pinned in `package.json` via `packageManager`). Other npm versions can rewrite `package-lock.json` and fail CI `lockfile:check`.
+
 ```bash
+corepack enable
+corepack prepare npm@10.9.2 --activate
 npm ci
 ```
 
-### Configure the match proxy
+### Configure the match API
 
 ```bash
 cp backend/.env.example backend/.env
 ```
 
-Add required values in `backend/.env` locally (never commit that file). Variable names and comments are documented in `backend/.env.example` (match API credentials, `CORS_ORIGIN`, TLS paths, `TRUST_PROXY`, rate limits).
+Set at least **`GROQ_API_KEY`** and **`PORT=3001`** in `backend/.env` (never commit that file). See `backend/.env.example` for `CORS_ORIGIN`, `TRUST_PROXY`, rate limits, and HSTS.
 
 ### Run locally
 
 ```bash
-npm run start:all    # Angular :4200 + proxy :3000 (recommended)
-# or separately:
-npm start            # Frontend only
-npm run start:server # Match proxy — POST /api/match
+npm run dev              # Angular :4200 + Spring :3001 (recommended)
+npm start                # Frontend only (proxies /api → :3001)
+npm run start:backend    # Spring API only
 ```
 
-`ng serve` (in `frontend/`) proxies `/api` to port 3000 via `frontend/proxy.conf.json`.
+| URL | Service |
+|-----|---------|
+| http://localhost:4200/ | Angular dev server |
+| http://localhost:3001/ | Spring API (`/api/health`, `/api/match`, …) |
+
+If `ng serve` fails with missing modules, run `npm ci` again. Use `sh scripts/run-npm.sh run <script>` to avoid IDE-injected npm `devdir` warnings.
 
 ### Production build
 
@@ -229,7 +256,7 @@ npm run build:prod
 # Output: frontend/dist/applicant-project/
 ```
 
-Serve the static bundle behind HTTPS with the match proxy configured per [SECURITY.md](./SECURITY.md).
+Serve the static bundle behind HTTPS with the Spring API configured per [SECURITY.md](./SECURITY.md).
 
 ---
 
@@ -237,31 +264,49 @@ Serve the static bundle behind HTTPS with the match proxy configured per [SECURI
 
 | Script | Purpose |
 |--------|---------|
-| `npm start` | Angular dev server |
-| `npm run start:server` | Express match proxy |
-| `npm run start:all` | Dev server + proxy |
-| `npm run build` / `build:prod` | Development / production build |
-| `npm test` | Karma unit tests (watch) |
-| `npm run test:ci` | Headless unit tests + coverage |
-| `npm run test:server` | Node tests for `backend/` |
-| `npm run e2e` | Playwright end-to-end tests |
-| `npm run quality` | Prettier check + ESLint |
-| `npm run validate` | Quality + doctor + security audit + letify + prod build + `test:ci` |
-| `npm run validate:ci` | CI pipeline |
-| `npm run lockfile:check` | Verify lockfile matches `package.json` |
-| `npm run security:audit` | `ngx-security-audit` (high severity) |
+| **Dev** | |
+| `npm run dev` | Angular + Spring (4200 + 3001) |
+| `npm start` | Angular only |
+| `npm run start:backend` | Spring only |
+| **Quality (fast)** | |
+| `npm run quality` | Frontend + backend format check & lint |
+| `npm run quality:backend` | Spotless + Checkstyle |
+| **CI / pre-commit** | |
+| `npm run validate` / `validate:ci` | Full pipeline (both packages) |
+| `npm run validate:ci:frontend` | Frontend tests, doctor, security, prod build |
+| `npm run validate:ci:backend` | Maven verify (tests, SpotBugs, JaCoCo ≥ 80%) |
+| `npm run precommit:frontend` / `precommit:backend` | Husky scoped gates |
+| **Backend** | |
+| `npm run test:backend` | Unit/integration tests |
+| `npm run verify:backend` | Full Maven verify |
+| **Other** | |
+| `npm run lockfile:check` | Lockfile matches `package.json` (npm 10.9.2) |
+| `npm run security:audit` | Frontend `ngx-security-audit` |
+| `npm run security:audit:backend` | OWASP Dependency-Check (Maven) |
+| `npm run e2e` | Playwright (install browsers: `npm run e2e:install`) |
 
-Pre-commit (Husky): **lint-staged**, **lockfile:check**, **validate:ci**. Do not use `git commit --no-verify`.
+Pre-commit (`scripts/pre-commit.sh`): **lint-staged** (ESLint/Prettier on frontend, Spotless on staged `.java`) → **lockfile:check** when `package.json` / lockfile staged → **precommit:frontend** / **precommit:backend** when paths under `frontend/` or `backend/` are staged. Do not use `git commit --no-verify`.
 
 ---
 
 ## Testing and CI
 
-- **Unit tests** — Jasmine + Karma across reducers, effects, services, and components.
-- **Server tests** — Node test runner for `backend/**/*.test.cjs`.
-- **E2E** — Playwright (`frontend/e2e/smoke.spec.ts`, `frontend/e2e/match-candidates.spec.ts`).
+| Layer | Command | What runs |
+|-------|---------|-----------|
+| Frontend unit | `npm test` | Jasmine + Karma |
+| Frontend CI gate | `npm run validate:ci:frontend` | Quality, tests, doctor, security audit, letify, prod build |
+| Backend | `npm run verify:backend` | Tests, SpotBugs, JaCoCo (≥ 80% branch), ArchUnit |
+| Full stack | `npm run validate` | `validate:ci` (frontend + backend) |
+| E2E | `npm run e2e` | Playwright (`frontend/e2e/`) — not in default CI yet |
 
-GitHub Actions on push/PR to `master` / `main`: lockfile verify → `npm ci` → `npm run validate:ci`.
+**GitHub Actions** (`.github/workflows/ci.yml`):
+
+- **changes** — path filter for `frontend/`, `backend/`, lockfile
+- **lockfile** — when `package.json` / `package-lock.json` change
+- **frontend** — `validate:ci:frontend` when frontend (or lockfile) changes; always on push to `main` / `master`
+- **backend** — `validate:ci:backend` when `backend/` changes; always on push to `main` / `master`
+
+Scheduled **backend-security-audit** runs OWASP Dependency-Check weekly. Dependabot updates npm and Maven dependencies.
 
 ---
 

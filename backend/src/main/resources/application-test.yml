@@ -1,0 +1,20 @@
+recruita:
+  runtime:
+    production-mode: development
+    suppress-error-detail: false
+  match:
+    cache:
+      enabled: false
+    groq:
+      require-api-key-at-startup: false
+      api-key: test-groq-key
+  api:
+    routes:
+      health-path: /api/health
+      match-path: /api/match
+      match-legacy-path: /api/match-job
+  security:
+    headers:
+      referrer-policy: strict-origin-when-cross-origin
+    rate-limit:
+      max-requests: 1000

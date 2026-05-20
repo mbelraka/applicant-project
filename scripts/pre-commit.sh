@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+# Husky pre-commit: lint-staged, then scoped QC.
+# Staged frontend/ → precommit:frontend; staged backend/ → precommit:backend; both → both.
+set -eu
+
+ROOT="$(CDPATH= cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+unset NPM_CONFIG_DEVDIR npm_config_devdir 2>/dev/null || true
+
+sh scripts/run-npm.sh exec npx lint-staged
+
+if sh scripts/has-staged-lockfile-changes.sh; then
+  echo "pre-commit: Lockfile — running lockfile:check"
+  sh scripts/run-npm.sh run lockfile:check
+fi
+
+if sh scripts/has-staged-frontend-changes.sh; then
+  sh scripts/pre-commit-frontend.sh
+fi
+
+if sh scripts/has-staged-backend-changes.sh; then
+  sh scripts/pre-commit-backend.sh
+fi

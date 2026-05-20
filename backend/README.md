@@ -1,36 +1,51 @@
 # Recruita backend
 
-Backend services for Recruita. This folder is the home for all server-side code.
+**Spring Boot 3** API (Java 21) — match scoring, Groq integration, security.
 
-## Current layout
+Part of the Recruita monorepo; npm scripts are defined at the **repository root** (`package.json`).
 
-The **Node.js match proxy** (Express + Groq) lives here while the production API is migrated to **Java Spring Boot**. Files at the repository root of `backend/`:
+## Layout
 
-- `server.cjs` — HTTP entrypoint
-- `server-config.cjs` — validation, rate limits, Groq integration
-- `constants/` — shared server constants
-- `.env.example` — environment variable names (copy to `.env` locally; never commit `.env`)
+| Path | Role |
+|------|------|
+| `src/main/java/` | Application code |
+| `src/main/resources/` | `application.yml`, profiles |
+| `src/test/java/` | JUnit 5 tests |
+| `config/` | Checkstyle, SpotBugs |
+| `pom.xml` | Maven build |
+| `.env.example` | Secrets template → copy to `.env` |
 
 ## Run locally
 
 From the **repository root**:
 
 ```bash
-npm run start:server
+npm run start:backend
+# or: sh scripts/start-backend.sh
 ```
 
-Or from this directory after `npm ci` at the root:
+With Angular:
 
 ```bash
-npm start
+npm run dev
 ```
 
-## Tests
+- API: http://localhost:3001  
+- Frontend proxies `/api` from :4200
 
-```bash
-npm test
-```
+Secrets: `backend/.env` (from `.env.example`).
 
-## Spring Boot (planned)
+## Quality
 
-New Spring modules will be added under this directory (for example `recruita-api/` or a standard Maven/Gradle layout) without moving the Angular app. The Node proxy may remain for match-only workloads or be retired once parity exists in Spring.
+| Command | Purpose |
+|---------|---------|
+| `npm run quality:backend` | Spotless + Checkstyle |
+| `npm run test:backend` | Tests only |
+| `npm run verify:backend` | Full verify (CI gate) |
+| `npm run validate:ci:backend` | `quality:backend` + `verify:backend` |
+
+From this directory: `./mvnw verify`
+
+Pre-commit runs `precommit:backend` when any path under `backend/` is staged.
+
+**JDK:** Java 21+ (see `.java-version`).

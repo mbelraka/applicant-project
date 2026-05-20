@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <!-- Configuration property POJOs are mutable binding targets, not immutable value objects. -->
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    <Package name="com.recruita.api.config.properties"/>
+  </Match>
+  <!-- Constructor-injected Spring beans; fields are final and not exposed via getters. -->
+  <Match>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+    <Or>
+      <Package name="com.recruita.api.config.security"/>
+      <Package name="com.recruita.api.config"/>
+      <Package name="com.recruita.api.config.startup"/>
+      <Package name="com.recruita.api.match.scoring"/>
+      <Package name="com.recruita.api.match.service"/>
+      <Package name="com.recruita.api.match.validation"/>
+      <Package name="com.recruita.api.match.mapper"/>
+      <Package name="com.recruita.api.match.groq"/>
+      <Package name="com.recruita.api.match.cache"/>
+      <Package name="com.recruita.api.api.advice"/>
+      <Package name="com.recruita.api.observability.aop"/>
+    </Or>
+  </Match>
+</FindBugsFilter>

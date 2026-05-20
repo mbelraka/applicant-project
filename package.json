@@ -2,42 +2,54 @@
   "name": "recruita",
   "version": "0.0.0",
   "private": true,
-  "description": "Recruita monorepo — recruitment workspace (Angular frontend, backend services)",
+  "description": "Recruita monorepo — Angular frontend + Spring backend",
   "workspaces": [
-    "frontend",
-    "backend"
+    "frontend"
   ],
   "scripts": {
+    "dev": "sh scripts/run-dev.sh",
     "start": "npm run start -w @recruita/frontend",
-    "start:server": "npm run start -w @recruita/backend",
-    "start:all": "sh -c 'npm run start -w @recruita/frontend & npm run start -w @recruita/backend'",
+    "start:all": "npm run dev",
+    "start:backend": "sh scripts/start-backend.sh",
+    "start:backend:prod": "sh scripts/start-backend-prod.sh",
     "build": "npm run build -w @recruita/frontend",
     "build:prod": "npm run build:prod -w @recruita/frontend",
     "watch": "npm run watch -w @recruita/frontend",
-    "format": "npm run format -w @recruita/frontend",
-    "format:check": "npm run format:check -w @recruita/frontend",
-    "lint": "npm run lint -w @recruita/frontend",
-    "lint:fix": "npm run lint:fix -w @recruita/frontend",
-    "quality": "npm run quality -w @recruita/frontend",
-    "quality:fix": "npm run quality:fix -w @recruita/frontend",
-    "doctor": "npm run doctor -w @recruita/frontend",
-    "doctor:full": "npm run doctor:full -w @recruita/frontend",
-    "doctor:lint": "npm run doctor:lint -w @recruita/frontend",
-    "security:audit": "npm run security:audit -w @recruita/frontend",
-    "letify": "npm run letify -w @recruita/frontend",
-    "precommit:checks": "npm run doctor -w @recruita/frontend && npm run security:audit -w @recruita/frontend && npm run letify -w @recruita/frontend && npm run build:prod -w @recruita/frontend && npm run test:ci -w @recruita/frontend && npm run test -w @recruita/backend",
-    "validate": "npm run quality && npm run precommit:checks",
-    "validate:ci": "npm run quality && npm run test:ci -w @recruita/frontend && npm run test -w @recruita/backend && npm run doctor:full -w @recruita/frontend && npm run security:audit -w @recruita/frontend && npm run letify -w @recruita/frontend && npm run build:prod -w @recruita/frontend",
     "test": "npm run test -w @recruita/frontend",
     "test:ci": "npm run test:ci -w @recruita/frontend",
-    "test:server": "npm run test -w @recruita/backend",
     "test:coverage": "npm run test:coverage -w @recruita/frontend",
     "e2e": "npm run e2e -w @recruita/frontend",
     "e2e:ui": "npm run e2e:ui -w @recruita/frontend",
     "e2e:headed": "npm run e2e:headed -w @recruita/frontend",
     "e2e:install": "npm run e2e:install -w @recruita/frontend",
     "clean": "npm run clean -w @recruita/frontend",
+    "format": "npm run format -w @recruita/frontend",
+    "format:check": "npm run format:check -w @recruita/frontend && npm run format:check:backend",
+    "format:backend": "backend/mvnw -f backend spotless:apply -q",
+    "format:check:backend": "backend/mvnw -f backend spotless:check -q",
+    "lint": "npm run lint -w @recruita/frontend && npm run lint:backend",
+    "lint:fix": "npm run lint:fix -w @recruita/frontend",
+    "lint:backend": "backend/mvnw -f backend checkstyle:check -q",
+    "quality": "npm run quality -w @recruita/frontend && npm run quality:backend",
+    "quality:fix": "npm run quality:fix -w @recruita/frontend && npm run quality:fix:backend",
+    "quality:backend": "npm run format:check:backend && npm run lint:backend",
+    "quality:fix:backend": "npm run format:backend",
+    "doctor": "npm run doctor -w @recruita/frontend",
+    "doctor:full": "npm run doctor:full -w @recruita/frontend",
+    "doctor:lint": "npm run doctor:lint -w @recruita/frontend",
+    "security:audit": "npm run security:audit -w @recruita/frontend",
+    "security:audit:backend": "backend/mvnw -f backend -DskipTests -Psecurity-audit dependency-check:check -q",
+    "letify": "npm run letify -w @recruita/frontend",
+    "test:backend": "backend/mvnw -f backend test -q",
+    "verify:backend": "backend/mvnw -f backend verify -q",
+    "precommit:frontend": "npm run validate:ci:frontend",
+    "precommit:backend": "npm run validate:ci:backend",
+    "validate:ci:frontend": "npm run quality -w @recruita/frontend && npm run test:ci -w @recruita/frontend && npm run doctor:full -w @recruita/frontend && npm run security:audit -w @recruita/frontend && npm run letify -w @recruita/frontend && npm run build:prod -w @recruita/frontend",
+    "validate:ci:backend": "npm run quality:backend && npm run verify:backend",
+    "validate:ci": "npm run validate:ci:frontend && npm run validate:ci:backend",
+    "validate": "npm run validate:ci",
     "lockfile:check": "npx -y npm@10.9.2 install --package-lock-only --ignore-scripts && git diff --exit-code package-lock.json",
+    "postinstall": "patch-package",
     "prepare": "husky"
   },
   "packageManager": "npm@10.9.2",
@@ -49,18 +61,23 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
+    "patch-package": "^8.0.1",
     "prettier": "^3.0.0"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.9.2"
   },
   "lint-staged": {
     "frontend/src/**/*.{ts,html}": [
       "bash -c 'cd frontend && eslint --fix --max-warnings=0 \"$@\"' _",
       "prettier --write"
     ],
-    "frontend/e2e/**/*.{ts,html}": [
+    "frontend/e2e/**/*.ts": [
+      "bash -c 'cd frontend && eslint --fix --max-warnings=0 \"$@\"' _",
+      "prettier --write"
+    ],
+    "frontend/e2e/**/*.html": [
       "prettier --write"
     ],
     "frontend/playwright.config.ts": [
@@ -69,7 +86,10 @@
     "frontend/**/*.{scss,css,json,yml,yaml}": [
       "prettier --write"
     ],
-    "backend/**/*.{cjs,json}": [
+    "backend/**/*.java": [
+      "bash -c 'backend/mvnw -f backend spotless:apply -q' --"
+    ],
+    "backend/**/*.{yml,yaml}": [
       "prettier --write"
     ],
     "*.{scss,css,json,yml,yaml}": [

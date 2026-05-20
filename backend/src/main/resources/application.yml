@@ -1,0 +1,207 @@
+server:
+  port: ${PORT:3001}
+  error:
+    include-message: never
+    include-stacktrace: never
+  tomcat:
+    max-http-form-post-size: 524288
+
+spring:
+  application:
+    name: recruita-api
+  profiles:
+    default: dev
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+recruita:
+  runtime:
+    production-mode-name: production
+    env-truthy-values:
+      - '1'
+      - 'true'
+    suppress-error-detail: ${RECRUITA_SUPPRESS_ERROR_DETAIL:}
+  api:
+    problem-detail:
+      error-property-key: error
+    routes:
+      health-path: /api/health
+      match-path: /api/match
+      match-legacy-path: /api/match-job
+  operational:
+    startup:
+      missing-groq-api-key: Missing GROQ_API_KEY in environment.
+      production-cors-wildcard-forbidden: 'Refusing to start: CORS_ORIGIN=* is not allowed when NODE_ENV=production.'
+    strategy:
+      no-match-evaluation-strategy: No match evaluation strategy registered
+      no-match-scoring-strategy: No match scoring strategy registered
+      groq-prompt-serialization-failed: Failed to serialize candidates for Groq prompt
+    observability:
+      unknown-error-type: unknown
+      audit-success-template: 'api.success handler={}'
+      audit-failure-template: 'api.failure handler={} errorType={}'
+      match-evaluate-completed-template: 'match.evaluate completed deterministic={} candidates={} scores={} durationMs={}'
+      match-evaluate-rejected-template: 'match.evaluate rejected deterministic={} candidates={} durationMs={}'
+      match-evaluate-failed-template: 'match.evaluate failed deterministic={} candidates={} durationMs={}'
+  security:
+    cors:
+      allowed-origins: ${CORS_ORIGIN:http://localhost:4200,http://127.0.0.1:4200}
+      allowed-methods: GET,HEAD,POST,OPTIONS
+      allowed-headers: Content-Type
+      max-age-seconds: 86400
+      allow-credentials: false
+      wildcard-origin: '*'
+      registration-path: '/**'
+    hsts:
+      enabled: ${ENABLE_HSTS:false}
+      max-age-seconds: 31536000
+      include-subdomains: true
+      preload: false
+    rate-limit:
+      max-requests: ${MATCH_RATE_LIMIT_MAX:100}
+      max-requests-ceiling: 10000
+      window-minutes: 15
+      exceeded-message: Too many match requests from this IP, please try again later.
+      header-limit: RateLimit-Limit
+      header-remaining: RateLimit-Remaining
+      header-reset: RateLimit-Reset
+    headers:
+      frame-deny: true
+      referrer-policy: strict-origin-when-cross-origin
+      permissions-policy-enabled: true
+      permissions-policy: 'camera=(), microphone=(), geolocation=(), payment=()'
+      permissions-policy-header-name: Permissions-Policy
+    http:
+      trust-proxy: ${TRUST_PROXY:0}
+      trust-proxy-truthy-values:
+        - '1'
+        - 'true'
+      max-json-body-bytes: 524288
+      forwarded-for-header: X-Forwarded-For
+      forwarded-for-client-separator: ','
+      match-request-method: POST
+      milliseconds-per-second: 1000
+  match:
+    cache:
+      enabled: true
+      null-canonical-literal: 'null'
+      key-fields:
+        job-description: jobDescription
+        candidates: candidates
+        model: model
+        temperature: temperature
+        top-p: topP
+        seed: seed
+        deterministic: deterministic
+    groq:
+      require-api-key-at-startup: true
+      api-key: ${GROQ_API_KEY:}
+      base-url: https://api.groq.com/openai/v1
+      chat-completions-path: /chat/completions
+      default-model: llama-3.3-70b-versatile
+      default-temperature: 0
+      default-top-p: 1
+      default-seed: 42
+      response-format-type: json_object
+      empty-json-object-literal: '{}'
+      model-pattern: '^[a-zA-Z0-9._-]{1,96}$'
+      api-contract:
+        bearer-authorization-prefix: 'Bearer '
+        match-response-scores-field: scores
+        message-roles:
+          system: system
+          user: user
+        response-json-paths:
+          choices: choices
+          message: message
+          content: content
+          first-choice-index: 0
+        sampler-unit-interval:
+          min: 0
+          max: 1
+      prompts:
+        system: 'You are an HR matching expert. Always respond with valid JSON only.'
+        user-line-joiner: "\n\n"
+        job-description-line-prefix: 'Job description: '
+        candidates-json-line-prefix: 'Candidates: '
+        user-lines:
+          - 'You are an expert HR screener. Analyze the job description and all candidates.'
+          - 'Candidate payloads are anonymized for privacy: each row uses a disposable request correlation id unrelated to backend or database keys — never treat those ids as real applicant identifiers.'
+          - 'Each scores[] entry must use the correlation id string from its input candidate row exactly once; echo it unchanged.'
+          - 'Do not infer or invent names, contacts, addresses, employers, schools, notes, or any other personal data.'
+          - 'For each candidate, compute match score, matching skills, missing skills, candidate profile summary, and recommendation.'
+          - 'Recommendation must be detailed (3-5 concise sentences) and include strengths, gaps, and a clear final assessment.'
+          - 'Do not mention numeric scores or percentages inside recommendation text.'
+          - 'Apply this deterministic rubric exactly and do not vary logic between runs: skill_match_score(40), experience_score(30), title_alignment_score(20), logistics_score(10), overall_score=rounded sum.'
+          - 'Scores must be integers between 0 and 100.'
+          - 'Respond strictly as valid JSON with this shape: {"scores":[{"id":"string","matchScore":number,"matchingSkills":string[],"missingSkills":string[],"candidateProfile":{"skills":string[],"yearsExperience":number,"topJobTitles":string[],"education":"string"},"recommendation":"string"}]}.'
+    request-limits:
+      job-description-max-chars: 24576
+      candidates-max-count: 250
+      candidate-scalar-max-chars: 4096
+      skill-count-max: 120
+      skill-item-max-chars: 256
+    messages:
+      job-description-required: jobDescription is required.
+      job-description-too-long: jobDescription exceeds maximum allowed length.
+      candidates-must-be-array: candidates must be an array.
+      too-many-candidates: Too many candidates in one request.
+      candidate-not-object: Each candidate must be a JSON object.
+      candidate-id-required: Each candidate must include a non-empty string id (correlation id).
+      candidate-field-too-long: Candidate field exceeds maximum length.
+      candidate-yoe-invalid: Candidate yearsOfExperience must be a finite number.
+      candidate-skills-invalid: Candidate skills must be an array of strings.
+      model-invalid: Model parameter format is invalid.
+      groq-unavailable: Matching service is temporarily unavailable. Please try again later.
+      groq-failed: Groq request failed
+      invalid-json-body: Request body must be valid JSON.
+      not-found: Not found.
+      internal-error: The server encountered an error. Please try again later.
+    deterministic:
+      score-range:
+        min: 0
+        max: 100
+      weights:
+        skill-match: 40
+        experience: 30
+        title-alignment-exact: 20
+        title-alignment-partial: 12
+        title-alignment-low: 5
+        title-alignment-default: 10
+        logistics: 10
+      text:
+        token-min-length: 2
+        split-delimiter: ' '
+        min-years-regex: "(\\d+)\\s*\\+?\\s*years?"
+        non-alphanumeric-regex: '[^a-z0-9]+'
+        whitespace-regex: "\\s+"
+        combining-marks-regex: "\\p{M}+"
+      experience:
+        min-years-fallback: 0
+        candidate-yoe-missing-fallback: 0
+        ratio-comparison-ceiling: 1
+      recommendation:
+        max-skills-list: 5
+        gaps-none: 'Gaps: no critical skill gaps detected from parsed requirements.'
+        strong-threshold: 85
+        moderate-threshold: 65
+        strong-verdict: 'Overall assessment: strong fit and should be prioritized for interview.'
+        moderate-verdict: 'Overall assessment: moderate fit with clear upskilling areas.'
+        limited-verdict: 'Overall assessment: limited fit for the current role requirements.'
+        matched-skills-prefix: 'Matched skills: '
+        role-alignment-prefix: 'Role alignment: current title is '
+        gaps-prefix: 'Gaps: missing '
+        period: '.'
+        inline-skills-joiner: ', '
+        recommendation-block-joiner: "\u0020"
+        experience-with-requirement-template: 'Experience: %.1f years vs required %.0f.'
+        experience-simple-template: 'Experience: %.1f years.'
+      output:
+        empty-education: ''
