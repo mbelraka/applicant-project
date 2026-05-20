@@ -16,14 +16,14 @@ npm run validate:ci:frontend
 npm run validate:ci:backend
 ```
 
-Backend Maven directly: `cd backend && ./mvnw verify`
+Backend Maven: `npm run verify:backend` (or `sh scripts/run-mvn.sh verify`)
 
 ## Conventions
 
 - No magic strings in Java — use `application.yml` + `@ConfigurationProperties`.
 - No Node backend; do not reintroduce `backend/package.json` or Express.
 - After `package.json` dependency changes: `npm install` and commit `package-lock.json`.
-- Use `sh scripts/run-npm.sh run <script>` to avoid IDE `devdir` npm warnings.
+- Cursor injects `npm_config_devdir` for sandbox npm/node-gyp caches. `.cursor/sandbox.json` disables that injection; integrated terminals prepend `scripts/bin` to `PATH` (transparent npm shim); pre-commit/CI source `scripts/clean-npm-env.sh`.
 
 ## Pre-commit scope
 

@@ -5,6 +5,9 @@ on:
     branches: [master, main]
   pull_request:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -33,14 +36,9 @@ jobs:
     if: needs.changes.outputs.lockfile == 'true'
     steps:
       - uses: actions/checkout@v4
-      - name: Use npm from packageManager (npm@10.9.2)
-        run: |
-          corepack enable
-          corepack prepare npm@10.9.2 --activate
+      - uses: ./.github/actions/setup-node-toolchain
       - name: Verify package-lock.json matches package.json
-        run: |
-          npm install --package-lock-only --ignore-scripts
-          git diff --exit-code package-lock.json
+        run: npm run lockfile:check
 
   frontend:
     runs-on: ubuntu-latest
@@ -51,16 +49,10 @@ jobs:
       github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-toolchain
         with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: package-lock.json
-      - name: Use npm from packageManager (npm@10.9.2)
-        run: |
-          corepack enable
-          corepack prepare npm@10.9.2 --activate
-      - run: npm ci
+          cache-npm: true
+          npm-ci: true
       - name: Frontend CI
         run: npm run validate:ci:frontend
 
@@ -72,9 +64,9 @@ jobs:
       github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-toolchain
         with:
-          node-version-file: .nvmrc
+          npm-ci: true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -83,11 +75,6 @@ jobs:
           cache-dependency-path: |
             backend/pom.xml
             backend/.mvn/wrapper/maven-wrapper.properties
-      - name: Use npm from packageManager (npm@10.9.2)
-        run: |
-          corepack enable
-          corepack prepare npm@10.9.2 --activate
-      - run: npm ci
       - name: Cache OWASP NVD data
         uses: actions/cache@v4
         with:

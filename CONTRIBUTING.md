@@ -8,18 +8,28 @@
 | Backend | `backend/` | Maven / Spring Boot 3, Java 21 |
 | Orchestration | repo root | npm scripts, Husky, shared Prettier |
 
-The backend is **not** an npm workspace; root `package.json` runs Maven via `backend/mvnw`.
+The backend is **not** an npm workspace; root `package.json` runs Maven via `scripts/run-mvn.sh` (wraps `backend/mvnw`).
 
 ## Prerequisites
 
-- **Node.js 20** (see `.nvmrc`)
+- **Node.js 22** (see `.nvmrc`)
 - **npm 10.9.2** (`corepack enable && corepack prepare npm@10.9.2 --activate`)
 - **Java 21** (see `backend/.java-version`)
 - Copy `backend/.env.example` → `backend/.env` (never commit `.env`)
 
 ## Install
 
-Use the npm version pinned in root `package.json` (`packageManager`: **npm@10.9.2**). Other npm versions can rewrite `package-lock.json` and fail `lockfile:check` in CI.
+Use the npm version pinned in root `package.json` (`packageManager`: **npm@10.9.2**). Other npm versions can rewrite `package-lock.json` and fail `lockfile:check` in CI. Activate it with Corepack (`corepack enable && corepack prepare npm@10.9.2 --activate`).
+
+GitHub Actions workflows set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` and install Node/npm via `.github/actions/setup-node-toolchain` so CI uses Node **22** and npm **10.9.2**.
+
+**Cursor `devdir` warning:** Cursor injects `npm_config_devdir` for its sandbox node-gyp cache; npm 10.9+ warns on it. This repo fixes that in three layers:
+
+1. **`.cursor/sandbox.json`** — disables shared sandbox npm cache injection (root cause for Agent/sandbox shells).
+2. **`.vscode/settings.json`** — prepends `scripts/bin` to integrated-terminal `PATH` so bare `npm` uses a transparent shim that unsets `devdir` (open a **new** terminal after clone).
+3. **External terminals** — optional [direnv](https://direnv.net) loads `.envrc` to unset the vars when you `cd` into the repo.
+
+Pre-commit and CI source `scripts/clean-npm-env.sh` before npm runs.
 
 ```bash
 corepack enable

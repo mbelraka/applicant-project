@@ -5,6 +5,9 @@ on:
     - cron: '0 6 * * 1'
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   owasp:
     runs-on: ubuntu-latest
@@ -18,16 +21,9 @@ jobs:
           cache: maven
           cache-dependency-path: backend/pom.xml
 
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-toolchain
         with:
-          node-version-file: .nvmrc
-
-      - name: Use npm from packageManager (npm@10.9.2)
-        run: |
-          corepack enable
-          corepack prepare npm@10.9.2 --activate
-
-      - run: npm ci
+          npm-ci: true
 
       - name: Cache OWASP NVD data
         uses: actions/cache@v4

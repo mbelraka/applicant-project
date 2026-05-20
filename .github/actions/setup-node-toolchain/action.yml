@@ -1,0 +1,54 @@
+name: Setup Node toolchain
+description: Install Node from .nvmrc and activate npm from packageManager via Corepack
+
+inputs:
+  cache-npm:
+    description: Enable npm dependency cache via actions/setup-node
+    required: false
+    default: 'false'
+  npm-ci:
+    description: Run npm ci in the same shell as Corepack activation
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: ${{ inputs.cache-npm == 'true' && 'npm' || '' }}
+        cache-dependency-path: package-lock.json
+
+    - name: Activate npm and install
+      shell: bash
+      run: |
+        set -euo pipefail
+        # shellcheck source=scripts/clean-npm-env.sh
+        source "${GITHUB_WORKSPACE}/scripts/clean-npm-env.sh"
+        corepack enable
+        corepack prepare npm@10.9.2 --activate
+
+        node_version="$(node --version)"
+        npm_version="$(corepack npm --version)"
+        echo "Node ${node_version}, npm ${npm_version}" >> "${GITHUB_STEP_SUMMARY}"
+
+        export NPM_VERSION="${npm_version}"
+        node <<'EOF'
+        const required = '10.9.2'.split('.').map(Number);
+        const actual = process.env.NPM_VERSION.split('.').map(Number);
+        for (let i = 0; i < 3; i += 1) {
+          const r = required[i] ?? 0;
+          const a = actual[i] ?? 0;
+          if (a > r) process.exit(0);
+          if (a < r) {
+            console.error(`Expected npm >= 10.9.2, got ${process.env.NPM_VERSION}`);
+            process.exit(1);
+          }
+        }
+        EOF
+
+        if [ "${{ inputs.npm-ci }}" = "true" ]; then
+          corepack npm ci
+        fi

@@ -1,8 +1,6 @@
 #!/usr/bin/env sh
-# Start Spring Boot API (dev profile). Unsets IDE-injected npm "devdir" env noise.
+# Start Spring Boot API (dev profile).
 set -eu
-
-unset NPM_CONFIG_DEVDIR npm_config_devdir 2>/dev/null || true
 
 ROOT="$(CDPATH= cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -15,4 +13,4 @@ fi
 set +a
 
 export PORT=3001
-exec backend/mvnw -q -f backend -Dspring-boot.run.profiles=dev spring-boot:run
+exec sh scripts/run-mvn.sh -q -Dspring-boot.run.profiles=dev spring-boot:run

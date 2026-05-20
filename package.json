@@ -25,11 +25,11 @@
     "clean": "npm run clean -w @recruita/frontend",
     "format": "npm run format -w @recruita/frontend",
     "format:check": "npm run format:check -w @recruita/frontend && npm run format:check:backend",
-    "format:backend": "backend/mvnw -f backend spotless:apply -q",
-    "format:check:backend": "backend/mvnw -f backend spotless:check -q",
+    "format:backend": "sh scripts/run-mvn.sh spotless:apply -q",
+    "format:check:backend": "sh scripts/run-mvn.sh spotless:check -q",
     "lint": "npm run lint -w @recruita/frontend && npm run lint:backend",
     "lint:fix": "npm run lint:fix -w @recruita/frontend",
-    "lint:backend": "backend/mvnw -f backend checkstyle:check -q",
+    "lint:backend": "sh scripts/run-mvn.sh checkstyle:check -q",
     "quality": "npm run quality -w @recruita/frontend && npm run quality:backend",
     "quality:fix": "npm run quality:fix -w @recruita/frontend && npm run quality:fix:backend",
     "quality:backend": "npm run format:check:backend && npm run lint:backend",
@@ -38,17 +38,17 @@
     "doctor:full": "npm run doctor:full -w @recruita/frontend",
     "doctor:lint": "npm run doctor:lint -w @recruita/frontend",
     "security:audit": "npm run security:audit -w @recruita/frontend",
-    "security:audit:backend": "backend/mvnw -f backend -DskipTests -Psecurity-audit dependency-check:check -q",
+    "security:audit:backend": "sh scripts/run-mvn.sh -DskipTests -Psecurity-audit dependency-check:check -q",
     "letify": "npm run letify -w @recruita/frontend",
-    "test:backend": "backend/mvnw -f backend test -q",
-    "verify:backend": "backend/mvnw -f backend verify -q",
+    "test:backend": "sh scripts/run-mvn.sh test -q",
+    "verify:backend": "sh scripts/run-mvn.sh verify -q",
     "precommit:frontend": "npm run validate:ci:frontend",
     "precommit:backend": "npm run validate:ci:backend",
     "validate:ci:frontend": "npm run quality -w @recruita/frontend && npm run test:ci -w @recruita/frontend && npm run doctor:full -w @recruita/frontend && npm run security:audit -w @recruita/frontend && npm run letify -w @recruita/frontend && npm run build:prod -w @recruita/frontend",
     "validate:ci:backend": "npm run quality:backend && npm run verify:backend",
     "validate:ci": "npm run validate:ci:frontend && npm run validate:ci:backend",
     "validate": "npm run validate:ci",
-    "lockfile:check": "npx -y npm@10.9.2 install --package-lock-only --ignore-scripts && git diff --exit-code package-lock.json",
+    "lockfile:check": "npm install --package-lock-only --ignore-scripts && git diff --exit-code package-lock.json",
     "postinstall": "patch-package",
     "prepare": "husky"
   },
@@ -65,7 +65,7 @@
     "prettier": "^3.0.0"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=22.12.0",
     "npm": ">=10.9.2"
   },
   "lint-staged": {
@@ -87,7 +87,7 @@
       "prettier --write"
     ],
     "backend/**/*.java": [
-      "bash -c 'backend/mvnw -f backend spotless:apply -q' --"
+      "bash -c 'sh scripts/run-mvn.sh spotless:apply -q' --"
     ],
     "backend/**/*.{yml,yaml}": [
       "prettier --write"

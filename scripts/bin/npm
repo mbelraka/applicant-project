@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# Transparent npm shim: unset Cursor sandbox "devdir" env noise, then exec real npm.
+set -eu
+ROOT="$(CDPATH= cd "$(dirname "$0")/../.." && pwd)"
+# shellcheck source=scripts/clean-npm-env.sh
+. "$ROOT/scripts/clean-npm-env.sh"
+
+case ":${PATH}:" in
+  *":${ROOT}/scripts/bin:"*) PATH="${PATH#${ROOT}/scripts/bin:}" ;;
+esac
+case ":${PATH}:" in
+  *":${ROOT}/scripts/bin:"*) PATH="${PATH%:${ROOT}/scripts/bin}" ;;
+esac
+export PATH
+
+if command -v corepack >/dev/null 2>&1; then
+  corepack enable >/dev/null 2>&1 || true
+  corepack prepare npm@10.9.2 --activate >/dev/null 2>&1 || true
+  exec corepack npm "$@"
+fi
+
+exec npm "$@"

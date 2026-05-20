@@ -5,14 +5,13 @@ set -eu
 
 ROOT="$(CDPATH= cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+. "$ROOT/scripts/clean-npm-env.sh"
 
-unset NPM_CONFIG_DEVDIR npm_config_devdir 2>/dev/null || true
-
-sh scripts/run-npm.sh exec npx lint-staged
+npx lint-staged
 
 if sh scripts/has-staged-lockfile-changes.sh; then
   echo "pre-commit: Lockfile — running lockfile:check"
-  sh scripts/run-npm.sh run lockfile:check
+  npm run lockfile:check
 fi
 
 if sh scripts/has-staged-frontend-changes.sh; then

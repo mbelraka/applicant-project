@@ -119,8 +119,8 @@ Browser (Recruita)          Spring API (backend/)           Groq API
 | **Backend** | `backend/` — Spring Boot 3 (Java 21), Groq match API |
 | **Export** | ExcelJS, pdf-lib, file-saver (client-side generation) |
 | **Backend QA** | Spotless, Checkstyle, SpotBugs, ArchUnit, JaCoCo (≥ 80% branch coverage on verify) |
-| **Tooling** | ESLint, Prettier, Husky, lint-staged, Karma, Playwright, angular-doctor, ngx-security-audit, letify, patch-package |
-| **Runtime** | Node **20** (`.nvmrc`), npm **10.9.2** (`packageManager`); Java **21** (`backend/.java-version`) |
+| **Tooling** | ESLint, Prettier, Husky, lint-staged, Karma, Playwright, angular-doctor, ngx-security-audit, letify, patch-package, FindSecBugs |
+| **Runtime** | Node **22** (`.nvmrc`), npm **10.9.2** (`packageManager`); Java **21** (`backend/.java-version`) |
 
 ---
 
@@ -212,7 +212,7 @@ See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for monorepo conventions, pre-commi
 
 ### Prerequisites
 
-- Node.js **20** (see `.nvmrc`)
+- Node.js **22** (see `.nvmrc`)
 - npm **10.9.2** (`corepack enable && corepack prepare npm@10.9.2 --activate`)
 - Java **21** (see `backend/.java-version`)
 
@@ -247,7 +247,7 @@ npm run start:backend    # Spring API only
 | http://localhost:4200/ | Angular dev server |
 | http://localhost:3001/ | Spring API (`/api/health`, `/api/match`, …) |
 
-If `ng serve` fails with missing modules, run `npm ci` again. Use `sh scripts/run-npm.sh run <script>` to avoid IDE-injected npm `devdir` warnings.
+If `ng serve` fails with missing modules, run `npm ci` again.
 
 ### Production build
 
